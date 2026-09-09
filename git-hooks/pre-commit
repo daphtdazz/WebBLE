@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# Pre-commit hook to prevent commits containing DEVELOPMENT_TEAM in project.pbxproj files
+#
+# Installation: Run `make install-hooks` from the project root
+#
+
+# Get list of all files being committed
+files=$(git diff --cached --name-only)
+
+# Flag to track if we found DEVELOPMENT_TEAM
+found_development_team=false
+
+# Check each project.pbxproj file
+for file in $files; do
+
+    if echo "$file" | grep -q "\.pbxproj$"; then
+        # Check if DEVELOPMENT_TEAM appears in the staged changes
+        if git diff --cached "$file" | grep -q "DEVELOPMENT_TEAM"; then
+            echo "❌ ERROR: DEVELOPMENT_TEAM found in $file"
+            echo "   Please remove DEVELOPMENT_TEAM settings before committing."
+            found_development_team=true
+        fi
+    fi
+done
+
+# If we found DEVELOPMENT_TEAM, fail the commit
+if [ "$found_development_team" = true ]; then
+    echo ""
+    echo "Commit rejected: DEVELOPMENT_TEAM must be removed from project.pbxproj files."
+    echo "This prevents personal development team IDs from being committed to the repository."
+    exit 1
+fi
+
+# All checks passed
+exit 0
