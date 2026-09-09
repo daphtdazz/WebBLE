@@ -14,28 +14,17 @@
     }
     wbutils.defineROProperties(this, {device: webBluetoothDevice});
     this.connected = false;
-    this.connectionTransactionIDs = [];
   };
   wb.BluetoothRemoteGATTServer.prototype = {
-    connect: function () {
-      let self = this;
-      let tid = wb.native.getTransactionID();
-      this.connectionTransactionIDs.push(tid);
-      return this.sendMessage('connectGATT', {callbackID: tid}).then(function () {
-        self.connected = true;
-        wb.native.registerDeviceForNotifications(self.device);
-        self.connectionTransactionIDs.splice(
-          self.connectionTransactionIDs.indexOf(tid),
-          1
-        );
-
-        return self;
-      });
+    connect: async function () {
+      await this.sendMessage('connectGATT');
+      this.connected = true;
+      wb.native.registerDeviceForNotifications(this.device);
+      return this;
     },
     disconnect: function () {
-      this.connectionTransactionIDs.forEach((tid) => wb.native.cancelTransaction(tid));
-      this.connectionTransactionIDs = [];
       if (!this.connected) {
+        nslog("Unexpected disconnect when gattserver not connected on device ${this.device.id}");
         return;
       }
       this.connected = false;

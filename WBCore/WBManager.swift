@@ -16,8 +16,8 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import Foundation
 import CoreBluetooth
+import Foundation
 import WebKit
 
 protocol WBPicker {
@@ -25,7 +25,8 @@ protocol WBPicker {
     func updatePicker()
 }
 
-open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler, WBPopUpPickerViewDelegate
+open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandlerWithReply,
+    WBPopUpPickerViewDelegate
 {
 
     // MARK: - Embedded types
@@ -54,13 +55,11 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
     var pickerDevices = [WBDevice]()
 
     var bluetoothAuthorized: Bool {
-        get {
-            switch CBCentralManager.authorization {
-            case CBManagerAuthorization.allowedAlways:
-                return true
-            default:
-                return false
-            }
+        switch CBCentralManager.authorization {
+        case CBManagerAuthorization.allowedAlways:
+            return true
+        default:
+            return false
         }
     }
 
@@ -70,7 +69,7 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
         super.init()
         self.centralManager.delegate = self
     }
-    
+
     // MARK: - Public API
     public func selectDeviceAt(_ index: Int) {
         let device = self.pickerDevices[index]
@@ -87,11 +86,14 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
         self._clearPickerView()
     }
 
-    // MARK: - WKScriptMessageHandler
-    open func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-
-        guard let trans = WBTransaction(withMessage: message) else {
-            /* The transaction will have handled the error */
+    // MARK: - WKScriptMessageHandlerWithReply
+    open func userContentController(
+        _ userContentController: WKUserContentController,
+        didReceive message: WKScriptMessage,
+        replyHandler: @escaping (Any?, String?) -> Void
+    ) {
+        guard let trans = WBTransaction(withMessage: message, replyHandler: replyHandler) else {
+            replyHandler(nil, "Invalid bluetooth message received")
             return
         }
         self.triage(transaction: trans)
@@ -101,56 +103,83 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
         NSLog("Bluetooth is \(central.state == CBManagerState.poweredOn ? "ON" : "OFF")")
     }
-    
-    public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+
+    public func centralManager(
+        _ central: CBCentralManager,
+        didDiscover peripheral: CBPeripheral,
+        advertisementData: [String: Any],
+        rssi RSSI: NSNumber
+    ) {
 
         if let filters = self.filters,
-            !self._peripheral(peripheral, isIncludedBy: filters) {
+            !self._peripheral(peripheral, isIncludedBy: filters)
+        {
             return
         }
 
-        guard self.pickerDevices.first(where: {$0.peripheral == peripheral}) == nil else {
+        guard self.pickerDevices.first(where: { $0.peripheral == peripheral }) == nil else {
             return
         }
 
         NSLog("New peripheral \(peripheral.name ?? "<no name>") discovered")
         let device = WBDevice(
-            peripheral: peripheral, advertisementData: advertisementData,
-            RSSI: RSSI, manager: self)
-        if !self.pickerDevices.contains(where: {$0 == device}) {
+            peripheral: peripheral,
+            advertisementData: advertisementData,
+            RSSI: RSSI,
+            manager: self
+        )
+        if !self.pickerDevices.contains(where: { $0 == device }) {
             self.pickerDevices.append(device)
             self.updatePickerData()
         }
     }
-    
+
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         guard
             let device = self.devicesByInternalUUID[peripheral.identifier]
         else {
-            NSLog("Unexpected didConnect notification for \(peripheral.name ?? "<no-name>") \(peripheral.identifier)")
+            NSLog(
+                "Unexpected didConnect notification for \(peripheral.name ?? "<no-name>") \(peripheral.identifier)"
+            )
             return
         }
         device.didConnect()
     }
 
-    public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+    public func centralManager(
+        _ central: CBCentralManager,
+        didDisconnectPeripheral peripheral: CBPeripheral,
+        error: Error?
+    ) {
         guard
             let device = self.devicesByInternalUUID[peripheral.identifier]
-            else {
-                NSLog("Unexpected didDisconnect notification for unknown device \(peripheral.name ?? "<no-name>") \(peripheral.identifier)")
-                return
+        else {
+            NSLog(
+                "Unexpected didDisconnect notification for unknown device \(peripheral.name ?? "<no-name>") \(peripheral.identifier)"
+            )
+            return
         }
         device.didDisconnect(error: error)
         self.devicesByInternalUUID[peripheral.identifier] = nil
         self.devicesByExternalUUID[device.deviceId] = nil
     }
-    
-    public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        NSLog("FAILED TO CONNECT PERIPHERAL UNHANDLED \(error?.localizedDescription ?? "<no error>")")
+
+    public func centralManager(
+        _ central: CBCentralManager,
+        didFailToConnect peripheral: CBPeripheral,
+        error: Error?
+    ) {
+        NSLog(
+            "FAILED TO CONNECT PERIPHERAL UNHANDLED \(error?.localizedDescription ?? "<no error>")"
+        )
     }
 
     // MARK: - UIPickerViewDelegate
-    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    public func pickerView(
+        _ pickerView: UIPickerView,
+        titleForRow row: Int,
+        forComponent component: Int
+    ) -> String? {
         // dummy response for making screen shots from the simulator
         // return row == 0 ? "Puck.js 69c5 (82DF60A5-3C0B..." : "Puck.js c728 (9AB342DA-4C27..."
         return self._pv(pickerView, titleForRow: row, forComponent: component)
@@ -159,21 +188,26 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
         return 1
     }
 
-    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int)
+        -> Int
+    {
         // dummy response for making screen shots from the simulator
         // return 2
         return self.pickerDevices.count
     }
-    
+
     // MARK: - Private
-    private func triage(transaction: WBTransaction){
+    private func triage(transaction: WBTransaction) {
 
         guard
             transaction.key.typeComponents.count > 0,
             let managerMessageType = ManagerRequests(
-                rawValue: transaction.key.typeComponents[0])
+                rawValue: transaction.key.typeComponents[0]
+            )
         else {
-            transaction.resolveAsFailure(withMessage: "Request type components not recognised \(transaction.key)")
+            transaction.resolveAsFailure(
+                withMessage: "Request type components not recognised \(transaction.key)"
+            )
             return
         }
 
@@ -210,12 +244,17 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
             // PROTECT force unwrap see below
             guard acceptAllDevices || filters != nil
             else {
-                transaction.resolveAsFailure(withMessage: "acceptAllDevices false but no filters passed: \(transaction.messageData)")
+                transaction.resolveAsFailure(
+                    withMessage:
+                        "acceptAllDevices false but no filters passed: \(transaction.messageData)"
+                )
                 break
             }
             guard self.requestDeviceTransaction == nil
             else {
-                transaction.resolveAsFailure(withMessage: "Previous device request is still in progress")
+                transaction.resolveAsFailure(
+                    withMessage: "Previous device request is still in progress"
+                )
                 break
             }
 
@@ -226,12 +265,11 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
             self.requestDeviceTransaction = transaction
             if acceptAllDevices {
                 self.scanForAllPeripherals()
-            }
-            else {
+            } else {
                 // force unwrap, but protected by guard above marked PROTECT
                 self.scanForPeripherals(with: filters!)
             }
-            transaction.addCompletionHandler {_, _ in
+            transaction.addCompletionHandler { _, _ in
                 self.stopScanForPeripherals()
                 self.requestDeviceTransaction = nil
             }
@@ -256,8 +294,8 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
 
     private func deviceWasSelected(_ device: WBDevice) {
         // TODO: think about whether overwriting any existing device is an issue.
-        self.devicesByExternalUUID[device.deviceId] = device;
-        self.devicesByInternalUUID[device.internalUUID] = device;
+        self.devicesByExternalUUID[device.deviceId] = device
+        self.devicesByInternalUUID[device.internalUUID] = device
     }
 
     func scanForAllPeripherals() {
@@ -266,23 +304,26 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
         centralManager.scanForPeripherals(withServices: nil, options: nil)
     }
 
-    func scanForPeripherals(with filters:[[String: AnyObject]]) {
+    func scanForPeripherals(with filters: [[String: AnyObject]]) {
 
-        let services = filters.reduce([String](), {
-            (currReduction, nextValue) in
-            if let nextServices = nextValue["services"] as? [String] {
-                return currReduction + nextServices
+        let services = filters.reduce(
+            [String](),
+            {
+                (currReduction, nextValue) in
+                if let nextServices = nextValue["services"] as? [String] {
+                    return currReduction + nextServices
+                }
+                return currReduction
             }
-            return currReduction
-        })
+        )
 
         let servicesCBUUID = self._convertServicesListToCBUUID(services)
 
-        if (self.debug) {
+        if self.debug {
             NSLog("Scanning for peripherals... (services: \(servicesCBUUID))")
         }
-        
-        self._clearPickerView();
+
+        self._clearPickerView()
         self.filters = filters
         centralManager.scanForPeripherals(withServices: servicesCBUUID, options: nil)
     }
@@ -293,8 +334,8 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
         self._clearPickerView()
 
     }
-    
-    func updatePickerData(){
+
+    func updatePickerData() {
         self.pickerDevices.sort(by: {
             if $0.name != nil && $1.name == nil {
                 // $1 is "bigger" in that its name is nil
@@ -321,10 +362,13 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
                 return nil
             }
             return CBUUID(nsuuid: uuid)
-            }.filter{$0 != nil}.map{$0!};
+        }.filter { $0 != nil }.map { $0! }
     }
 
-    private func _peripheral(_ peripheral: CBPeripheral, isIncludedBy filters: [[String: AnyObject]]) -> Bool {
+    private func _peripheral(
+        _ peripheral: CBPeripheral,
+        isIncludedBy filters: [[String: AnyObject]]
+    ) -> Bool {
         for filter in filters {
 
             if let name = filter["name"] as? String {
@@ -346,7 +390,9 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
         return false
     }
 
-    private func _pv(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String {
+    private func _pv(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int)
+        -> String
+    {
 
         let dev = self.pickerDevices[row]
         let id = dev.internalUUID
