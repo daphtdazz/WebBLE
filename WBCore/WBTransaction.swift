@@ -17,10 +17,9 @@
 //  limitations under the License.
 //
 
-import Foundation
 import CoreBluetooth
+import Foundation
 import WebKit
-
 
 class WBTransactionManager<K> where K: Hashable {
     var transactions = [K: [WBTransaction]]()
@@ -34,17 +33,19 @@ class WBTransactionManager<K> where K: Hashable {
         self.transactions.removeAll()
     }
     func addTransaction(_ transaction: WBTransaction, atPath path: K) {
-        // note that adding a transaction automatically registers a completion handler that will remove the transaction from the manager
+        // note that adding a transaction automatically registers a completion handler that will
+        // remove the transaction from the manager
         var ts = self.transactions[path] ?? []
         ts.append(transaction)
         self.transactions[path] = ts
         transaction.addCompletionHandler {
-            _, _ in
             self.removeTransaction(transaction, atPath: path)
         }
     }
-    func apply(_ function: (WBTransaction) -> Void, iff: ((WBTransaction) -> Bool)? = nil) {
-        // Rather than using this everywhere with an iff we should in many places probably do tm.transaction[key].forEach(function)
+    func apply(
+        _ function: (WBTransaction) -> Void,
+        iff: ((WBTransaction) -> Bool)? = nil
+    ) {
         for (_, vals) in self.transactions {
             for val in vals {
                 if let iff_ = iff, !iff_(val) {
@@ -84,21 +85,19 @@ class WBTransaction: Equatable, CustomStringConvertible {
         var description: String {
             let contents = self.typeComponents.reduce("") {
                 (progress: String, next: String) in
-                if (progress.isEmpty) {
+                if progress.isEmpty {
                     return next
-                } else {
-                    return "\(progress):\(next)"
                 }
+                return "\(progress):\(next)"
             }
             return contents
         }
-
         static func == (left: Key, right: Key) -> Bool {
             guard left.typeComponents.count == right.typeComponents.count else {
-                return false;
+                return false
             }
             for (lstr, rstr) in zip(left.typeComponents, right.typeComponents) {
-                if (lstr != rstr) {
+                if lstr != rstr {
                     return false
                 }
             }
@@ -108,8 +107,8 @@ class WBTransaction: Equatable, CustomStringConvertible {
     class View {
         let transaction: WBTransaction
 
-        /*! @abstract Failable initializer so that subclasses may decide not to accept the transaction. */
-        init? (transaction: WBTransaction) {
+        /** Failable initializer so that subclasses may decide not to accept the transaction. */
+        init?(transaction: WBTransaction) {
             self.transaction = transaction
         }
     }
@@ -117,12 +116,16 @@ class WBTransaction: Equatable, CustomStringConvertible {
     /*
      * ========== Properties ==========
      */
-    /*! @abstract The unique ID for this transaction which is provided for us by the web page */
+    /**
+     The unique ID for this transaction which is provided for us by the web page.
+
+     As noted elsewhere this is no longer functionally needed since we now use
+     `WKScriptMessageHandlerWithReply`; this is just used for debug purposes.
+    */
     let id: Int
     let key: Key
     let messageData: [String: AnyObject]
-    /*! @abstract The web view that initiated this transaction, and where we can send the response.
-     */
+    var replyHandler: (Any?, String?) -> Void
     weak var webView: WKWebView?
     var completionHandlers = [(WBTransaction, Bool) -> Void]()
     var resolved: Bool = false
@@ -130,43 +133,66 @@ class WBTransaction: Equatable, CustomStringConvertible {
     var sourceURL: URL? {
         return self.webView?.url
     }
-    
+
     /*
      * ========== Initializers ==========
      */
-    init(id: Int, typeComponents: [String], messageData: [String: AnyObject], webView: WKWebView?){
+    init(
+        id: Int,
+        typeComponents: [String],
+        messageData: [String: AnyObject],
+        webView: WKWebView?,
+        replyHandler: @escaping (Any?, String?) -> Void
+    ) {
         self.id = id
         self.key = Key(typeComponents: typeComponents)
         self.messageData = messageData
         self.webView = webView
+        self.replyHandler = replyHandler
     }
-    convenience init?(withMessage message: WKScriptMessage) {
 
+    convenience init?(
+        withMessage message: WKScriptMessage,
+        replyHandler: @escaping (Any?, String?) -> Void
+    ) {
         guard
             let messageBody = message.body as? NSDictionary,
+            // We still require the callback / transaction ID for debug purposes although it is no
+            // longer functionally needed since the response goes via the reply handler
             let id = messageBody["callbackID"] as? Int,
             let typeString = messageBody["type"] as? String,
-            let messageData = messageBody["data"] as? [String: AnyObject] else {
-                NSLog("Bad WebKit request received \(message.body)")
-                message.webView?.evaluateJavaScript(
-                    "receiveMessage('badrequest');",
-                    completionHandler: nil)
-                return nil
+            let messageData = messageBody["data"] as? [String: AnyObject]
+        else {
+            NSLog("Bad WebKit request received \(message.body)")
+            replyHandler(nil, "Bad WebKit request")
+            return nil
         }
         let typeComponents = typeString.components(separatedBy: ":")
-        self.init(id: id, typeComponents: typeComponents, messageData: messageData, webView: message.webView)
+        self.init(
+            id: id,
+            typeComponents: typeComponents,
+            messageData: messageData,
+            webView: message.webView,
+            replyHandler: replyHandler
+        )
     }
 
     /*
      * ========== Public methods ==========
      */
-    /*! @abstract Abandon the transaction and release all completion handlers. */
+    /** Abandon the transaction and release all completion handlers. */
     func abandon() {
         self.completionHandlers = []
         self.resolved = true
     }
-    func addCompletionHandler(_ handler: @escaping (WBTransaction, Bool) -> Void) {
+    func addCompletionHandler(
+        _ handler: @escaping (WBTransaction, Bool) -> Void
+    ) {
         self.completionHandlers.append(handler)
+    }
+    func addCompletionHandler(_ handler: @escaping () -> Void) {
+        // Convenience for when the completion handler doesn't need the result
+        self.addCompletionHandler { (_, _) in handler() }
     }
     func resolveAsSuccess(withMessage message: String = "Success") {
         self.complete(success: true, object: message)
@@ -193,30 +219,21 @@ class WBTransaction: Equatable, CustomStringConvertible {
      * ========== Private methods ==========
      */
     private func complete(success: Bool, object: Jsonifiable) {
-        if self.resolved {
-            NSLog("Attempt to re-resolve transaction \(self.id) ignored")
-            return
-        }
-
-        let commandString = "window.receiveMessageResponse(\(success.jsonify()), \(object.jsonify()), \(self.id));\n"
+        assert(!self.resolved, "Attempt to re-resolve transaction \(self.id)")
 
         if !success {
             NSLog("\(self.description) unsuccessful: \(object.jsonify())")
         }
 
-        if let wv = self.webView {
-            wv.evaluateJavaScript(commandString, completionHandler: {
-                _, error in
-                if let err = error {
-                    NSLog("Error evaluating javascript: \(err)")
-                }})
+        // Use reply handler to send response back to JavaScript
+        if success {
+            self.replyHandler(object.jsonify(), nil)
+        } else {
+            self.replyHandler(nil, object.jsonify())
         }
-        else {
-            NSLog("ERROR: Webview not configured on transaction or dealloced")
-        }
+
         self.resolved = true
-        self.completionHandlers.forEach {$0(self, success)}
+        self.completionHandlers.forEach { $0(self, success) }
         self.completionHandlers.removeAll()
     }
 }
-

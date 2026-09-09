@@ -31,11 +31,18 @@ class WBWebView: WKWebView, WKNavigationDelegate {
         }
         set(newWBManager) {
             if self._wbManager != nil {
-                self.configuration.userContentController.removeScriptMessageHandler(forName: self.webBluetoothHandlerName)
+                self.configuration.userContentController.removeScriptMessageHandler(
+                    forName: self.webBluetoothHandlerName,
+                    contentWorld: .page
+                )
             }
             self._wbManager = newWBManager
             if let newMan = newWBManager {
-                self.configuration.userContentController.add(newMan, name: self.webBluetoothHandlerName)
+                self.configuration.userContentController.addScriptMessageHandler(
+                    newMan,
+                    contentWorld: .page,
+                    name: self.webBluetoothHandlerName
+                )
             }
         }
     }
