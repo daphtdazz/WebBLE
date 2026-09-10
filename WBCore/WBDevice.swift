@@ -136,15 +136,14 @@ open class WBDevice: NSObject, Jsonifiable, CBPeripheralDelegate {
 
         override init?(transaction: WBTransaction) {
             guard
-                let dstr = transaction.messageData["value"] as? String,
-                let data = Data(base64Encoded: dstr),
+                let bytes = transaction.messageData["value"] as? [UInt8],
                 let rmstr = transaction.messageData["responseMode"] as? String,
                 let responseMode = ResponseMode(rawValue: rmstr)
             else {
                 NSLog("Invalid WriteCharacteristic message \(transaction.messageData)")
                 return nil
             }
-            self.data = data
+            self.data = Data(bytes)
             self.responseMode = responseMode
             super.init(transaction: transaction)
         }
@@ -450,7 +449,7 @@ open class WBDevice: NSObject, Jsonifiable, CBPeripheralDelegate {
             "productVersion": 0,
             "uuids": [] as [String],
         ]
-        
+
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: props)
             return String(data: jsonData, encoding: String.Encoding.utf8)!

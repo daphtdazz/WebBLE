@@ -51,19 +51,31 @@
         return char.value;
       });
     },
-    writeValue: function (value, responseMode) {
-      // value may be an ArrayBuffer or a TypedArray (view onto an ArrayBuffer). Either way, we
-      // create a new Uint8Array to hold it and defer to the built-in methods for translating
-      // between views.
+    writeValue: async function (value, responseMode) {
+      // value may be an ArrayBuffer or a TypedArray (view onto an ArrayBuffer). We want to extract
+      // the bytes into an array so we can send it as a natively supported data type to swift.
+      const WRITE_BATCH_SIZE = 1024;
       const buffer = new Uint8Array(value);
+      let array = [];
 
       responseMode = responseMode || "optional";
 
-      // Can't send raw array bytes since we use JSON, so base64 encode.
-      let v64 = wbutils.uint8ArrayToBase64(buffer);
-      return this.sendMessage(
-        'writeCharacteristicValue', {data: {value: v64, responseMode}}
-      );
+      for (let b of buffer) {
+        array.push(b);
+        // Just in case we were given a lot of data, we don't want to keep it all in memory here,
+        // so batch the sends.
+        if (array.length === WRITE_BATCH_SIZE) {
+          await this.sendMessage(
+            'writeCharacteristicValue', {data: {value: array, responseMode}}
+          );
+          array.splice(0);
+        }
+      };
+      if (array.length > 0) {
+        await this.sendMessage(
+          'writeCharacteristicValue', {data: {value: array, responseMode}}
+        );
+      }
     },
     writeValueWithResponse: function (value) {
       return this.writeValue(value, "required");
