@@ -73,7 +73,8 @@ Info if you want to add features / fix bugs in the project.
 
 If you want to build and run locally, you just have to do the following:
 
-- Set your `DEVELOPMENT_TEAM` ID in Locations -> Custom Paths as per [this stackoverflow](https://stackoverflow.com/questions/39669661/how-to-prevent-xcode-8-from-saving-development-team-in-pbxproj/40424891#40424891) answer, which is to avoid pushing personal / conflicting team IDs to github. 
+- Set your `DEVELOPMENT_TEAM` ID in Locations -> Custom Paths as per [this stackoverflow](https://stackoverflow.com/questions/39669661/how-to-prevent-xcode-8-from-saving-development-team-in-pbxproj/40424891#40424891) answer, which is to avoid pushing personal / conflicting team IDs to github.
+- Run `make git-hooks` to install a git pre-commit hook that prevents accidentally committing `DEVELOPMENT_TEAM` settings
 
 ### Testing
 

@@ -105,6 +105,8 @@
 		5ADE336D23663353007E6AD7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5AE293EC23F9AAE7006CD0BC /* WBBluetoothRemoteGATTCharacteristic.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WBBluetoothRemoteGATTCharacteristic.js; sourceTree = "<group>"; };
 		5AE293ED23F9AAE7006CD0BC /* WBBluetoothRemoteGATTService.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WBBluetoothRemoteGATTService.js; sourceTree = "<group>"; };
+		5AE7D33A3052E9D500F70EC7 /* install-git-hooks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "install-git-hooks.sh"; sourceTree = "<group>"; };
+		5AE7D33B3052E9D500F70EC7 /* pre-commit */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "pre-commit"; sourceTree = "<group>"; };
 		5AF110A51DDC6AA3006CB88F /* notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = notes.md; sourceTree = "<group>"; };
 		5AFACFEE1F03FB0B00A310D1 /* Info-allowing-http.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-allowing-http.plist"; sourceTree = "<group>"; };
 		5AFC77FD22ECD09E0071E792 /* WBEventTarget.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WBEventTarget.js; sourceTree = "<group>"; };
@@ -196,6 +198,15 @@
 			path = WBCore;
 			sourceTree = "<group>";
 		};
+		5AE7D33C3052E9D500F70EC7 /* git-hooks */ = {
+			isa = PBXGroup;
+			children = (
+				5AE7D33A3052E9D500F70EC7 /* install-git-hooks.sh */,
+				5AE7D33B3052E9D500F70EC7 /* pre-commit */,
+			);
+			path = "git-hooks";
+			sourceTree = "<group>";
+		};
 		5AFC780322ECDD410071E792 /* Polyfill */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +234,7 @@
 				5A233341230353E1008D9F03 /* WBCore */,
 				E44C18581A36203E00734F8B /* WebBLE */,
 				E44C186E1A36203E00734F8B /* BleBrowserTests */,
+				5AE7D33C3052E9D500F70EC7 /* git-hooks */,
 				E44C18571A36203E00734F8B /* Products */,
 			);
 			sourceTree = "<group>";
