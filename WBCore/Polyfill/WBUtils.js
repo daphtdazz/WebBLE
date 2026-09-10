@@ -13,15 +13,6 @@ if (!uk.co.greenparksoftware) {
 }
 uk.co.greenparksoftware.wb = {};
 uk.co.greenparksoftware.wbutils = {
-  uint8ArrayToBase64: function (bytes) {
-    let binary = '';
-    bytes.forEach(function (byte) {
-      const char = String.fromCharCode(byte);
-      binary += char;
-    });
-    let b64 = window.btoa(binary);
-    return b64;
-  },
   btDeviceNameIsOk: function (name) {
     'use strict';
     let nameUTF8len = new StringView(name).buffer.byteLength;
