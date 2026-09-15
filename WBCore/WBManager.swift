@@ -303,9 +303,7 @@ open class WBManager: NSObject, CBCentralManagerDelegate, WKScriptMessageHandler
         self.filters = nil
         centralManager.scanForPeripherals(withServices: nil, options: nil)
     }
-
     func scanForPeripherals(with filters: [[String: AnyObject]]) {
-
         let services = filters.reduce(
             [String](),
             {

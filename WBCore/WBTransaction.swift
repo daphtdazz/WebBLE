@@ -197,7 +197,7 @@ class WBTransaction: Equatable, CustomStringConvertible {
     func resolveAsSuccess(withMessage message: String = "Success") {
         self.complete(success: true, object: message)
     }
-    func resolveAsSuccess(withObject object: Jsonifiable) {
+    func resolveAsSuccess(withObject object: JSHandlerCompatible) {
         self.complete(success: true, object: object)
     }
     func resolveAsFailure(withMessage message: String) {
@@ -218,18 +218,22 @@ class WBTransaction: Equatable, CustomStringConvertible {
     /*
      * ========== Private methods ==========
      */
-    private func complete(success: Bool, object: Jsonifiable) {
+    private func complete(success: Bool, object: JSHandlerCompatible) {
         assert(!self.resolved, "Attempt to re-resolve transaction \(self.id)")
 
         if !success {
-            NSLog("\(self.description) unsuccessful: \(object.jsonify())")
+            NSLog("\(self.description) unsuccessful: \(object.forJSHandler())")
         }
 
         // Use reply handler to send response back to JavaScript
         if success {
-            self.replyHandler(object.jsonify(), nil)
+            self.replyHandler(object.forJSHandler(), nil)
         } else {
-            self.replyHandler(nil, object.jsonify())
+            self.replyHandler(
+                nil,
+                "error: "
+                + "\((object.forJSHandler() as AnyObject).debugDescription, default:"<no info>")"
+            )
         }
 
         self.resolved = true

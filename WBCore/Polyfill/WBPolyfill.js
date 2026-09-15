@@ -155,7 +155,7 @@
       try {
         const response = await window.webkit.messageHandlers.bluetooth.postMessage(message);
         nslog(`${type} ${callbackID} success`);
-        return JSON.parse(response);
+        return response;
       } catch (error) {
         nslog(`${type} ${callbackID} failure ${error}`);
         throw error;
@@ -203,6 +203,8 @@
       native.characteristicsBeingNotified[deviceId] = undefined;
     },
     // shape: {deviceUUID: {characteristicUUID: [BluetoothRemoteGATTCharacteristic]}}
+    // Note that this assumes that the IDs of the devices only come from native and we don't touch
+    // them, so it doesn't matter what they are (although they will be UUIDs) or what case they are.
     characteristicsBeingNotified: {},
     registerCharacteristicForNotifications: function (characteristic) {
 
@@ -219,7 +221,7 @@
       }
       chars[cid].push(characteristic);
     },
-    receiveCharacteristicValueNotification: function (deviceId, cname, d64) {
+    receiveCharacteristicValueNotification: function (deviceId, cname, data) {
       nslog('receiveCharacteristicValueNotification');
       const cid = window.BluetoothUUID.getCharacteristic(cname);
       let devChars = native.characteristicsBeingNotified[deviceId];
@@ -229,12 +231,12 @@
           'Unexpected characteristic value notification for device ' +
           `${deviceId} and characteristic ${cid}`
         );
+
         return;
       }
-      nslog('<-- char val notification', cid, d64);
+      nslog('<-- char val notification', cid, data);
       chars.forEach(function (char) {
-        let dataView = wbutils.str64todv(d64);
-        char.value = dataView;
+        char.value = data;
         char.dispatchEvent(new BluetoothEvent('characteristicvaluechanged', char));
       });
     },

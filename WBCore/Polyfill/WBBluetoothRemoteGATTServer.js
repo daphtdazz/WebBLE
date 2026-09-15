@@ -24,7 +24,7 @@
     },
     disconnect: function () {
       if (!this.connected) {
-        nslog("Unexpected disconnect when gattserver not connected on device ${this.device.id}");
+        nslog(`Unexpected disconnect when gattserver not connected on device ${this.device.id}`);
         return;
       }
       this.connected = false;

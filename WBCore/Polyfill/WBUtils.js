@@ -61,17 +61,6 @@ uk.co.greenparksoftware.wbutils = {
   mixin: function (target, src) {
     Object.assign(target.prototype, src.prototype);
     target.prototype.constructor = target;
-  },
-  str64todv: function (str64) {
-    // Return a DataView from a base64 encoded DOM String.
-    let str16 = atob(str64);
-    let ab = new Int8Array(str16.length);
-    let ii;
-    for (ii = 0; ii < ab.length; ii += 1) {
-      // trusted interface, so don't check this is 0 <= charCode < 256
-      ab[ii] = str16.charCodeAt(ii);
-    }
-    return new DataView(ab.buffer);
   }
 };
 

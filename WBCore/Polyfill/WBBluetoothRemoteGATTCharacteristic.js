@@ -44,12 +44,9 @@
     getDescriptors: function () {
       throw new Error('Not implemented');
     },
-    readValue: function () {
-      let char = this;
-      return this.sendMessage('readCharacteristicValue').then(function (valueEncoded) {
-        char.value = wbutils.str64todv(valueEncoded);
-        return char.value;
-      });
+    readValue: async function () {
+      const byteArray = await this.sendMessage('readCharacteristicValue');
+      return this.value = new DataView(new Uint8Array(byteArray).buffer);
     },
     writeValue: async function (value, responseMode) {
       // value may be an ArrayBuffer or a TypedArray (view onto an ArrayBuffer). We want to extract

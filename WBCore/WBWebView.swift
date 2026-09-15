@@ -99,7 +99,6 @@ class WBWebView: WKWebView, WKNavigationDelegate {
 
         // Load js
         for jsfilename in [
-            "stringview",
             "WBUtils",
             "WBEventTarget",
             "WBBluetoothUUID",
