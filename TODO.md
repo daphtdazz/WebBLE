@@ -4,7 +4,7 @@
 
 - ✅ 🐞 Occasional crash returning from bookmarks view
 - 🏎️ better performance of console when lots of logs
-- 🐞 console open status not remembered on restart
+- ✅ 🐞 console open status not remembered on restart
 - 🐞 espruino IDE cannot reconnect to a disconnected device, or reconnect easily (assuming this is
   supposed to be possible)
 - ✅ 🐞 should not scroll console to top on tap at top

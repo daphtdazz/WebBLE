@@ -335,7 +335,7 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftMigration = 0720;
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					E44C18551A36203E00734F8B = {
 						CreatedOnToolsVersion = 6.1.1;
