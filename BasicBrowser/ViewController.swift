@@ -129,19 +129,24 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         self.shouldShowBars = true
     }
     @IBAction func toggleConsole() {
+        let consoleShouldBeShown: Bool
         if let cvc = self.consoleContainerController {
             NSLog("Hiding console")
+            consoleShouldBeShown = false
             cvc.performSegue(
                 withIdentifier: "HideConsoleSegueID",
                 sender: self
             )
         } else {
             NSLog("Showing console")
+            consoleShouldBeShown = true
             self.performSegue(
                 withIdentifier: "ShowConsoleSegueID",
                 sender: self
             )
         }
+        let ud = UserDefaults.standard
+        ud.set(consoleShouldBeShown, forKey: ViewController.prefKeys.consoleOpen.rawValue)
     }
 
     // MARK: - Home bar indicator control
