@@ -68,6 +68,9 @@
                                     <constraint firstItem="OQr-CY-eZU" firstAttribute="leading" secondItem="rnO-dD-ogt" secondAttribute="leading" id="i3a-c6-9SF"/>
                                     <constraint firstItem="OQr-CY-eZU" firstAttribute="top" secondItem="rnO-dD-ogt" secondAttribute="top" id="veR-BR-lKr"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="scrollsToTop" value="NO"/>
+                                </userDefinedRuntimeAttributes>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5bj-QH-Q4o" customClass="DividerView" customModule="WebBLE" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="8"/>

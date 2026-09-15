@@ -7,7 +7,7 @@
 - 🐞 console open status not remembered on restart
 - 🐞 espruino IDE cannot reconnect to a disconnected device, or reconnect easily (assuming this is
   supposed to be possible)
-- 🐞 should not scroll console to top on tap at top
+- ✅ 🐞 should not scroll console to top on tap at top
 - ✨ better stack traces in console 
 - ✨ better way of selecting multiple logs to copy from console
 - ✨ nicer device picker view
