@@ -13,15 +13,6 @@ if (!uk.co.greenparksoftware) {
 }
 uk.co.greenparksoftware.wb = {};
 uk.co.greenparksoftware.wbutils = {
-  uint8ArrayToBase64: function (bytes) {
-    let binary = '';
-    bytes.forEach(function (byte) {
-      const char = String.fromCharCode(byte);
-      binary += char;
-    });
-    let b64 = window.btoa(binary);
-    return b64;
-  },
   btDeviceNameIsOk: function (name) {
     'use strict';
     let nameUTF8len = new StringView(name).buffer.byteLength;
@@ -70,17 +61,6 @@ uk.co.greenparksoftware.wbutils = {
   mixin: function (target, src) {
     Object.assign(target.prototype, src.prototype);
     target.prototype.constructor = target;
-  },
-  str64todv: function (str64) {
-    // Return a DataView from a base64 encoded DOM String.
-    let str16 = atob(str64);
-    let ab = new Int8Array(str16.length);
-    let ii;
-    for (ii = 0; ii < ab.length; ii += 1) {
-      // trusted interface, so don't check this is 0 <= charCode < 256
-      ab[ii] = str16.charCodeAt(ii);
-    }
-    return new DataView(ab.buffer);
   }
 };
 

@@ -53,17 +53,17 @@ class WBWebViewContainerController: UIViewController, WKNavigationDelegate, WKUI
     }
     
     // MARK: - View Event handling
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.webView.addNavigationDelegate(self)
         self.webView.uiDelegate = self
-        
+
         for path in ["estimatedProgress"] {
             self.webView.addObserver(self, forKeyPath: path, options: .new, context: nil)
         }
     }
-    
     // MARK: - WBPicker
     public func showPicker() {
         self.performSegue(withIdentifier: "ShowDevicePicker", sender: self)
@@ -173,12 +173,12 @@ class WBWebViewContainerController: UIViewController, WKNavigationDelegate, WKUI
     }
     
     // MARK: - Private
+
     private func _configureNewManager() {
         self.wbManager?.clearState()
         self.wbManager = WBManager(devicePicker: self)
         self.webView.wbManager = self.wbManager
     }
-
     private func _maybeShowErrorUI(_ error: Error) {
         let nserror = error as NSError
         if (

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5A0F91CC1E01546200CB2C64 /* Jsonifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F91CB1E01546200CB2C64 /* Jsonifiable.swift */; };
+		5A0F91CC1E01546200CB2C64 /* JSHandlerCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F91CB1E01546200CB2C64 /* JSHandlerCompatible.swift */; };
 		5A10929B2168D599002CC973 /* ConsoleViewContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A10929A2168D599002CC973 /* ConsoleViewContainerController.swift */; };
 		5A1A8E1628009CD200271575 /* URLTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1A8E1528009C3200271575 /* URLTextField.swift */; };
 		5A1D3256216FC96500F3391C /* WBLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1D3255216FC96500F3391C /* WBLogManager.swift */; };
@@ -20,7 +20,6 @@
 		5A5D6404216C9F9300BCD722 /* WBLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5D6403216C9F9300BCD722 /* WBLog.swift */; };
 		5A660B001F0FB174004EC11D /* WBUtils.js in Resources */ = {isa = PBXBuildFile; fileRef = 5A660AFF1F0FB174004EC11D /* WBUtils.js */; };
 		5A6BF67A21F503DF0051EC98 /* WBPopUpPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6BF67921F503DF0051EC98 /* WBPopUpPickerController.swift */; };
-		5A7579E6214F7965003F0CEA /* stringview.js in Resources */ = {isa = PBXBuildFile; fileRef = 5A7579E5214F7965003F0CEA /* stringview.js */; };
 		5A7579EA2151588B003F0CEA /* ConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7579E92151588B003F0CEA /* ConsoleViewController.swift */; };
 		5A7579ED2157907D003F0CEA /* ConsoleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7579EC2157907D003F0CEA /* ConsoleScrollView.swift */; };
 		5A7579EF21579E0E003F0CEA /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7579EE21579E0E003F0CEA /* ConsoleView.swift */; };
@@ -68,7 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5A0F91CB1E01546200CB2C64 /* Jsonifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jsonifiable.swift; sourceTree = "<group>"; };
+		5A0F91CB1E01546200CB2C64 /* JSHandlerCompatible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSHandlerCompatible.swift; sourceTree = "<group>"; };
 		5A10929A2168D599002CC973 /* ConsoleViewContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewContainerController.swift; sourceTree = "<group>"; };
 		5A1A8E1528009C3200271575 /* URLTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTextField.swift; sourceTree = "<group>"; };
 		5A1D3255216FC96500F3391C /* WBLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBLogManager.swift; sourceTree = "<group>"; };
@@ -81,7 +80,6 @@
 		5A5D6403216C9F9300BCD722 /* WBLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBLog.swift; sourceTree = "<group>"; };
 		5A660AFF1F0FB174004EC11D /* WBUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WBUtils.js; sourceTree = "<group>"; };
 		5A6BF67921F503DF0051EC98 /* WBPopUpPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBPopUpPickerController.swift; sourceTree = "<group>"; };
-		5A7579E5214F7965003F0CEA /* stringview.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = stringview.js; sourceTree = "<group>"; };
 		5A7579E92151588B003F0CEA /* ConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewController.swift; sourceTree = "<group>"; };
 		5A7579EC2157907D003F0CEA /* ConsoleScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleScrollView.swift; sourceTree = "<group>"; };
 		5A7579EE21579E0E003F0CEA /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
@@ -184,7 +182,7 @@
 				5AC676FB221CA557007B1562 /* ErrorViewController.swift */,
 				5AC7ECAA233D0F9700CE7A2A /* Segues.swift */,
 				5AC7ECAC233D177700CE7A2A /* WBPopUpPickerView.swift */,
-				5A0F91CB1E01546200CB2C64 /* Jsonifiable.swift */,
+				5A0F91CB1E01546200CB2C64 /* JSHandlerCompatible.swift */,
 				BB4DE1F31C8D0A44003151BF /* WBDevice.swift */,
 				BB303DF21C42070C00FCAF24 /* WBManager.swift */,
 				BB4DBE641C97F577000D2C35 /* WBTransaction.swift */,
@@ -211,7 +209,6 @@
 		5AFC780322ECDD410071E792 /* Polyfill */ = {
 			isa = PBXGroup;
 			children = (
-				5A7579E5214F7965003F0CEA /* stringview.js */,
 				5AA79DDC1FB3AA0C00A4FCB4 /* WBBluetoothUUID.js */,
 				5AFC77FF22ECD99B0071E792 /* WBDevice.js */,
 				5AFC77FD22ECD09E0071E792 /* WBEventTarget.js */,
@@ -383,7 +380,6 @@
 				5A4B8E1D2157A66C00C7C858 /* ConsoleLogView.xib in Resources */,
 				5AA79DDD1FB3AA0C00A4FCB4 /* WBBluetoothUUID.js in Resources */,
 				BB303DF11C41EF2F00FCAF24 /* WBPolyfill.js in Resources */,
-				5A7579E6214F7965003F0CEA /* stringview.js in Resources */,
 				5A8FD3FE233973710032DCE7 /* WBCore.storyboard in Resources */,
 				5ADE336E23663353007E6AD7 /* Images.xcassets in Resources */,
 				5A85B9F91E29582400E0B718 /* Defaults.plist in Resources */,
@@ -432,7 +428,7 @@
 				BB303DF31C42070C00FCAF24 /* WBManager.swift in Sources */,
 				5A6BF67A21F503DF0051EC98 /* WBPopUpPickerController.swift in Sources */,
 				5A1D3256216FC96500F3391C /* WBLogManager.swift in Sources */,
-				5A0F91CC1E01546200CB2C64 /* Jsonifiable.swift in Sources */,
+				5A0F91CC1E01546200CB2C64 /* JSHandlerCompatible.swift in Sources */,
 				5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */,
 				BB4DE1F41C8D0A44003151BF /* WBDevice.swift in Sources */,
 				5A8FD40023397ED80032DCE7 /* WBWebViewContainerController.swift in Sources */,

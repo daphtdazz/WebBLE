@@ -81,7 +81,7 @@
       let validatedDeviceOptions = {};
       validatedDeviceOptions.filters = filters;
 
-      // Optional services not yet suppoprted.
+      // Optional services not yet supported.
       // let optionalServices = requestDeviceOptions.optionalServices;
       // if (optionalServices) {
       //     optionalServices = optionalServices.services.map(window.BluetoothUUID.getService);
@@ -129,26 +129,13 @@
   //
   native = {
     messageCount: 0,
-    callbacks: {}, // callbacks for responses to requests
 
-    cancelTransaction: function (tid) {
-      let trans = this.callbacks[tid];
-      if (!trans) {
-        nslog(`No transaction ${tid} outstanding to fail.`);
-        return;
-      }
-      delete this.callbacks[tid];
-      trans(false, 'Premature cancellation.');
-    },
     getTransactionID: function () {
-      let mc = this.messageCount;
-      do {
-        mc += 1;
-      } while (native.callbacks[mc] !== undefined);
-      this.messageCount = mc;
-      return this.messageCount;
+      // Used for debugging only now since all javascript -> native
+      // transactions are now handled by WKScriptMessageHandlerWithReply
+      return ++this.messageCount;
     },
-    sendMessage: function (type, sendMessageParms) {
+    sendMessage: async function (type, sendMessageParms) {
       let message;
       if (type === undefined) {
         throw new Error('CallRemote should never be called without a type!');
@@ -164,27 +151,14 @@
       };
 
       nslog(`${type} ${callbackID}`);
-      window.webkit.messageHandlers.bluetooth.postMessage(message);
-
-      this.messageCount += 1;
-      return new Promise(function (resolve, reject) {
-        native.callbacks[callbackID] = function (success, result) {
-          if (success) {
-            nslog(`${type} ${callbackID} success`);
-            resolve(result);
-          } else {
-            nslog(`${type} ${callbackID} failure ${JSON.stringify(result)}`);
-            reject(result);
-          }
-          delete native.callbacks[callbackID];
-        };
-      });
-    },
-    receiveMessageResponse: function (success, resultString, callbackID) {
-      if (callbackID !== undefined && native.callbacks[callbackID]) {
-        native.callbacks[callbackID](success, resultString);
-      } else {
-        nslog(`Response for unknown callbackID ${callbackID}`);
+      
+      try {
+        const response = await window.webkit.messageHandlers.bluetooth.postMessage(message);
+        nslog(`${type} ${callbackID} success`);
+        return response;
+      } catch (error) {
+        nslog(`${type} ${callbackID} failure ${error}`);
+        throw error;
       }
     },
     // of shape {deviceId: BluetoothDevice}
@@ -229,6 +203,8 @@
       native.characteristicsBeingNotified[deviceId] = undefined;
     },
     // shape: {deviceUUID: {characteristicUUID: [BluetoothRemoteGATTCharacteristic]}}
+    // Note that this assumes that the IDs of the devices only come from native and we don't touch
+    // them, so it doesn't matter what they are (although they will be UUIDs) or what case they are.
     characteristicsBeingNotified: {},
     registerCharacteristicForNotifications: function (characteristic) {
 
@@ -245,7 +221,7 @@
       }
       chars[cid].push(characteristic);
     },
-    receiveCharacteristicValueNotification: function (deviceId, cname, d64) {
+    receiveCharacteristicValueNotification: function (deviceId, cname, data) {
       nslog('receiveCharacteristicValueNotification');
       const cid = window.BluetoothUUID.getCharacteristic(cname);
       let devChars = native.characteristicsBeingNotified[deviceId];
@@ -255,12 +231,12 @@
           'Unexpected characteristic value notification for device ' +
           `${deviceId} and characteristic ${cid}`
         );
+
         return;
       }
-      nslog('<-- char val notification', cid, d64);
+      nslog('<-- char val notification', cid, data);
       chars.forEach(function (char) {
-        let dataView = wbutils.str64todv(d64);
-        char.value = dataView;
+        char.value = data;
         char.dispatchEvent(new BluetoothEvent('characteristicvaluechanged', char));
       });
     },
@@ -283,7 +259,6 @@
   window.BluetoothDevice = wb.BluetoothDevice;
   window.iOSNativeAPI = native;
   window.receiveDeviceDisconnectEvent = native.receiveDeviceDisconnectEvent;
-  window.receiveMessageResponse = native.receiveMessageResponse;
   window.receiveCharacteristicValueNotification = native.receiveCharacteristicValueNotification;
 
   nslog('call enableBluetooth!');
