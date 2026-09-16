@@ -1,5 +1,5 @@
 /*global
-        atob, Event, nslog, uk, window
+        Event, nslog, uk, window
 */
 // https://webbluetoothcg.github.io/web-bluetooth/ interface
 (function () {

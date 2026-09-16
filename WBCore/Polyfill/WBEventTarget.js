@@ -2,7 +2,7 @@
     browser
 */
 /*global
-    atob, Event, uk, window
+    Event, uk, window
 */
 //
 // We need an EventTarget implementation. This one nicked wholesale from
