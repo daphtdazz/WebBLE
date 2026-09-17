@@ -21,6 +21,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     enum prefKeys: String {
         case bookmarks
         case consoleOpen
+        case lastConsoleHeight
         case version
     }
 
@@ -37,13 +38,13 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     @IBOutlet var showConsoleButton: UIBarButtonItem!
     @IBOutlet var extraShowBarsView: UIView!
 
+    // MARK: Internal
     var initialURL: URL?
     var lastRefresh: Date?
 
     var bookmarksManager = BookmarksManager(
         userDefaults: UserDefaults.standard, key: prefKeys.bookmarks.rawValue)
 
-    var consoleViewBottomConstraint: NSLayoutConstraint? = nil
     var shouldShowBars = true {
         didSet {
             let nc = self.navigationController!
@@ -72,11 +73,14 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
             return self.webViewController.webView
         }
     }
-    var consoleContainerController: ConsoleViewContainerController? {
+    var consoleCVC: ConsoleContainerViewController? {
         get {
-            return self.children.first(where: {$0 as? ConsoleViewContainerController != nil}) as? ConsoleViewContainerController
+            return self.children.first(where: {$0 as? ConsoleContainerViewController != nil}) as? ConsoleContainerViewController
         }
     }
+
+    /** Tracked constraint to aid segue animations  */
+    weak var consoleViewBottomConstraint: NSLayoutConstraint? = nil
 
     // MARK: - API
     // MARK: IBActions
@@ -128,30 +132,47 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         NSLog("Show bars")
         self.shouldShowBars = true
     }
-    @IBAction func toggleConsole() {
-        let consoleShouldBeShown: Bool
-        if let cvc = self.consoleContainerController {
-            NSLog("Hiding console")
-            consoleShouldBeShown = false
-            cvc.performSegue(
-                withIdentifier: "HideConsoleSegueID",
-                sender: self
-            )
-        } else {
-            NSLog("Showing console")
-            consoleShouldBeShown = true
-            self.performSegue(
-                withIdentifier: "ShowConsoleSegueID",
-                sender: self
-            )
+    @IBAction func showConsole() {
+        guard self.consoleCVC == nil else {
+            NSLog("Console already showing")
+            return
         }
-        let ud = UserDefaults.standard
-        ud.set(consoleShouldBeShown, forKey: ViewController.prefKeys.consoleOpen.rawValue)
+        NSLog("Show console")
+        self.performSegue(
+            withIdentifier: "ShowConsoleSegueID",
+            sender: self
+        )
+    }
+    @IBAction func toggleConsole() {
+        if let cvc = self.consoleCVC {
+            cvc.closeConsole(self)
+        } else {
+            self.showConsole()
+        }
     }
 
     // MARK: - Home bar indicator control
     override var prefersHomeIndicatorAutoHidden: Bool {
         return !self.shouldShowBars
+    }
+
+    // MARK: - Console control
+    func addConsoleCVC(_ consoleCVC: ConsoleContainerViewController) {
+        self.addChild(consoleCVC)
+        self.view!.addSubview(consoleCVC.view!)
+        consoleCVC.wbLogManager = self.webViewController.logManager
+        UserDefaults.standard.setValue(true, forKey: ViewController.prefKeys.consoleOpen.rawValue)
+        NSLog("Console CVC added")
+    }
+    func removeConsoleCVC() {
+        guard let ccvc = self.consoleCVC else {
+            NSLog("No Console Container View Controller to remove")
+            return
+        }
+        ccvc.removeFromParent()
+        ccvc.view!.removeFromSuperview()
+        UserDefaults.standard.setValue(false, forKey: ViewController.prefKeys.consoleOpen.rawValue)
+        NSLog("Console CVC removed")
     }
 
     // MARK: - Segue handling
@@ -162,8 +183,8 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     }
     @IBAction func unwindToWBController(sender: UIStoryboardSegue) {
         if let bvc = sender.source as? BookmarksViewController,
-            let tv = bvc.view as? UITableView,
-            let ip = tv.indexPathForSelectedRow {
+           let tv = bvc.view as? UITableView,
+           let ip = tv.indexPathForSelectedRow {
             if ip.item >= self.bookmarksManager.bookmarks.count {
                 NSLog("Selected bookmark is out of range")
             }
@@ -172,6 +193,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
             }
         }
     }
+    @IBAction func unwindConsole(unwindSegue: UIStoryboardSegue) {}
 
     // MARK: - UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

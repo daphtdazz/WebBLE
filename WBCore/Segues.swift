@@ -19,16 +19,21 @@ class WBShowPickerSegue: UIStoryboardSegue {
         NSLayoutConstraint.activate([
             wvcc.view.leftAnchor.constraint(equalTo: puvc.view.leftAnchor),
             wvcc.view.rightAnchor.constraint(equalTo: puvc.view.rightAnchor),
-            topBotConstraint
-            ])
+            topBotConstraint,
+        ])
         // inactive initially... activated in the animation block
-        wvcc.popUpPickerBottomConstraint = self.source.view.bottomAnchor.constraint(equalTo: self.destination.view.bottomAnchor)
+        wvcc.popUpPickerBottomConstraint = self.source.view.bottomAnchor.constraint(
+            equalTo: self.destination.view.bottomAnchor
+        )
         wvcc.view.layoutIfNeeded()
-        UIView.animate(withDuration: DURATION, animations: {
-            wvcc.view.removeConstraint(topBotConstraint)
-            wvcc.popUpPickerBottomConstraint!.isActive = true
-            wvcc.view.layoutIfNeeded()
-        })
+        UIView.animate(
+            withDuration: DURATION,
+            animations: {
+                wvcc.view.removeConstraint(topBotConstraint)
+                wvcc.popUpPickerBottomConstraint!.isActive = true
+                wvcc.view.layoutIfNeeded()
+            }
+        )
     }
 }
 
@@ -38,14 +43,18 @@ class WBHidePickerSegue: UIStoryboardSegue {
         let puvc = self.source as! WBPopUpPickerController
         wvcc.view.removeConstraint(wvcc.popUpPickerBottomConstraint!)
         wvcc.popUpPickerBottomConstraint = nil
-        UIView.animate(withDuration: DURATION, animations: {
-            wvcc.view.bottomAnchor.constraint(equalTo: puvc.view.topAnchor).isActive = true
-            wvcc.view.layoutIfNeeded()
-        }, completion: {
-            _ in
-            puvc.removeFromParent()
-            puvc.view.removeFromSuperview()
-        })
+        UIView.animate(
+            withDuration: DURATION,
+            animations: {
+                wvcc.view.bottomAnchor.constraint(equalTo: puvc.view.topAnchor).isActive = true
+                wvcc.view.layoutIfNeeded()
+            },
+            completion: {
+                _ in
+                puvc.removeFromParent()
+                puvc.view.removeFromSuperview()
+            }
+        )
     }
 }
 
@@ -53,23 +62,21 @@ class ShowConsoleSegue: UIStoryboardSegue {
     override func perform() {
         let vc = self.source as! ViewController
         let vcv = vc.view!
-        let cc = self.destination as! ConsoleViewContainerController
-        let ccv = cc.view!
+        let ccvc = self.destination as! ConsoleContainerViewController
+        let ccv = ccvc.view!
 
-        vc.addChild(cc)
-        vcv.addSubview(ccv)
-
-        cc.wbLogManager = vc.webViewController.logManager
+        vc.addConsoleCVC(ccvc)
 
         // Configure the height
-        let prevHeight = CGFloat(UserDefaults.standard.float(forKey: "lastConsoleHeight"))
-        let heightConstraint =
-            cc.consoleScrollViewHeightConstraint!
-        heightConstraint.constant = (
-            prevHeight > 0.0
-            ? prevHeight
-            : 100.0
+        let prevHeight = CGFloat(
+            UserDefaults.standard.float(forKey: ViewController.prefKeys.lastConsoleHeight.rawValue)
         )
+        let heightConstraint =
+            ccvc.consoleScrollViewHeightConstraint!
+        heightConstraint.constant =
+            (prevHeight > 0.0
+                ? prevHeight
+                : 100.0)
 
         // Configure the intial constraints
         let topConstraint = ccv.topAnchor.constraint(
@@ -115,15 +122,13 @@ class ShowConsoleSegue: UIStoryboardSegue {
                 vcv.layoutIfNeeded()
             }
         )
-
-        UserDefaults.standard.setValue(true, forKey: ViewController.prefKeys.consoleOpen.rawValue)
     }
 }
 
 class HideConsoleSegue: UIStoryboardSegue {
     override func perform() {
-        let cc = self.source // as! ConsoleViewContainerController
-        let ccv = cc.view!
+        let ccvc = self.source
+        let ccv = ccvc.view!
         let vc = self.destination as! ViewController
         let vcv = vc.view!
 
@@ -142,12 +147,9 @@ class HideConsoleSegue: UIStoryboardSegue {
             },
             completion: {
                 _ in
-                cc.removeFromParent()
-                ccv.removeFromSuperview()
-                vc.consoleViewBottomConstraint = nil
-                vcv.layoutIfNeeded()
+                vc.removeConsoleCVC()
             }
         )
-        UserDefaults.standard.setValue(true, forKey: ViewController.prefKeys.consoleOpen.rawValue)
+
     }
 }

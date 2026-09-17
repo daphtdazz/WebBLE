@@ -1,45 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="25098" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="25073"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Console View Controller-->
-        <scene sceneID="S1F-zD-DvF">
-            <objects>
-                <viewController id="YCd-xn-2IL" customClass="ConsoleViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="wN2-tf-SQg"/>
-                        <viewControllerLayoutGuide type="bottom" id="Tyh-wb-er1"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="tKx-oA-BIE" customClass="ConsoleView" customModule="WebBLE" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="800"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        <viewLayoutGuide key="safeArea" id="mRf-MW-WWW"/>
-                        <gestureRecognizers/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="translatesAutoresizingMaskIntoConstraints" value="NO"/>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="insetsLayoutMarginsFromSafeArea" value="NO"/>
-                        </userDefinedRuntimeAttributes>
-                    </view>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="450" height="800"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="I73-JG-aLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2758" y="311"/>
-        </scene>
-        <!--Console View Container Controller-->
+        <!--Console Container View Controller-->
         <scene sceneID="jjL-Tk-tTc">
             <objects>
-                <viewController storyboardIdentifier="ConsoleViewContainer" id="gfn-yI-dsN" customClass="ConsoleViewContainerController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConsoleViewContainer" id="gfn-yI-dsN" customClass="ConsoleContainerViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yIi-7U-JZx"/>
                         <viewControllerLayoutGuide type="bottom" id="ehj-ex-qU1"/>
@@ -113,6 +86,7 @@
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="DDd-1G-EtQ" appends="YES" id="QqS-bL-JUe"/>
+                                    <outletCollection property="gestureRecognizers" destination="yrx-yg-a6z" appends="YES" id="A76-WU-wAx"/>
                                 </connections>
                             </view>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="200" verticalCompressionResistancePriority="200" image="Copy@480.png" translatesAutoresizingMaskIntoConstraints="NO" id="DSl-4f-yGT">
@@ -178,10 +152,11 @@
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="xKI-u1-hyu" appends="YES" id="457-fS-3SW"/>
+                                    <outletCollection property="gestureRecognizers" destination="VUv-Pq-MeN" appends="YES" id="HTT-04-dDH"/>
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ca8-g2-bii" userLabel="Extra Buttons View">
-                                <rect key="frame" x="295" y="84" width="80" height="44"/>
+                                <rect key="frame" x="295" y="50" width="80" height="44"/>
                                 <subviews>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pLC-Oz-vnL">
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="44"/>
@@ -269,33 +244,71 @@
                         <outlet property="consoleScrollViewHeightConstraint" destination="Or9-LE-zQX" id="AwS-4K-sGp"/>
                         <outlet property="copySuccessIndication" destination="DSl-4f-yGT" id="NAk-vM-s5x"/>
                         <outlet property="scrollView" destination="rnO-dD-ogt" id="dzY-PN-p0U"/>
-                        <segue destination="LJz-yU-32Y" kind="unwind" identifier="HideConsoleSegueID" customClass="HideConsoleSegue" customModule="WebBLE" customModuleProvider="target" unwindAction="unwindToWBControllerWithSender:" id="dXz-eK-6b7"/>
+                        <segue destination="LJz-yU-32Y" kind="unwind" identifier="HideConsoleSegueID" customClass="HideConsoleSegue" customModule="WebBLE" customModuleProvider="target" unwindAction="unwindConsoleWithUnwindSegue:" id="KbM-pX-ahd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Fn-69-caL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="LJz-yU-32Y" userLabel="Exit" sceneMemberID="exit"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="DDd-1G-EtQ">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="DDd-1G-EtQ" userLabel="Divider Resize Pan">
                     <connections>
                         <action selector="dividerDrag:" destination="gfn-yI-dsN" id="ymq-US-Tjq"/>
                     </connections>
                 </panGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="xKI-u1-hyu">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="xKI-u1-hyu" userLabel="Extra Drag Resize Pan">
                     <connections>
                         <action selector="dividerDrag:" destination="gfn-yI-dsN" id="Mvd-oe-Z0a"/>
                     </connections>
                 </panGestureRecognizer>
-                <tapGestureRecognizer id="AX4-CN-f4w">
+                <tapGestureRecognizer numberOfTapsRequired="2" id="yrx-yg-a6z" userLabel="Divider Close Double Tap">
+                    <connections>
+                        <action selector="closeConsole:" destination="gfn-yI-dsN" id="GoE-IF-ygc"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="VUv-Pq-MeN" userLabel="Extra Drag Double Tap Close">
+                    <connections>
+                        <action selector="closeConsole:" destination="gfn-yI-dsN" id="UIw-mF-2jD"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="AX4-CN-f4w" userLabel="Copy Logs Tap">
                     <connections>
                         <action selector="copyLogsToClipboard:" destination="gfn-yI-dsN" id="iVO-Ey-ZXc"/>
                     </connections>
                 </tapGestureRecognizer>
-                <tapGestureRecognizer id="mqc-NO-xqH">
+                <tapGestureRecognizer id="mqc-NO-xqH" userLabel="Clear Selection Tap">
                     <connections>
                         <action selector="clearSelection:" destination="gfn-yI-dsN" id="stW-fv-mSH"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1878.985507246377" y="311.38392857142856"/>
+        </scene>
+        <!--Console View Controller-->
+        <scene sceneID="S1F-zD-DvF">
+            <objects>
+                <viewController id="YCd-xn-2IL" customClass="ConsoleViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wN2-tf-SQg"/>
+                        <viewControllerLayoutGuide type="bottom" id="Tyh-wb-er1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tKx-oA-BIE" customClass="ConsoleView" customModule="WebBLE" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="800"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <viewLayoutGuide key="safeArea" id="mRf-MW-WWW"/>
+                        <gestureRecognizers/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="translatesAutoresizingMaskIntoConstraints" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="insetsLayoutMarginsFromSafeArea" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <navigationItem key="navigationItem" id="LlZ-HK-NGD"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="450" height="800"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I73-JG-aLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2683" y="311"/>
         </scene>
     </scenes>
     <resources>
@@ -306,10 +319,10 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="separatorColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

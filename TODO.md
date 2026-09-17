@@ -2,13 +2,14 @@
 
 ## Autumn 2026
 
-- ✅ 🐞 Occasional crash returning from bookmarks view
-- ✅ 🐞 console open status not remembered on restart
+- 🐞 ✅ Occasional crash returning from bookmarks view
+- 🐞 ✅ console open status not remembered on restart
+-  🐞 ✅ should not scroll console to top on tap at top
+-  🐞 ✅ pybricks work better https://github.com/daphtdazz/WebBLE/issues/62
 - 🐞 espruino IDE cannot reconnect to a disconnected device, or reconnect easily (assuming this is
   supposed to be possible)
-- ✅ 🐞 should not scroll console to top on tap at top
-- ✅ 🐞 pybricks work better https://github.com/daphtdazz/WebBLE/issues/62
 - 🏎️ better performance of console when lots of logs
+- ✨ ✅ double tap divider / drag area of console to hide console
 - ✨ better stack traces in console 
 - ✨ better way of selecting multiple logs to copy from console
 - ✨ nicer device picker view

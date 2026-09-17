@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5A0F91CC1E01546200CB2C64 /* JSHandlerCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F91CB1E01546200CB2C64 /* JSHandlerCompatible.swift */; };
-		5A10929B2168D599002CC973 /* ConsoleViewContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A10929A2168D599002CC973 /* ConsoleViewContainerController.swift */; };
+		5A10929B2168D599002CC973 /* ConsoleContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A10929A2168D599002CC973 /* ConsoleContainerViewController.swift */; };
 		5A1A8E1628009CD200271575 /* URLTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1A8E1528009C3200271575 /* URLTextField.swift */; };
 		5A1D3256216FC96500F3391C /* WBLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1D3255216FC96500F3391C /* WBLogManager.swift */; };
 		5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */; };
@@ -69,7 +69,7 @@
 
 /* Begin PBXFileReference section */
 		5A0F91CB1E01546200CB2C64 /* JSHandlerCompatible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSHandlerCompatible.swift; sourceTree = "<group>"; };
-		5A10929A2168D599002CC973 /* ConsoleViewContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewContainerController.swift; sourceTree = "<group>"; };
+		5A10929A2168D599002CC973 /* ConsoleContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleContainerViewController.swift; sourceTree = "<group>"; };
 		5A1A8E1528009C3200271575 /* URLTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTextField.swift; sourceTree = "<group>"; };
 		5A1D3255216FC96500F3391C /* WBLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBLogManager.swift; sourceTree = "<group>"; };
 		5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksManager.swift; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 				5A7579EC2157907D003F0CEA /* ConsoleScrollView.swift */,
 				5A7579EE21579E0E003F0CEA /* ConsoleView.swift */,
 				5A7579E92151588B003F0CEA /* ConsoleViewController.swift */,
-				5A10929A2168D599002CC973 /* ConsoleViewContainerController.swift */,
+				5A10929A2168D599002CC973 /* ConsoleContainerViewController.swift */,
 				5AC8067C21655B5E00AA5176 /* DividerView.swift */,
 				5A4B8E1C2157A66C00C7C858 /* ConsoleLogView.xib */,
 				5A8FD3FB233966050032DCE7 /* Console.storyboard */,
@@ -423,7 +423,7 @@
 				5AFD083C305963190019CA5C /* SceneDelegate.swift in Sources */,
 				E44C185C1A36203E00734F8B /* AppDelegate.swift in Sources */,
 				5A5D621621EBA83D00E417DC /* NavigationViewController.swift in Sources */,
-				5A10929B2168D599002CC973 /* ConsoleViewContainerController.swift in Sources */,
+				5A10929B2168D599002CC973 /* ConsoleContainerViewController.swift in Sources */,
 				5A95DDF81E0C080C00DFE26B /* WBWebView.swift in Sources */,
 				5A7579EF21579E0E003F0CEA /* ConsoleView.swift in Sources */,
 				5A1A8E1628009CD200271575 /* URLTextField.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConsoleViewContainerController: UIViewController {
+class ConsoleContainerViewController: UIViewController {
 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var consoleScrollViewHeightConstraint: NSLayoutConstraint!
@@ -21,7 +21,6 @@ class ConsoleViewContainerController: UIViewController {
             lm.removeObserver(self, forKeyPath: "aLogIsSelected")
         }
     }
-
     var consoleScrollViewHeightAtStartOfGesture: CGFloat? = nil
     var wbLogManager: WBLogManager! {
         get {
@@ -31,7 +30,12 @@ class ConsoleViewContainerController: UIViewController {
             if let lm = self._wbLogManager {
                 lm.removeObserver(self, forKeyPath: "aLogIsSelected")
             }
-            logManager.addObserver(self, forKeyPath: "aLogIsSelected", options: [.initial, .new], context: nil)
+            logManager.addObserver(
+                self,
+                forKeyPath: "aLogIsSelected",
+                options: [.initial, .new],
+                context: nil
+            )
             self._wbLogManager = logManager
             for cvc in self.children {
                 guard let consVC = cvc as? ConsoleViewController else {
@@ -53,6 +57,7 @@ class ConsoleViewContainerController: UIViewController {
         gpb.string = text
         FlashAnimation(withView: self.copySuccessIndication).go()
     }
+
     @IBAction func dividerDrag(_ sender: UIPanGestureRecognizer) {
         let yTranslation = sender.translation(in: sender.view).y
         let gestureState = sender.state
@@ -64,18 +69,23 @@ class ConsoleViewContainerController: UIViewController {
             self.consoleScrollViewHeightAtStartOfGesture =
                 self.consoleScrollViewHeightConstraint.constant
         case .changed:
-            self.consoleScrollViewHeightConstraint.constant = (
-                self.consoleScrollViewHeightAtStartOfGesture!
-                - yTranslation
-            )
+            self.consoleScrollViewHeightConstraint.constant =
+                (self.consoleScrollViewHeightAtStartOfGesture!
+                    - yTranslation)
         case .ended:
             self.consoleScrollViewHeightAtStartOfGesture = nil
             self.consoleScrollViewHeightConstraint.constant = self.scrollView.frame.height
             UserDefaults.standard.setValue(
-                self.consoleScrollViewHeightConstraint.constant, forKey: "lastConsoleHeight"
+                self.consoleScrollViewHeightConstraint.constant,
+                forKey: ViewController.prefKeys.lastConsoleHeight.rawValue
             )
         default: NSLog("Unexpected gesture state \(gestureState)")
         }
+    }
+
+    @IBAction func closeConsole(_ sender: Any) {
+        NSLog("closeConsole")
+        self.performSegue(withIdentifier: "HideConsoleSegueID", sender: self)
     }
 
     // MARK: - View Delegate
@@ -97,7 +107,12 @@ class ConsoleViewContainerController: UIViewController {
     }
 
     // MARK: - KVO
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey: Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
         if keyPath == "aLogIsSelected" {
             self._configureImageView()
         }
