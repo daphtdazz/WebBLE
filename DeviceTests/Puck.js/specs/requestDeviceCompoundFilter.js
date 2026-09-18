@@ -3,7 +3,7 @@
 */
 /*jslint es6
 */
-describe('Filters', function () {
+describe('Filters-1.3.0', function () {
     "use strict";
 
     beforeEach(() => {

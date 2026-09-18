@@ -1,5 +1,5 @@
 // Added in 1.1.4
-describe('Filters', function () {
+describe('Filters-1.1.4', function () {
     "use strict";
 
     it('should allow no name or namePrefix', function (complete) {
@@ -19,7 +19,7 @@ describe('Filters', function () {
 });
 
 // Added in 1.1.6
-describe('Filters', function () {
+describe('Filters-1.1.6', function () {
     "use strict";
     const longString = (
         'this is a very long string more than 248 characters really it is i think it is a' +
