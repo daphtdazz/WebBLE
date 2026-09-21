@@ -33,6 +33,8 @@
 		5AA79DDD1FB3AA0C00A4FCB4 /* WBBluetoothUUID.js in Resources */ = {isa = PBXBuildFile; fileRef = 5AA79DDC1FB3AA0C00A4FCB4 /* WBBluetoothUUID.js */; };
 		5AC47CA61E2BE57000BCAE82 /* Tick@480.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AC47CA51E2BE57000BCAE82 /* Tick@480.png */; };
 		5AC47CA81E2CCF2F00BCAE82 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC47CA71E2CCF2F00BCAE82 /* Animations.swift */; };
+		5AC4AAF330618FCA00A5E7F9 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC4AAF230618FCA00A5E7F9 /* Errors.swift */; };
+		5AC4AAF63061D14F00A5E7F9 /* OpenInWebBLEAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC4AAF43061D14F00A5E7F9 /* OpenInWebBLEAppIntent.swift */; };
 		5AC676FC221CA557007B1562 /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC676FB221CA557007B1562 /* ErrorViewController.swift */; };
 		5AC7ECAB233D0F9700CE7A2A /* Segues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC7ECAA233D0F9700CE7A2A /* Segues.swift */; };
 		5AC7ECAD233D177700CE7A2A /* WBPopUpPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC7ECAC233D177700CE7A2A /* WBPopUpPickerView.swift */; };
@@ -96,6 +98,8 @@
 		5AA79DDC1FB3AA0C00A4FCB4 /* WBBluetoothUUID.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = WBBluetoothUUID.js; sourceTree = "<group>"; };
 		5AC47CA51E2BE57000BCAE82 /* Tick@480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tick@480.png"; sourceTree = "<group>"; };
 		5AC47CA71E2CCF2F00BCAE82 /* Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
+		5AC4AAF230618FCA00A5E7F9 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		5AC4AAF43061D14F00A5E7F9 /* OpenInWebBLEAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenInWebBLEAppIntent.swift; sourceTree = "<group>"; };
 		5AC676FB221CA557007B1562 /* ErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
 		5AC7ECAA233D0F9700CE7A2A /* Segues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segues.swift; sourceTree = "<group>"; };
 		5AC7ECAC233D177700CE7A2A /* WBPopUpPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBPopUpPickerView.swift; sourceTree = "<group>"; };
@@ -199,6 +203,22 @@
 			path = WBCore;
 			sourceTree = "<group>";
 		};
+		5AAF1C92306552EE00561C06 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5AC4AAF230618FCA00A5E7F9 /* Errors.swift */
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5AC4AAF53061D14F00A5E7F9 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				5AC4AAF43061D14F00A5E7F9 /* OpenInWebBLEAppIntent.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
 		5AE7D33C3052E9D500F70EC7 /* git-hooks */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,7 +272,10 @@
 		E44C18581A36203E00734F8B /* WebBLE */ = {
 			isa = PBXGroup;
 			children = (
+				5AAF1C8E30632A0A00561C06 /* OpenInShortcutsButtonView.swift */,
+				5AC4AAF53061D14F00A5E7F9 /* Intents */,
 				5A10929D2168D5F4002CC973 /* Bookmarks */,
+				5AAF1C92306552EE00561C06 /* Utils */,
 				5A5D621521EBA83D00E417DC /* NavigationViewController.swift */,
 				E44C185B1A36203E00734F8B /* AppDelegate.swift */,
 				E44C185D1A36203E00734F8B /* ViewController.swift */,
@@ -412,6 +435,7 @@
 				5A4B8E1F2157ABC500C7C858 /* ConsoleLogViewController.swift in Sources */,
 				BB4DBE651C97F577000D2C35 /* WBTransaction.swift in Sources */,
 				5AC7ECAB233D0F9700CE7A2A /* Segues.swift in Sources */,
+				5AC4AAF330618FCA00A5E7F9 /* Errors.swift in Sources */,
 				5AC7ECAD233D177700CE7A2A /* WBPopUpPickerView.swift in Sources */,
 				5AC47CA81E2CCF2F00BCAE82 /* Animations.swift in Sources */,
 				5AC8067D21655B5E00AA5176 /* DividerView.swift in Sources */,
@@ -429,6 +453,7 @@
 				5A1A8E1628009CD200271575 /* URLTextField.swift in Sources */,
 				5AC676FC221CA557007B1562 /* ErrorViewController.swift in Sources */,
 				5A7579ED2157907D003F0CEA /* ConsoleScrollView.swift in Sources */,
+				5AC4AAF63061D14F00A5E7F9 /* OpenInWebBLEAppIntent.swift in Sources */,
 				BB303DF31C42070C00FCAF24 /* WBManager.swift in Sources */,
 				5A6BF67A21F503DF0051EC98 /* WBPopUpPickerController.swift in Sources */,
 				5A1D3256216FC96500F3391C /* WBLogManager.swift in Sources */,

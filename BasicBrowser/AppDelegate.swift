@@ -23,10 +23,26 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    private var _app: UIApplication!
+
+    // MARK: - Code helpers
+    func firstWebBLEViewController() -> ViewController? {
+        guard
+            let scene = _app.connectedScenes.compactMap({ $0 as? UIWindowScene }).first,
+            let nc = scene.keyWindow?.rootViewController as? UINavigationController,
+            let vc = nc.topViewController as? ViewController
+        else {
+            return nil
+        }
+        return vc
+    }
+
+    // MARK: - UIApplicationDelegate
     func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+        willFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        self._app = application
         return true
     }
 
@@ -39,11 +55,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             name: "Default Configuration",
             sessionRole: connectingSceneSession.role
         )
-    }
-
-    func application(
-        _ application: UIApplication,
-        didDiscardSceneSessions sceneSessions: Set<UISceneSession>
-    ) {
     }
 }
