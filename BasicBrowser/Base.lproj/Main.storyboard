@@ -78,7 +78,7 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem enabled="NO" title="&lt;" image="chevron.backward" catalog="system" style="plain" id="NaX-Y9-Gfj">
+                        <barButtonItem enabled="NO" title="Back" image="chevron.backward" catalog="system" style="plain" id="NaX-Y9-Gfj">
                             <connections>
                                 <action selector="goBackward" destination="BYZ-38-t0r" id="9cc-Hj-PXP"/>
                             </connections>
@@ -95,7 +95,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem width="8" style="plain" systemItem="fixedSpace" id="vNO-d3-Qzl"/>
-                        <barButtonItem image="Console Button" width="28" id="uNi-2X-YpW">
+                        <barButtonItem title="Show Console" image="Console Button" width="28" id="uNi-2X-YpW">
                             <connections>
                                 <action selector="toggleConsole" destination="BYZ-38-t0r" id="r85-BZ-MHL"/>
                             </connections>
@@ -107,7 +107,12 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="pN2-Zw-LM0"/>
-                        <barButtonItem enabled="NO" image="chevron.forward" catalog="system" id="qhG-nx-nEQ">
+                        <barButtonItem enabled="NO" title="Forward" image="chevron.forward" catalog="system" id="qhG-nx-nEQ">
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="visibilityPriority">
+                                    <integer key="value" value="250"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="goForward" destination="BYZ-38-t0r" id="AKQ-a9-mYL"/>
                             </connections>
