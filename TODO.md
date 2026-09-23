@@ -9,7 +9,7 @@
 - [ ] 🐞 espruino IDE cannot reconnect to a disconnected device, or reconnect easily (assuming this is supposed to be possible)
 - [ ] 🏎️ better performance of console when lots of logs
 - [x] ✨ double tap divider / drag area of console to hide console
-- [ ] ✨ drag down on web view to refresh
+- [x] ✨ drag down on web view to refresh
 - [ ] ✨ better stack traces in console 
 - [ ] ✨ better way of selecting multiple logs to copy from console
 - [ ] ✨ nicer device picker view

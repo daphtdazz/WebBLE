@@ -40,6 +40,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
 
     // MARK: Internal
     var initialURL: URL?
+    let webViewRefreshControl = UIRefreshControl()
 
     var bookmarksManager = BookmarksManager(
         userDefaults: UserDefaults.standard, key: prefKeys.bookmarks.rawValue)
@@ -128,6 +129,11 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
             self.loadLocation(textLocation)
         }
     }
+    @objc func handlePullToRefresh() {
+        NSLog("Pull to refresh triggered")
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        self.refresh()
+    }
     @IBAction func showBars() {
         NSLog("Show bars")
         self.shouldShowBars = true
@@ -213,6 +219,8 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         self.webView.addNavigationDelegate(self)
         self.webView.scrollView.delegate = self
         self.webView.scrollView.clipsToBounds = false
+        self.webViewRefreshControl.addTarget(self, action: #selector(handlePullToRefresh), for: .valueChanged)
+        self.webView.scrollView.refreshControl = self.webViewRefreshControl
         self.webViewContainerController.addObserver(self, forKeyPath: "pickerIsShowing", options: [], context: nil)
 
         for path in ["canGoBack", "canGoForward"] {
@@ -290,6 +298,15 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         if let urlString = webView.url?.absoluteString {
             self.setLocationText(urlString)
         }
+    }
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        self.webViewRefreshControl.endRefreshing()
+    }
+    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        self.webViewRefreshControl.endRefreshing()
+    }
+    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        self.webViewRefreshControl.endRefreshing()
     }
 
     // MARK: - UIScrollViewDelegate
