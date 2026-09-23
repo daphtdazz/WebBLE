@@ -103,7 +103,7 @@
                         <barButtonItem width="8" style="plain" systemItem="fixedSpace" id="dS0-fO-69k"/>
                         <barButtonItem style="plain" systemItem="refresh" id="LXB-CH-4RT">
                             <connections>
-                                <action selector="reload" destination="BYZ-38-t0r" id="Naf-xG-hev"/>
+                                <action selector="refresh" destination="BYZ-38-t0r" id="ivY-6H-MwH"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="pN2-Zw-LM0"/>

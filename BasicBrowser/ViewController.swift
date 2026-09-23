@@ -40,7 +40,6 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
 
     // MARK: Internal
     var initialURL: URL?
-    var lastRefresh: Date?
 
     var bookmarksManager = BookmarksManager(
         userDefaults: UserDefaults.standard, key: prefKeys.bookmarks.rawValue)
@@ -108,25 +107,26 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         NSLog("Go backward")
         self.webView.goBack()
     }
-    @IBAction func reload() {
+    @IBAction func refresh() {
         if self.webView.url != nil {
-            if let lastRefresh = self.lastRefresh,
-                Date() < lastRefresh + 1 {
-                NSLog("Hard reload")
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
-                if self.webView.isLoading {
-                    self.webView.stopLoading()
-                }
-                self.webView.reloadFromOrigin()
-            } else {
-                NSLog("Reload")
-                self.webView.reload()
-            }
+            NSLog("Reload")
+            self.webView.reload()
         } else if let textLocation = self.locationTextField?.text {
             NSLog("Reload from location")
             self.loadLocation(textLocation)
         }
-        self.lastRefresh = Date()
+    }
+    @objc func forceRefresh() {
+        if self.webView.url != nil {
+            NSLog("Hard reload")
+            if self.webView.isLoading {
+                self.webView.stopLoading()
+            }
+            self.webView.reloadFromOrigin()
+        } else if let textLocation = self.locationTextField?.text {
+            NSLog("Reload from location")
+            self.loadLocation(textLocation)
+        }
     }
     @IBAction func showBars() {
         NSLog("Show bars")
@@ -218,6 +218,8 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         for path in ["canGoBack", "canGoForward"] {
             self.webView.addObserver(self, forKeyPath: path, options: .new, context: nil)
         }
+
+        self._configureRefreshButton()
 
         self.loadPreferences()
 
@@ -362,6 +364,15 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     }
 
     // MARK: - Private
+    private func _configureRefreshButton() {
+        // IB doesn't provide a way to add menus to UIBarButtonItems so do it in code
+        let frImage = UIImage(systemName: "arrow.clockwise.circle")
+        let forceRefreshAction = UIAction(title: "Force Refresh", image: frImage) {
+            [weak self] _ in
+            self?.forceRefresh()
+        }
+        refreshButton.menu = UIMenu(title: "", children: [forceRefreshAction])
+    }
     private func loadPreferences() {
 
         // Sort out the preferences we have.

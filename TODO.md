@@ -15,6 +15,7 @@
 - [ ] ✨ nicer device picker view
 - [ ] ✨ console view scroll following new logs
 - [ ] ✨ timestamp showable in console logs 
+- [x] ✨ better force refresh behaviour (long-tap refresh button)
 
 ## Chunky features
 
