@@ -16,7 +16,9 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegate, WKUIDelegate, UIScrollViewDelegate, ConsoleToggler {
+class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegate, WKUIDelegate,
+    UIScrollViewDelegate, ConsoleToggler
+{
 
     enum prefKeys: String {
         case bookmarks
@@ -43,7 +45,9 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     let webViewRefreshControl = UIRefreshControl()
 
     var bookmarksManager = BookmarksManager(
-        userDefaults: UserDefaults.standard, key: prefKeys.bookmarks.rawValue)
+        userDefaults: UserDefaults.standard,
+        key: prefKeys.bookmarks.rawValue
+    )
 
     var shouldShowBars = true {
         didSet {
@@ -59,24 +63,18 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     }
 
     var webViewContainerController: WBWebViewContainerController {
-        get {
-            return self.children.first(where: {$0 as? WBWebViewContainerController != nil}) as! WBWebViewContainerController
-        }
+        return self.children.first(where: { $0 as? WBWebViewContainerController != nil })
+            as! WBWebViewContainerController
     }
     var webViewController: WBWebViewController {
-        get {
-            return self.webViewContainerController.webViewController
-        }
+        return self.webViewContainerController.webViewController
     }
     var webView: WBWebView {
-        get {
-            return self.webViewController.webView
-        }
+        return self.webViewController.webView
     }
     var consoleCVC: ConsoleContainerViewController? {
-        get {
-            return self.children.first(where: {$0 as? ConsoleContainerViewController != nil}) as? ConsoleContainerViewController
-        }
+        return self.children.first(where: { $0 as? ConsoleContainerViewController != nil })
+            as? ConsoleContainerViewController
     }
 
     /** Tracked constraint to aid segue animations  */
@@ -90,8 +88,21 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
             let url = self.webView.url,
             url.absoluteString != "about:blank"
         else {
-            NSLog("Cannot bookmark \(self.webView.title ?? "<no title>") \(self.webView.url?.absoluteString ?? "<no url>")")
-            let uac = UIAlertController(title: "Unable to bookmark", message: "This page cannot be bookmarked as it has an invalid title or URL, or was a failed navigation", preferredStyle: .alert)
+            NSLog(
+                """
+                Cannot bookmark \(self.webView.title ?? "<no title>") \
+                \(self.webView.url?.absoluteString ?? "<no url>")
+                """
+            )
+            let uac = UIAlertController(
+                title: "Unable to bookmark",
+                message:
+                    """
+                    This page cannot be bookmarked as it has an invalid title or URL, \
+                    or was a failed navigation
+                    """,
+                preferredStyle: .alert
+            )
             uac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(uac, animated: true, completion: nil)
             return
@@ -189,12 +200,12 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     }
     @IBAction func unwindToWBController(sender: UIStoryboardSegue) {
         if let bvc = sender.source as? BookmarksViewController,
-           let tv = bvc.view as? UITableView,
-           let ip = tv.indexPathForSelectedRow {
+            let tv = bvc.view as? UITableView,
+            let ip = tv.indexPathForSelectedRow
+        {
             if ip.item >= self.bookmarksManager.bookmarks.count {
                 NSLog("Selected bookmark is out of range")
-            }
-            else {
+            } else {
                 self.webView.load(URLRequest(url: self.bookmarksManager.bookmarks[ip.item].url))
             }
         }
@@ -219,9 +230,18 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         self.webView.addNavigationDelegate(self)
         self.webView.scrollView.delegate = self
         self.webView.scrollView.clipsToBounds = false
-        self.webViewRefreshControl.addTarget(self, action: #selector(handlePullToRefresh), for: .valueChanged)
+        self.webViewRefreshControl.addTarget(
+            self,
+            action: #selector(handlePullToRefresh),
+            for: .valueChanged
+        )
         self.webView.scrollView.refreshControl = self.webViewRefreshControl
-        self.webViewContainerController.addObserver(self, forKeyPath: "pickerIsShowing", options: [], context: nil)
+        self.webViewContainerController.addObserver(
+            self,
+            forKeyPath: "pickerIsShowing",
+            options: [],
+            context: nil
+        )
 
         for path in ["canGoBack", "canGoForward"] {
             self.webView.addObserver(self, forKeyPath: path, options: .new, context: nil)
@@ -234,13 +254,16 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         // Load last location
         if let url = initialURL {
             loadURL(url)
-        }
-        else {
+        } else {
             var lastLocation: String
-            if let prefLoc = ud.value(forKey: WBWebViewContainerController.prefKeys.lastLocation.rawValue) as? String {
-            lastLocation = prefLoc
+            if let prefLoc = ud.value(
+                forKey: WBWebViewContainerController.prefKeys.lastLocation.rawValue
+            ) as? String {
+                lastLocation = prefLoc
             } else {
-                let svers = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+                let svers =
+                    Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+                    as! String
                 lastLocation = "https://www.greenparksoftware.co.uk/projects/webble/\(svers)"
             }
             self.loadLocation(lastLocation)
@@ -266,7 +289,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         nc.removeObserver(self, forKeyPath: "navBarIsHidden")
         super.viewWillDisappear(animated)
     }
-    
+
     func loadLocation(_ location: String) {
         var location = location
         if !location.hasPrefix("http://") && !location.hasPrefix("https://") {
@@ -293,7 +316,10 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     }
 
     // MARK: - WKNavigationDelegate
-    public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    public func webView(
+        _ webView: WKWebView,
+        didStartProvisionalNavigation navigation: WKNavigation!
+    ) {
 
         if let urlString = webView.url?.absoluteString {
             self.setLocationText(urlString)
@@ -302,10 +328,18 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         self.webViewRefreshControl.endRefreshing()
     }
-    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    public func webView(
+        _ webView: WKWebView,
+        didFail navigation: WKNavigation!,
+        withError error: Error
+    ) {
         self.webViewRefreshControl.endRefreshing()
     }
-    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    public func webView(
+        _ webView: WKWebView,
+        didFailProvisionalNavigation navigation: WKNavigation!,
+        withError error: Error
+    ) {
         self.webViewRefreshControl.endRefreshing()
     }
 
@@ -333,7 +367,8 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
             // given that it would be very unlikely for them to catch it at
             // exactly 0.0 offset.
             scrollView.setContentOffset(
-                CGPoint(x: 0.0, y: 1.0), animated: true
+                CGPoint(x: 0.0, y: 1.0),
+                animated: true
             )
         }
     }
@@ -346,7 +381,8 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
             // big scroll, don't scroll quite to top so that we can detect being
             // told to again and show the status bar
             scrollView.setContentOffset(
-                CGPoint(x: 0.0, y: 1.0), animated: true
+                CGPoint(x: 0.0, y: 1.0),
+                animated: true
             )
             return false
         }
@@ -356,7 +392,12 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     }
 
     // MARK: - Observe protocol
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey: Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
         guard
             let defKeyPath = keyPath,
             let defChange = change
@@ -398,7 +439,9 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         let prefsVersion = ud.integer(forKey: ViewController.prefKeys.version.rawValue)
 
         var hadPrefs = false
-        if let bma = ud.array(forKey: ViewController.prefKeys.bookmarks.rawValue) as? [[String: String]] {
+        if let bma = ud.array(forKey: ViewController.prefKeys.bookmarks.rawValue)
+            as? [[String: String]]
+        {
             self.bookmarksManager.mergeInBookmarkDicts(bookmarkDicts: bma)
             hadPrefs = true
         }
@@ -406,31 +449,33 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         // Merge in any defaults.
         let mb = Bundle.main
         guard let defPlistURL = mb.url(forResource: "Defaults", withExtension: "plist"),
-            let defDict = NSDictionary(contentsOf: defPlistURL) else {
-                assert(false, "Unexpectedly couldn't find defaults")
-                return
+            let defDict = NSDictionary(contentsOf: defPlistURL)
+        else {
+            assert(false, "Unexpectedly couldn't find defaults")
+            return
         }
 
-        let range = (!hadPrefs ? 0 : prefsVersion + 1) ..< self.currentPrefVersion + 1
+        let range = (!hadPrefs ? 0 : prefsVersion + 1)..<self.currentPrefVersion + 1
 
         for pref in range {
             guard let vDict = defDict.value(forKey: "\(pref)") as? [String: Any] else {
                 continue
             }
             vDict.forEach({
-                key, object in
+                key,
+                object in
                 guard let pKey = ViewController.prefKeys(rawValue: key)
-                    else {
-                        return
+                else {
+                    return
                 }
 
                 switch pKey {
                 case .bookmarks:
                     guard
                         let bdicts = object as? [[String: String]]
-                        else {
-                            assert(false, "Unexpectedly couldn't find bookmarks in defaults")
-                            return
+                    else {
+                        assert(false, "Unexpectedly couldn't find bookmarks in defaults")
+                        return
                     }
                     self.bookmarksManager.mergeInBookmarkDicts(bookmarkDicts: bdicts)
                 default:
@@ -443,17 +488,18 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         ud.set(self.currentPrefVersion, forKey: ViewController.prefKeys.version.rawValue)
     }
     func setHidesOnSwipesFromScrollView(_ scrollView: UIScrollView) {
-        // Due to an apparent bug this should not be called when the toolbar / navbar are animating up or down as far as possible as that seems to cause a crash
+        // Due to an apparent bug this should not be called when the toolbar / navbar
+        // are animating up or down as far as possible as that seems to cause a crash
         let yOffset = scrollView.contentOffset.y
         let frameHeight = scrollView.frame.size.height
         let contentHeight = scrollView.contentSize.height
         let nc = self.navigationController!
 
-        if yOffset + frameHeight > (
-            contentHeight > self.bottomMarginNotToHideBarsIn
+        if yOffset + frameHeight
+            > (contentHeight > self.bottomMarginNotToHideBarsIn
                 ? contentHeight - self.bottomMarginNotToHideBarsIn
-                : 0
-        ) {
+                : 0)
+        {
             if nc.hidesBarsOnSwipe {
                 nc.hidesBarsOnSwipe = false
             }

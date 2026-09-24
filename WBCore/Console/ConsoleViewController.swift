@@ -20,9 +20,7 @@ class ConsoleViewController: UIViewController {
         }
     }
     var consoleView: ConsoleView {
-        get {
-            return self.view as! ConsoleView
-        }
+        return self.view as! ConsoleView
     }
 
     deinit {
@@ -34,7 +32,10 @@ class ConsoleViewController: UIViewController {
     func insertLog(log: WBLog, at index: Int) {
         self._observeLog(log)
 
-        let clvc: ConsoleLogViewController = ConsoleLogViewController(nibName: "ConsoleLogView", bundle: nil)
+        let clvc: ConsoleLogViewController = ConsoleLogViewController(
+            nibName: "ConsoleLogView",
+            bundle: nil
+        )
         self.addChild(clvc)
         clvc.log = log
         let clv = clvc.view as! ConsoleLogView
@@ -43,7 +44,12 @@ class ConsoleViewController: UIViewController {
     }
 
     // MARK: - KVO
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey: Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
         let changeKind = NSKeyValueChange(rawValue: change![.kindKey] as! UInt)!
 
         if object as? WBLogManager === self.logManager {
