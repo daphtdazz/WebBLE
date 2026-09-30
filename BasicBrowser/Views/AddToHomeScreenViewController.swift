@@ -169,8 +169,6 @@ class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate 
         }
     }
 
-    // MARK: - Icon rendering
-
     private func _updateIconImage() async {
         let size = Self.iconSize
         let renderer = UIGraphicsImageRenderer(size: size)
@@ -209,18 +207,6 @@ class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate 
                     width: badgeSize.width,
                     height: badgeSize.height
                 )
-                let badgeBackingRect = badgeRect.insetBy(dx: -6, dy: -6)
-                UIColor.white.setFill()
-                UIBezierPath(
-                    roundedRect: badgeBackingRect,
-                    cornerRadius: badgeBackingRect.width * 0.2237
-                ).fill()
-
-                let badgePath = UIBezierPath(
-                    roundedRect: badgeRect,
-                    cornerRadius: badgeRect.width * 0.2237
-                )
-                badgePath.addClip()
                 logo.draw(in: badgeRect)
             }
         }
