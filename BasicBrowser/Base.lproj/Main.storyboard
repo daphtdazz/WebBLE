@@ -220,7 +220,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Console Button" width="25" height="23.5"/>
+        <image name="Console Button" width="28" height="28"/>
         <image name="Tick@480.png" width="480" height="480"/>
         <image name="chevron.backward" catalog="system" width="93" height="128"/>
         <image name="chevron.forward" catalog="system" width="93" height="128"/>
