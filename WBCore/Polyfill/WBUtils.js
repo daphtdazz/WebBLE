@@ -56,6 +56,51 @@ uk.co.greenparksoftware.wb = {};
         Object.defineProperty(target, key, {value: roDescriptors[key]});
       });
     },
+    getBestIconURL: function () {
+      var links = document.querySelectorAll(
+        ["link[rel~='icon']", "link[rel~='apple-touch-icon']"]
+      );
+
+      let bestLink = null;
+      let bestIsAppleTouch = false;
+      let lastRes = null;
+
+      for (const link of links) {
+        if (!link.href) {
+          continue;
+        }
+
+        const isAppleTouch = link.rel === 'apple-touch-icon';
+        if (bestIsAppleTouch && !isAppleTouch) {
+          continue;
+        }
+
+        // If resolution is not specified assume it's the worst.
+        let res = 0;
+        if (link.sizes) {
+          let match = link.sizes.toString().match(/(\d+)x(\d+)/);
+
+          if (match) {
+            let parsedRes = parseInt(match[1]);
+            if (!isNaN(parsedRes)) {
+              res = parsedRes;
+            }
+          }
+        }
+        if (
+          isAppleTouch === bestIsAppleTouch
+          && lastRes !== null
+          && lastRes > res
+        ) {
+          continue;
+        }
+
+        bestLink = link;
+        bestIsAppleTouch = isAppleTouch;
+        lastRes = res;
+      }
+      return bestLink && bestLink.href;
+    },
     mixin: function (target, src) {
       Object.assign(target.prototype, src.prototype);
       target.prototype.constructor = target;

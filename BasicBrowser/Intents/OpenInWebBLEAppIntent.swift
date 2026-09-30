@@ -43,3 +43,20 @@ struct WebBLEOpenURLAppIntent: AppIntent {
         return .result()
     }
 }
+
+@available(iOS 18.0, *)
+struct WebBLEShortcutsProvider: AppShortcutsProvider {
+    static var shortcutTileColor: ShortcutTileColor = ShortcutTileColor.grayBlue
+    static var appShortcuts: [AppShortcut] {
+        return [
+            AppShortcut(
+                intent: WebBLEOpenURLAppIntent(
+                    url: IntentParameter(title:"URL"),
+                ),
+                phrases: [AppShortcutPhrase("Open URL in \(.applicationName)")],
+                shortTitle: "Open URL",
+                systemImageName: "globe"
+            )
+        ]
+    }
+}

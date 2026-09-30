@@ -16,8 +16,13 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegate, WKUIDelegate,
-    UIScrollViewDelegate, ConsoleToggler
+class ViewController:
+    UIViewController,
+    UITextFieldDelegate,
+    UIScrollViewDelegate,
+    WKNavigationDelegate,
+    WKUIDelegate,
+    ConsoleToggler
 {
 
     enum prefKeys: String {
@@ -38,6 +43,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     @IBOutlet var goForwardButton: UIBarButtonItem!
     @IBOutlet var refreshButton: UIBarButtonItem!
     @IBOutlet var showConsoleButton: UIBarButtonItem!
+    @IBOutlet var addButton: UIBarButtonItem!
     @IBOutlet var extraShowBarsView: UIView!
 
     // MARK: Internal
@@ -61,7 +67,6 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
             )
         }
     }
-
     var webViewContainerController: WBWebViewContainerController {
         return self.children.first(where: { $0 as? WBWebViewContainerController != nil })
             as! WBWebViewContainerController
@@ -194,8 +199,12 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
 
     // MARK: - Segue handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let bvc = segue.destination as? BookmarksViewController {
+        switch segue.destination {
+        case let bvc as BookmarksViewController:
             bvc.bookmarksManager = self.bookmarksManager
+        case let athsvc as AddToHomeScreenViewController:
+            athsvc.webView = webView
+        default: break
         }
     }
     @IBAction func unwindToWBController(sender: UIStoryboardSegue) {

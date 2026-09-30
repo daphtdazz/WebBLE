@@ -3,6 +3,7 @@
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="25073"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -35,10 +36,10 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="509" height="667"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I1P-4j-XZZ">
-                                <rect key="frame" x="0.0" y="74" width="400" height="511"/>
+                                <rect key="frame" x="0.0" y="74" width="509" height="511"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="ew5-31-Qcw"/>
                                 </constraints>
@@ -47,14 +48,14 @@
                                 </connections>
                             </containerView>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tick@480.png" translatesAutoresizingMaskIntoConstraints="NO" id="6wE-az-iDp">
-                                <rect key="frame" x="78" y="209.5" width="240" height="240"/>
+                                <rect key="frame" x="132.5" y="209.5" width="240" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="em1-ft-ljS"/>
                                     <constraint firstAttribute="height" constant="240" id="qSE-Sl-Qc3"/>
                                 </constraints>
                             </imageView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NgV-mf-Lto">
-                                <rect key="frame" x="0.0" y="545" width="400" height="122"/>
+                                <rect key="frame" x="0.0" y="545" width="509" height="122"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="QVE-VE-sVj" appends="YES" id="J2j-S7-lR0"/>
@@ -84,14 +85,26 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="sXn-kx-dSX"/>
-                        <barButtonItem systemItem="add" id="r6k-jv-IC4">
+                        <barButtonItem title="Bookmark Page" image="bookmark" catalog="system" id="r6k-jv-IC4">
                             <connections>
                                 <action selector="addBookmark" destination="BYZ-38-t0r" id="SvN-L1-pFS"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem systemItem="bookmarks" id="jSv-KT-nTS">
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="visibilityPriority">
+                                    <integer key="value" value="250"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <segue destination="bL6-a5-4h5" kind="show" id="tde-jn-QQH"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Add to Home Screen" image="plus.app" catalog="system" id="JN6-uO-NGF">
+                            <connections>
+                                <segue destination="xqG-RX-h59" kind="popoverPresentation" popoverAnchorBarButtonItem="JN6-uO-NGF" id="9f7-ZQ-1gX">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
                             </connections>
                         </barButtonItem>
                         <barButtonItem width="8" style="plain" systemItem="fixedSpace" id="vNO-d3-Qzl"/>
@@ -102,6 +115,11 @@
                         </barButtonItem>
                         <barButtonItem width="8" style="plain" systemItem="fixedSpace" id="dS0-fO-69k"/>
                         <barButtonItem style="plain" systemItem="refresh" id="LXB-CH-4RT">
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="visibilityPriority">
+                                    <integer key="value" value="250"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="refresh" destination="BYZ-38-t0r" id="ivY-6H-MwH"/>
                             </connections>
@@ -121,7 +139,7 @@
                     <navigationItem key="navigationItem" id="5bm-lP-CUV">
                         <nil key="title"/>
                         <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="O1l-7F-uXL" customClass="URLTextField" customModule="WebBLE" customModuleProvider="target">
-                            <rect key="frame" x="29" y="5" width="343" height="34"/>
+                            <rect key="frame" x="83" y="5" width="343" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -132,7 +150,7 @@
                         </textField>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <size key="freeformSize" width="400" height="667"/>
+                    <size key="freeformSize" width="509" height="667"/>
                     <connections>
                         <outlet property="extraShowBarsView" destination="NgV-mf-Lto" id="bDg-v6-M0u"/>
                         <outlet property="goBackButton" destination="NaX-Y9-Gfj" id="0Xc-k5-kMK"/>
@@ -151,7 +169,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="148" y="250.52473763118442"/>
+            <point key="canvasLocation" x="147.19999999999999" y="250.52473763118442"/>
         </scene>
         <!--Bookmarks View Controller-->
         <scene sceneID="cuT-Se-jjO">
@@ -216,16 +234,537 @@
                 <viewControllerPlaceholder storyboardName="Console" referencedIdentifier="ConsoleViewContainer" id="key-17-bOS" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p79-a5-KcK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="396" y="730"/>
+            <point key="canvasLocation" x="188" y="722"/>
+        </scene>
+        <!--Add to Home Page-->
+        <scene sceneID="YKv-6y-xf0">
+            <objects>
+                <viewController title="Add to Home Page" id="xqG-RX-h59" customClass="AddToHomeScreenViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YMs-JN-icy">
+                        <rect key="frame" x="0.0" y="0.0" width="648" height="736"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Add to Home Screen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PEH-Lm-IWg">
+                                <rect key="frame" x="242" y="30" width="164" height="20"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="close" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="Qc2-0P-sHe">
+                                <rect key="frame" x="588" y="20" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Qc2-0P-sHe" secondAttribute="height" multiplier="1:1" id="e0f-b2-aeV"/>
+                                    <constraint firstAttribute="width" constant="40" id="vdp-GM-DI1"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <buttonConfiguration key="configuration" style="plain" buttonSize="large">
+                                    <imageReference key="image" image="checkmark.circle.fill" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="dismiss" destination="xqG-RX-h59" eventType="touchUpInside" id="rFJ-Ig-AAI"/>
+                                </connections>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MS2-Ag-aTX">
+                                <rect key="frame" x="0.0" y="70" width="648" height="666"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q9m-Vp-mjm" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="648" height="534"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Gp-5v-Q5q" userLabel="Actions Area">
+                                                <rect key="frame" x="100" y="0.0" width="528" height="534"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KKZ-3v-fgS" userLabel="Separator">
+                                                <rect key="frame" x="100" y="10" width="528" height="1"/>
+                                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="PRi-3N-8Ii"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GyS-oU-f8D" customClass="CheckmarkBadgeShowingView" customModule="WebBLE" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="19" width="50" height="50"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" fixedFrame="YES" image="1.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="wse-y4-zf8">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="YaO-Wj-mMi"/>
+                                                    <constraint firstAttribute="width" constant="50" id="ejm-ky-pBz"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6oy-1g-iUA">
+                                                <rect key="frame" x="243.5" y="26.5" width="241" height="35"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="tinted" title="Copy page URL to Clipboard"/>
+                                                <connections>
+                                                    <action selector="copyLink" destination="xqG-RX-h59" eventType="primaryActionTriggered" id="RPR-Io-jFm"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gCB-oz-sr0" userLabel="Separator">
+                                                <rect key="frame" x="100" y="77" width="528" height="1"/>
+                                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="yaL-0i-7Cz"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LVp-wV-TCQ" customClass="CheckmarkBadgeShowingView" customModule="WebBLE" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="86" width="50" height="50"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" fixedFrame="YES" image="2.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ACS-z8-OpO">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="JAp-09-mmV"/>
+                                                    <constraint firstAttribute="height" constant="50" id="Ju2-Fl-FEl"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save the icon to files (optional step):" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIc-zC-MT6">
+                                                <rect key="frame" x="100" y="101" width="528" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ge8-SN-Kmb" customClass="WellIconContainerView" customModule="WebBLE" customModuleProvider="target">
+                                                <rect key="frame" x="100" y="131.5" width="80" height="80"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z8a-90-1bz">
+                                                        <rect key="frame" x="10" y="10" width="60" height="60"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="60" id="PCi-Tt-1w8"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="Ge8-SN-Kmb" secondAttribute="height" multiplier="1:1" id="GPf-uK-lM9"/>
+                                                    <constraint firstItem="Z8a-90-1bz" firstAttribute="leading" secondItem="Ge8-SN-Kmb" secondAttribute="leading" constant="10" id="MjK-ND-gQJ"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Z8a-90-1bz" secondAttribute="trailing" constant="10" id="Ncv-0K-OVH"/>
+                                                    <constraint firstItem="Z8a-90-1bz" firstAttribute="top" secondItem="Ge8-SN-Kmb" secondAttribute="top" constant="10" id="Urq-Ij-P35"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Z8a-90-1bz" secondAttribute="bottom" constant="10" id="mah-ED-Bva"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="900" verticalCompressionResistancePriority="1000" text="Add WebBLE badge" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f58-bX-LRM">
+                                                <rect key="frame" x="426.5" y="136.5" width="128.5" height="28"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0G4-ak-gH8">
+                                                <rect key="frame" x="565" y="136.5" width="63" height="28"/>
+                                                <connections>
+                                                    <action selector="redrawBadge" destination="xqG-RX-h59" eventType="primaryActionTriggered" id="Obv-Lh-qme"/>
+                                                </connections>
+                                            </switch>
+                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h8i-lA-pR9">
+                                                <rect key="frame" x="530.5" y="184.5" width="97.5" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="tinted" title="Save icon"/>
+                                                <connections>
+                                                    <action selector="saveIconImage" destination="xqG-RX-h59" eventType="primaryActionTriggered" id="Uar-wv-4xm"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="McD-4v-Ykz" userLabel="Separator">
+                                                <rect key="frame" x="100" y="227" width="528" height="1"/>
+                                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="fWX-yw-RaB"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Utf-ao-jDg" customClass="CheckmarkBadgeShowingView" customModule="WebBLE" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="236" width="50" height="50"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" fixedFrame="YES" image="3.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6Dn-7E-Geh">
+                                                        <rect key="frame" x="0.0" y="1" width="50" height="50"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="Ufq-6P-oNg"/>
+                                                    <constraint firstAttribute="height" constant="50" id="aEd-sZ-Pgi"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to open WebBLE in Shortcuts:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beJ-vl-GVH">
+                                                <rect key="frame" x="234.5" y="236" width="259" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="left" translatesAutoresizingMaskIntoConstraints="NO" id="OSz-zx-a5K" customClass="OpenInShortcutsButtonView" customModule="WebBLE" customModuleProvider="target">
+                                                <rect key="frame" x="269" y="267" width="190" height="55"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="shortcuts button" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ngD-be-9Hp">
+                                                        <rect key="frame" x="32" y="17" width="127" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="190" id="deB-lw-WAb"/>
+                                                    <constraint firstAttribute="height" constant="55" id="m7r-Pw-1q3"/>
+                                                </constraints>
+                                                <connections>
+                                                    <action selector="showCheckmark" destination="Utf-ao-jDg" eventType="primaryActionTriggered" id="uuM-4f-lxw"/>
+                                                    <outlet property="widthConstraint" destination="deB-lw-WAb" id="yVd-ht-fSS"/>
+                                                </connections>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fAA-Lb-oeK" userLabel="Separator">
+                                                <rect key="frame" x="100" y="330" width="528" height="1"/>
+                                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="KFV-Io-Vev"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxZ-AK-8iQ" customClass="CheckmarkBadgeShowingView" customModule="WebBLE" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="339" width="50" height="50"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="4.circle" catalog="system" id="mv0-cn-0tn">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="3Vc-cT-t5G"/>
+                                                    <constraint firstAttribute="width" constant="50" id="xG3-PM-vtF"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FA8-aJ-znI">
+                                                <rect key="frame" x="100" y="339" width="528" height="61"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Tap and hold ">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment>
+                                                        <string key="content">Open URL
+</string>
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="systemBold" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="→ ">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="New Shortcut.">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="systemBold" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=" Paste the page URL in the URL field and add a name via ">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="top menu">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="systemBold" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=" → ">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="Rename">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="systemBold" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Az3-z9-Aui" userLabel="Separator">
+                                                <rect key="frame" x="100" y="408" width="528" height="1"/>
+                                                <viewLayoutGuide key="safeArea" id="kAU-yB-EuF"/>
+                                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="25B-AB-xoH"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SDx-V4-C6d" customClass="CheckmarkBadgeShowingView" customModule="WebBLE" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="417" width="50" height="50"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="5.circle" catalog="system" id="Pzq-cN-ag5">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <viewLayoutGuide key="safeArea" id="o80-qX-w4k"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="PZM-lX-L9p"/>
+                                                    <constraint firstAttribute="width" constant="50" id="X32-pj-omH"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvT-GX-AIZ" userLabel="From the shortcut's Title Bar Menu select Rename and name it">
+                                                <rect key="frame" x="100" y="421.5" width="528" height="41"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Tap the ">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="top menu">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="systemBold" size="17"/>
+                                                            <font key="NSOriginalFont" metaFont="systemBold" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=" → ">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="Add to Home Screen">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="systemBold" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=". Add your icon (if wanted) via ">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="Image">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="systemBold" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=" → ">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <font key="NSOriginalFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="Choose File">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="systemBold" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=". Tap ">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <font key="NSOriginalFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="Add">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="systemBold" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=" to finish">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <font key="NSOriginalFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=".">
+                                                        <attributes>
+                                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EqU-kN-3jp" userLabel="Separator">
+                                                <rect key="frame" x="100" y="470.5" width="528" height="1"/>
+                                                <viewLayoutGuide key="safeArea" id="ffM-Lx-etz"/>
+                                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="BEB-zq-YPC"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0O0-TM-LLJ">
+                                                <rect key="frame" x="289" y="479.5" width="70" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Done!"/>
+                                                <connections>
+                                                    <action selector="done" destination="xqG-RX-h59" eventType="primaryActionTriggered" id="RmV-9H-tM0"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="6oy-1g-iUA" firstAttribute="centerX" secondItem="1Gp-5v-Q5q" secondAttribute="centerX" id="093-hJ-Iyf"/>
+                                            <constraint firstItem="fAA-Lb-oeK" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="0JF-yn-AMS"/>
+                                            <constraint firstItem="cvT-GX-AIZ" firstAttribute="centerY" secondItem="SDx-V4-C6d" secondAttribute="centerY" priority="900" id="1W9-Mm-893"/>
+                                            <constraint firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" constant="20" id="37L-gy-47h"/>
+                                            <constraint firstItem="FA8-aJ-znI" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="5A6-WZ-bPD"/>
+                                            <constraint firstItem="FA8-aJ-znI" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="8BO-eg-Odx"/>
+                                            <constraint firstItem="0G4-ak-gH8" firstAttribute="leading" secondItem="f58-bX-LRM" secondAttribute="trailing" constant="10" id="9t4-6C-TEZ"/>
+                                            <constraint firstItem="FA8-aJ-znI" firstAttribute="top" relation="greaterThanOrEqual" secondItem="cxZ-AK-8iQ" secondAttribute="top" id="AmR-rP-Rga"/>
+                                            <constraint firstItem="Utf-ao-jDg" firstAttribute="leading" secondItem="LVp-wV-TCQ" secondAttribute="leading" id="Ayn-vJ-rVx"/>
+                                            <constraint firstItem="McD-4v-Ykz" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="BZB-98-HWf"/>
+                                            <constraint firstItem="McD-4v-Ykz" firstAttribute="top" secondItem="h8i-lA-pR9" secondAttribute="bottom" constant="8" symbolic="YES" id="Bzs-cm-ciq"/>
+                                            <constraint firstItem="GyS-oU-f8D" firstAttribute="top" secondItem="KKZ-3v-fgS" secondAttribute="bottom" constant="8" symbolic="YES" id="ECc-Es-pnT"/>
+                                            <constraint firstItem="1Gp-5v-Q5q" firstAttribute="leading" secondItem="Q9m-Vp-mjm" secondAttribute="leading" constant="100" id="Fki-py-cQX"/>
+                                            <constraint firstItem="0G4-ak-gH8" firstAttribute="centerY" secondItem="f58-bX-LRM" secondAttribute="centerY" id="GZX-8e-bg6"/>
+                                            <constraint firstItem="gCB-oz-sr0" firstAttribute="top" secondItem="GyS-oU-f8D" secondAttribute="bottom" constant="8" symbolic="YES" id="HE9-Fc-b0W"/>
+                                            <constraint firstItem="cvT-GX-AIZ" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="HWp-mp-fYf"/>
+                                            <constraint firstItem="bIc-zC-MT6" firstAttribute="centerY" secondItem="LVp-wV-TCQ" secondAttribute="centerY" id="IM2-Ak-MV6"/>
+                                            <constraint firstItem="f58-bX-LRM" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Ge8-SN-Kmb" secondAttribute="top" constant="5" id="JWt-QL-QPz"/>
+                                            <constraint firstItem="cvT-GX-AIZ" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="Ju3-u0-zU1"/>
+                                            <constraint firstItem="0G4-ak-gH8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Ge8-SN-Kmb" secondAttribute="top" constant="5" id="K4O-7v-S1x"/>
+                                            <constraint firstItem="0O0-TM-LLJ" firstAttribute="centerX" secondItem="Q9m-Vp-mjm" secondAttribute="centerX" id="MiQ-ss-Il7"/>
+                                            <constraint firstItem="gCB-oz-sr0" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="NAq-tn-zKR"/>
+                                            <constraint firstItem="Ge8-SN-Kmb" firstAttribute="top" secondItem="bIc-zC-MT6" secondAttribute="bottom" constant="10" id="Nad-0G-giY"/>
+                                            <constraint firstItem="Az3-z9-Aui" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="OR7-D5-QDI"/>
+                                            <constraint firstItem="1Gp-5v-Q5q" firstAttribute="top" secondItem="Q9m-Vp-mjm" secondAttribute="top" id="OwT-yY-YhL"/>
+                                            <constraint firstItem="cxZ-AK-8iQ" firstAttribute="top" secondItem="fAA-Lb-oeK" secondAttribute="bottom" constant="8" symbolic="YES" id="Ozr-ha-806"/>
+                                            <constraint firstItem="EqU-kN-3jp" firstAttribute="top" secondItem="cvT-GX-AIZ" secondAttribute="bottom" constant="8" symbolic="YES" id="P9f-dS-d28"/>
+                                            <constraint firstItem="Az3-z9-Aui" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="PsV-Nd-NiG"/>
+                                            <constraint firstItem="KKZ-3v-fgS" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="Q4H-rJ-Vlv"/>
+                                            <constraint firstItem="h8i-lA-pR9" firstAttribute="top" secondItem="f58-bX-LRM" secondAttribute="bottom" priority="900" constant="8" symbolic="YES" id="QKW-TF-exc"/>
+                                            <constraint firstItem="h8i-lA-pR9" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="QQh-Wq-ehH"/>
+                                            <constraint firstItem="Utf-ao-jDg" firstAttribute="top" secondItem="McD-4v-Ykz" secondAttribute="bottom" constant="8" symbolic="YES" id="R8y-ux-4rg"/>
+                                            <constraint firstItem="cvT-GX-AIZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SDx-V4-C6d" secondAttribute="top" id="S8H-5r-mV5"/>
+                                            <constraint firstItem="bIc-zC-MT6" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="SWQ-yp-rK6"/>
+                                            <constraint firstItem="bIc-zC-MT6" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="TDN-c8-24g"/>
+                                            <constraint firstItem="KKZ-3v-fgS" firstAttribute="top" secondItem="1Gp-5v-Q5q" secondAttribute="top" constant="10" id="TxV-qX-M1W"/>
+                                            <constraint firstAttribute="bottom" secondItem="0O0-TM-LLJ" secondAttribute="bottom" constant="20" symbolic="YES" id="WGc-Hb-vXA"/>
+                                            <constraint firstItem="cxZ-AK-8iQ" firstAttribute="leading" secondItem="Utf-ao-jDg" secondAttribute="leading" id="WN0-kI-3nF"/>
+                                            <constraint firstItem="h8i-lA-pR9" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Ge8-SN-Kmb" secondAttribute="bottom" id="XLa-oR-xWZ"/>
+                                            <constraint firstItem="GyS-oU-f8D" firstAttribute="leading" secondItem="Q9m-Vp-mjm" secondAttribute="leading" constant="20" id="Y4N-Ys-lQv"/>
+                                            <constraint firstItem="OSz-zx-a5K" firstAttribute="centerX" secondItem="1Gp-5v-Q5q" secondAttribute="centerX" id="YYH-f3-agS"/>
+                                            <constraint firstItem="0O0-TM-LLJ" firstAttribute="top" secondItem="EqU-kN-3jp" secondAttribute="bottom" constant="8" symbolic="YES" id="Yn1-Me-0Yj"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="600" id="YsB-gP-qmt"/>
+                                            <constraint firstItem="Ge8-SN-Kmb" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="ZFV-Gh-VXW"/>
+                                            <constraint firstItem="beJ-vl-GVH" firstAttribute="top" secondItem="Utf-ao-jDg" secondAttribute="top" id="Zg7-Sa-kk0"/>
+                                            <constraint firstItem="KKZ-3v-fgS" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="ZvX-dE-3sl"/>
+                                            <constraint firstItem="fAA-Lb-oeK" firstAttribute="top" secondItem="OSz-zx-a5K" secondAttribute="bottom" constant="8" symbolic="YES" id="cNo-s8-ZfM"/>
+                                            <constraint firstItem="f58-bX-LRM" firstAttribute="top" secondItem="Ge8-SN-Kmb" secondAttribute="top" priority="500" id="ech-ne-fc9"/>
+                                            <constraint firstItem="FA8-aJ-znI" firstAttribute="centerY" secondItem="cxZ-AK-8iQ" secondAttribute="centerY" priority="900" id="egg-J9-cDk"/>
+                                            <constraint firstItem="LVp-wV-TCQ" firstAttribute="top" secondItem="gCB-oz-sr0" secondAttribute="bottom" constant="8" symbolic="YES" id="fZH-Ca-jCC"/>
+                                            <constraint firstItem="EqU-kN-3jp" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="fil-KV-lSJ"/>
+                                            <constraint firstItem="f58-bX-LRM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ge8-SN-Kmb" secondAttribute="trailing" constant="8" symbolic="YES" id="ipb-hp-Xii"/>
+                                            <constraint firstItem="SDx-V4-C6d" firstAttribute="leading" secondItem="cxZ-AK-8iQ" secondAttribute="leading" id="lAF-7Q-6Lx"/>
+                                            <constraint firstItem="Az3-z9-Aui" firstAttribute="top" secondItem="FA8-aJ-znI" secondAttribute="bottom" constant="8" symbolic="YES" id="njO-Q6-BRd"/>
+                                            <constraint firstAttribute="bottom" secondItem="1Gp-5v-Q5q" secondAttribute="bottom" id="phF-Jw-OFs"/>
+                                            <constraint firstItem="SDx-V4-C6d" firstAttribute="top" secondItem="Az3-z9-Aui" secondAttribute="bottom" constant="8" symbolic="YES" id="qG2-4h-Ylp"/>
+                                            <constraint firstItem="EqU-kN-3jp" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="qYZ-uS-pas"/>
+                                            <constraint firstItem="h8i-lA-pR9" firstAttribute="top" relation="greaterThanOrEqual" secondItem="f58-bX-LRM" secondAttribute="bottom" constant="20" id="rYX-4z-nLf"/>
+                                            <constraint firstItem="beJ-vl-GVH" firstAttribute="centerX" secondItem="1Gp-5v-Q5q" secondAttribute="centerX" id="rld-7r-4ad"/>
+                                            <constraint firstItem="gCB-oz-sr0" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="rxB-7t-Bhj"/>
+                                            <constraint firstItem="6oy-1g-iUA" firstAttribute="centerY" secondItem="GyS-oU-f8D" secondAttribute="centerY" id="taL-xD-vl1"/>
+                                            <constraint firstItem="0G4-ak-gH8" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" constant="-2" id="tsO-Zp-opX"/>
+                                            <constraint firstItem="OSz-zx-a5K" firstAttribute="top" secondItem="beJ-vl-GVH" secondAttribute="bottom" constant="10" id="tuX-rn-yJY"/>
+                                            <constraint firstItem="LVp-wV-TCQ" firstAttribute="leading" secondItem="GyS-oU-f8D" secondAttribute="leading" id="xj0-V9-Dmk"/>
+                                            <constraint firstItem="fAA-Lb-oeK" firstAttribute="trailing" secondItem="1Gp-5v-Q5q" secondAttribute="trailing" id="xuJ-gM-MUg"/>
+                                            <constraint firstItem="McD-4v-Ykz" firstAttribute="leading" secondItem="1Gp-5v-Q5q" secondAttribute="leading" id="xwx-y4-WBs"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="7jd-YD-6oL" firstAttribute="bottom" secondItem="Q9m-Vp-mjm" secondAttribute="bottom" id="1U6-jJ-Dfe"/>
+                                    <constraint firstItem="Q9m-Vp-mjm" firstAttribute="centerX" secondItem="bqM-JS-CwX" secondAttribute="centerX" id="4Wi-L1-T7O"/>
+                                    <constraint firstItem="Q9m-Vp-mjm" firstAttribute="trailing" secondItem="7jd-YD-6oL" secondAttribute="trailing" id="DD3-Q1-b3s"/>
+                                    <constraint firstItem="Q9m-Vp-mjm" firstAttribute="top" secondItem="7jd-YD-6oL" secondAttribute="top" id="GPW-Ba-52V"/>
+                                    <constraint firstItem="7jd-YD-6oL" firstAttribute="leading" secondItem="Q9m-Vp-mjm" secondAttribute="leading" id="qFq-xW-ToD"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="7jd-YD-6oL"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="bqM-JS-CwX"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="fgA-DT-HOz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fgA-DT-HOz" firstAttribute="trailing" secondItem="MS2-Ag-aTX" secondAttribute="trailing" id="Jx2-i7-Lnr"/>
+                            <constraint firstItem="PEH-Lm-IWg" firstAttribute="centerX" secondItem="fgA-DT-HOz" secondAttribute="centerX" id="QF5-FK-2yr"/>
+                            <constraint firstItem="MS2-Ag-aTX" firstAttribute="top" secondItem="fgA-DT-HOz" secondAttribute="top" constant="70" id="Tob-m0-Mor"/>
+                            <constraint firstItem="MS2-Ag-aTX" firstAttribute="leading" secondItem="fgA-DT-HOz" secondAttribute="leading" id="WjL-wG-r8o"/>
+                            <constraint firstItem="fgA-DT-HOz" firstAttribute="bottom" secondItem="MS2-Ag-aTX" secondAttribute="bottom" id="XTV-U5-TN9"/>
+                            <constraint firstItem="Qc2-0P-sHe" firstAttribute="centerY" secondItem="PEH-Lm-IWg" secondAttribute="centerY" id="a4u-9I-J5I"/>
+                            <constraint firstItem="PEH-Lm-IWg" firstAttribute="top" secondItem="fgA-DT-HOz" secondAttribute="top" constant="30" id="kfr-ee-VEE"/>
+                            <constraint firstItem="Q9m-Vp-mjm" firstAttribute="width" secondItem="YMs-JN-icy" secondAttribute="width" priority="900" id="uUM-Vb-N3m"/>
+                            <constraint firstItem="fgA-DT-HOz" firstAttribute="trailing" secondItem="Qc2-0P-sHe" secondAttribute="trailing" constant="20" id="uYh-gp-4A3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add to Home Page" id="eN7-rT-S7Z"/>
+                    <size key="freeformSize" width="648" height="736"/>
+                    <connections>
+                        <outlet property="addLogoSwitch" destination="0G4-ak-gH8" id="k6B-rm-NB4"/>
+                        <outlet property="addToHomeScreenBadgeView" destination="SDx-V4-C6d" id="tfP-hQ-yQy"/>
+                        <outlet property="copyIconBadgeView" destination="LVp-wV-TCQ" id="Na6-rz-pC7"/>
+                        <outlet property="copyLinkBadgeView" destination="GyS-oU-f8D" id="66E-WP-3oP"/>
+                        <outlet property="copyLinkButton" destination="6oy-1g-iUA" id="O0z-A6-tXP"/>
+                        <outlet property="iconImageView" destination="Z8a-90-1bz" id="eEr-Oc-Mha"/>
+                        <outlet property="newShortcutBadgeView" destination="cxZ-AK-8iQ" id="vHr-7a-wvp"/>
+                        <outlet property="openShortcutsBadgeView" destination="Utf-ao-jDg" id="5Di-GI-VRD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RgZ-5b-7Fg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="694.39999999999998" y="1077.6611694152925"/>
         </scene>
     </scenes>
     <resources>
+        <image name="1.circle" catalog="system" width="128" height="128"/>
+        <image name="2.circle" catalog="system" width="128" height="128"/>
+        <image name="3.circle" catalog="system" width="128" height="128"/>
+        <image name="4.circle" catalog="system" width="128" height="128"/>
+        <image name="5.circle" catalog="system" width="128" height="128"/>
         <image name="Console Button" width="28" height="28"/>
         <image name="Tick@480.png" width="480" height="480"/>
+        <image name="bookmark" catalog="system" width="107" height="128"/>
+        <image name="checkmark.circle.fill" catalog="system" width="128" height="128"/>
         <image name="chevron.backward" catalog="system" width="93" height="128"/>
         <image name="chevron.forward" catalog="system" width="93" height="128"/>
+        <image name="plus.app" catalog="system" width="128" height="119"/>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

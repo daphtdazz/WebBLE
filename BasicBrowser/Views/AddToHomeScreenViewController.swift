@@ -1,0 +1,235 @@
+//
+//  AddToHomeScreenViewController.swift
+//  BleBrowser
+//
+
+import UIKit
+import WebKit
+
+let DONE_DISMISS_DELAY = 0.15
+
+/// iOS does not have a way for apps to create arbitrary additional home-screen icons that launch into them.
+/// It does have a way to do this however via shortcuts: expose an "Intent" that shortcuts can use then the user
+/// can create and parameterize a shortcut and add it to the home screen.
+/// Since adding shortcuts to pages to open in WebBLE could be very handy, this panel tries to make it as straight-forward
+/// as possible for a user to do that.
+class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate {
+
+    // MARK: - Properties
+    var webView: WBWebView!  // initialized by segue
+    var addWebBLEIconBadge: Bool = false
+
+    // MARK: - IBOutlets
+    @IBOutlet var copyLinkBadgeView: CheckmarkBadgeShowingView!
+    @IBOutlet var copyLinkButton: UIButton!
+    @IBOutlet var copyIconBadgeView: CheckmarkBadgeShowingView!
+    @IBOutlet var iconImageView: UIImageView!
+    @IBOutlet var addLogoSwitch: UISwitch!
+    @IBOutlet var openShortcutsBadgeView: CheckmarkBadgeShowingView!
+    @IBOutlet var newShortcutBadgeView: CheckmarkBadgeShowingView!
+    @IBOutlet var addToHomeScreenBadgeView: CheckmarkBadgeShowingView!
+
+    var badgeViews: [CheckmarkBadgeShowingView] {
+        return [
+            copyLinkBadgeView,
+            copyIconBadgeView,
+            openShortcutsBadgeView,
+            newShortcutBadgeView,
+            addToHomeScreenBadgeView,
+        ]
+    }
+
+    // MARK: - IBActions
+    @IBAction func dismiss() {
+        self.presentingViewController?.dismiss(animated: true)
+    }
+    @IBAction func done() {
+        for bv in badgeViews {
+            bv.showCheckmark()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + DONE_DISMISS_DELAY) {
+            self.presentingViewController?.dismiss(animated: true)
+        }
+    }
+
+    @IBAction func copyLink() {
+        guard let currentLink = webView?.url else {
+            // Not expecting this to happen but be defensive and make a log for debugging
+            NSLog("Unable to copy link")
+            return
+        }
+        UIPasteboard.general.string = currentLink.absoluteString
+        let originalTitle = self.copyLinkButton.titleLabel?.text ?? "Copy Link"
+        self.copyLinkButton.setTitle("Copied!", for: .normal)
+        DispatchQueue.main
+            .asyncAfter(
+                deadline:
+                    .now()
+                    + CheckmarkBadgeShowingView.DWELL_DURATION
+                    + CheckmarkBadgeShowingView.SHOW_DURATION
+            ) { [weak self] in
+                NSLog("restore title \(originalTitle)")
+                self?.copyLinkButton.setTitle(originalTitle, for: .normal)
+            }
+        copyLinkBadgeView.showCheckmark()
+    }
+
+    @IBAction func redrawBadge() {
+        Task {
+            await self._updateIconImage()
+        }
+    }
+
+    @IBAction func saveIconImage() {
+        guard
+            let image = self.currentIconImage,
+            let pngData = image.pngData()
+        else { return }
+
+        let safeName = (self.webView.title ?? "Uknown web page")
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .filter { !$0.isEmpty }
+            .joined(separator: "-")
+        let fileName = (safeName.isEmpty ? "webble-icon" : safeName) + ".png"
+        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+
+        do {
+            try pngData.write(to: tempURL, options: .atomic)
+        } catch {
+            NSLog("Failed to write Home Screen icon image: \(error)")
+            return
+        }
+
+        let picker = UIDocumentPickerViewController(forExporting: [tempURL])
+        picker.delegate = self
+        self.present(picker, animated: true)
+    }
+
+    // MARK: - UIViewController entrypoints
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        Task {
+            do {
+                try await self._downloadIcon()
+                await self._updateIconImage()
+            } catch let e {
+                NSLog("Error building image \(e)")
+            }
+        }
+    }
+
+    // MARK: - UIDocumentPickerDelegate entrypoints
+    func documentPicker(
+        _ controller: UIDocumentPickerViewController,
+        didPickDocumentsAt: [URL]
+    ) {
+        self.copyIconBadgeView.showCheckmark()
+    }
+
+    // MARK: - Internals for building the image
+    private var _iconImage: UIImage?
+    private var currentIconImage: UIImage?
+
+    private static let iconSize = CGSize(width: 512, height: 512)
+    private static let badgeSizeProportion = 0.3
+    // Matches the corner radius Apple uses for its own app icons at this size.
+    private static let iconCornerRadius: CGFloat = iconSize.width * 0.2237
+
+    func _downloadIcon() async throws {
+        let result: Any?
+        do {
+            try result = await self.webView.evaluateJavaScript(
+                "uk.co.greenparksoftware.wbutils.getBestIconURL();"
+            )
+        } catch let e {
+            NSLog("Exception fetching icon URL: \(e)")
+            return
+        }
+        let iconURLq =
+            (result as? String).flatMap(URL.init(string:))
+        guard let iconURL = iconURLq else {
+            NSLog("No favicon found!")
+            return
+        }
+        NSLog("got favicon url \(iconURL.absoluteString)")
+
+        await withCheckedContinuation(function: "Download \(iconURL.absoluteString)") {
+            [self] continuation in
+            URLSession.shared.dataTask(with: iconURL) {
+                [self] data, _, _ in
+                guard let data, let image = UIImage(data: data) else {
+                    NSLog("Unable to download the icon at \(iconURL.absoluteString)")
+                    self._iconImage = nil
+                    continuation.resume()
+                    return
+                }
+                self._iconImage = image
+                continuation.resume()
+            }.resume()
+        }
+    }
+
+    // MARK: - Icon rendering
+
+    private func _updateIconImage() async {
+        let size = Self.iconSize
+        let renderer = UIGraphicsImageRenderer(size: size)
+        let image = renderer.image { _ in
+            let rect = CGRect(origin: .zero, size: size)
+            let path = UIBezierPath(roundedRect: rect, cornerRadius: Self.iconCornerRadius)
+            path.addClip()
+
+            UIColor.white.setFill()
+            path.fill()
+
+            if let favicon = self._iconImage {
+                favicon.draw(in: rect)
+            } else {
+                let globeSize = CGSize(width: size.width * 0.5, height: size.height * 0.5)
+                let globeRect = CGRect(
+                    x: (size.width - globeSize.width) / 2,
+                    y: (size.height - globeSize.height) / 2,
+                    width: globeSize.width,
+                    height: globeSize.height
+                )
+                UIImage(systemName: "globe")?
+                    .withTintColor(.systemGray2, renderingMode: .alwaysOriginal)
+                    .draw(in: globeRect)
+            }
+
+            if self.addLogoSwitch.isOn, let logo = UIImage(named: "Mini Logo") {
+                let inset = size.width * 0.04
+                let badgeSize = CGSize(
+                    width: size.width * Self.badgeSizeProportion,
+                    height: size.height * Self.badgeSizeProportion
+                )
+                let badgeRect = CGRect(
+                    x: size.width - badgeSize.width - inset,
+                    y: size.height - badgeSize.height - inset,
+                    width: badgeSize.width,
+                    height: badgeSize.height
+                )
+                let badgeBackingRect = badgeRect.insetBy(dx: -6, dy: -6)
+                UIColor.white.setFill()
+                UIBezierPath(
+                    roundedRect: badgeBackingRect,
+                    cornerRadius: badgeBackingRect.width * 0.2237
+                ).fill()
+
+                let badgePath = UIBezierPath(
+                    roundedRect: badgeRect,
+                    cornerRadius: badgeRect.width * 0.2237
+                )
+                badgePath.addClip()
+                logo.draw(in: badgeRect)
+            }
+        }
+        await withCheckedContinuation { [self] continuation in
+            DispatchQueue.main.async {
+                self.currentIconImage = image
+                self.iconImageView.image = image
+                continuation.resume()
+            }
+        }
+    }
+}
