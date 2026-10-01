@@ -16,8 +16,13 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegate, WKUIDelegate,
-    UIScrollViewDelegate, ConsoleToggler
+class ViewController:
+    UIViewController,
+    UITextFieldDelegate,
+    UIScrollViewDelegate,
+    WKNavigationDelegate,
+    WKUIDelegate,
+    ConsoleToggler
 {
 
     enum prefKeys: String {
@@ -38,6 +43,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     @IBOutlet var goForwardButton: UIBarButtonItem!
     @IBOutlet var refreshButton: UIBarButtonItem!
     @IBOutlet var showConsoleButton: UIBarButtonItem!
+    @IBOutlet var addButton: UIBarButtonItem!
     @IBOutlet var extraShowBarsView: UIView!
 
     // MARK: Internal
@@ -48,6 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         userDefaults: UserDefaults.standard,
         key: prefKeys.bookmarks.rawValue
     )
+    weak var addToHomeScreenVC: AddToHomeScreenViewController? = nil
 
     var shouldShowBars = true {
         didSet {
@@ -61,7 +68,6 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
             )
         }
     }
-
     var webViewContainerController: WBWebViewContainerController {
         return self.children.first(where: { $0 as? WBWebViewContainerController != nil })
             as! WBWebViewContainerController
@@ -80,8 +86,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
     /** Tracked constraint to aid segue animations  */
     weak var consoleViewBottomConstraint: NSLayoutConstraint? = nil
 
-    // MARK: - API
-    // MARK: IBActions
+    // MARK: - IBActions
     @IBAction func addBookmark() {
         guard
             let title = self.webView.title,
@@ -189,13 +194,17 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         ccvc.removeFromParent()
         ccvc.view!.removeFromSuperview()
         UserDefaults.standard.setValue(false, forKey: ViewController.prefKeys.consoleOpen.rawValue)
-        NSLog("Console CVC removed")
     }
 
     // MARK: - Segue handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let bvc = segue.destination as? BookmarksViewController {
+        switch segue.destination {
+        case let bvc as BookmarksViewController:
             bvc.bookmarksManager = self.bookmarksManager
+        case let athsvc as AddToHomeScreenViewController:
+            athsvc.webView = webView
+            self.addToHomeScreenVC = athsvc
+        default: break
         }
     }
     @IBAction func unwindToWBController(sender: UIStoryboardSegue) {
@@ -308,7 +317,13 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
             return
         }
         self.setLocationText(url.absoluteString)
+        let sameURL = self.webView.url == url
+        if sameURL {
+            self.addToHomeScreenVC?.done(dwellSeconds: 0.8)
+            return
+        }
         self.webView.load(URLRequest(url: url))
+        self.addToHomeScreenVC?.dismiss()
     }
     func setLocationText(_ text: String) {
         self.locationTextField.text = text

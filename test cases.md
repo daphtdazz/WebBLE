@@ -66,3 +66,7 @@
 # 1.4 manual test cases
 
 1. requestDevice, see popup come up, then navigate to a different page or refresh. popup should go away.
+
+# 1.8 manual test cases
+
+1. Follow "add to home screen" flow and ensure it all works
