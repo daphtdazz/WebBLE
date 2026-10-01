@@ -75,14 +75,12 @@ class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate 
     }
 
     @IBAction func redrawBadge() {
-        Task {
-            await self._updateIconImage()
-        }
+        self._updateIconImage()
     }
 
     @IBAction func saveIconImage() {
         guard
-            let image = self.currentIconImage,
+            let image = self._currentIconImage,
             let pngData = image.pngData()
         else { return }
 
@@ -111,7 +109,7 @@ class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate 
         Task {
             do {
                 try await self._downloadIcon()
-                await self._updateIconImage()
+                self._updateIconImage()
             } catch let e {
                 NSLog("Error building image \(e)")
             }
@@ -128,7 +126,7 @@ class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate 
 
     // MARK: - Internals for building the image
     private var _iconImage: UIImage?
-    private var currentIconImage: UIImage?
+    private var _currentIconImage: UIImage?
 
     private static let iconSize = CGSize(width: 512, height: 512)
     private static let badgeSizeProportion = 0.3
@@ -151,25 +149,23 @@ class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate 
             NSLog("No favicon found!")
             return
         }
-        NSLog("got favicon url \(iconURL.absoluteString)")
 
-        await withCheckedContinuation(function: "Download \(iconURL.absoluteString)") {
-            [self] continuation in
-            URLSession.shared.dataTask(with: iconURL) {
-                [self] data, _, _ in
+        self._iconImage = await withCheckedContinuation(
+            function: "Download \(iconURL.absoluteString)"
+        ) {
+            continuation in
+            URLSession.shared.dataTask(with: iconURL) { data, _, _ in
                 guard let data, let image = UIImage(data: data) else {
                     NSLog("Unable to download the icon at \(iconURL.absoluteString)")
-                    self._iconImage = nil
-                    continuation.resume()
+                    continuation.resume(returning: nil)
                     return
                 }
-                self._iconImage = image
-                continuation.resume()
+                continuation.resume(returning: image)
             }.resume()
         }
     }
 
-    private func _updateIconImage() async {
+    private func _updateIconImage() {
         let size = Self.iconSize
         let renderer = UIGraphicsImageRenderer(size: size)
         let image = renderer.image { _ in
@@ -210,12 +206,7 @@ class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate 
                 logo.draw(in: badgeRect)
             }
         }
-        await withCheckedContinuation { [self] continuation in
-            DispatchQueue.main.async {
-                self.currentIconImage = image
-                self.iconImageView.image = image
-                continuation.resume()
-            }
-        }
+        self._currentIconImage = image
+        self.iconImageView.image = image
     }
 }

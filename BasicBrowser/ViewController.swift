@@ -194,7 +194,6 @@ class ViewController:
         ccvc.removeFromParent()
         ccvc.view!.removeFromSuperview()
         UserDefaults.standard.setValue(false, forKey: ViewController.prefKeys.consoleOpen.rawValue)
-        NSLog("Console CVC removed")
     }
 
     // MARK: - Segue handling
