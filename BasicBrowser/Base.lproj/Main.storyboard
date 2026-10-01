@@ -268,10 +268,10 @@
                                 <rect key="frame" x="0.0" y="70" width="648" height="666"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q9m-Vp-mjm" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="648" height="534"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="648" height="519"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Gp-5v-Q5q" userLabel="Actions Area">
-                                                <rect key="frame" x="100" y="0.0" width="528" height="534"/>
+                                                <rect key="frame" x="100" y="0.0" width="528" height="519"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KKZ-3v-fgS" userLabel="Separator">
                                                 <rect key="frame" x="100" y="10" width="528" height="1"/>
@@ -323,13 +323,13 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save the icon to files (optional step):" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIc-zC-MT6">
-                                                <rect key="frame" x="100" y="101" width="528" height="20.5"/>
+                                                <rect key="frame" x="100" y="86" width="528" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ge8-SN-Kmb" customClass="WellIconContainerView" customModule="WebBLE" customModuleProvider="target">
-                                                <rect key="frame" x="100" y="131.5" width="80" height="80"/>
+                                                <rect key="frame" x="100" y="116.5" width="80" height="80"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z8a-90-1bz">
                                                         <rect key="frame" x="10" y="10" width="60" height="60"/>
@@ -348,19 +348,19 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="900" verticalCompressionResistancePriority="1000" text="Add WebBLE badge" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f58-bX-LRM">
-                                                <rect key="frame" x="426.5" y="136.5" width="128.5" height="28"/>
+                                                <rect key="frame" x="426.5" y="121.5" width="128.5" height="28"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0G4-ak-gH8">
-                                                <rect key="frame" x="565" y="136.5" width="63" height="28"/>
+                                                <rect key="frame" x="565" y="121.5" width="63" height="28"/>
                                                 <connections>
                                                     <action selector="redrawBadge" destination="xqG-RX-h59" eventType="primaryActionTriggered" id="Obv-Lh-qme"/>
                                                 </connections>
                                             </switch>
                                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h8i-lA-pR9">
-                                                <rect key="frame" x="530.5" y="184.5" width="97.5" height="34.5"/>
+                                                <rect key="frame" x="530.5" y="169.5" width="97.5" height="34.5"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="tinted" title="Save icon"/>
                                                 <connections>
@@ -368,14 +368,14 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="McD-4v-Ykz" userLabel="Separator">
-                                                <rect key="frame" x="100" y="227" width="528" height="1"/>
+                                                <rect key="frame" x="100" y="212" width="528" height="1"/>
                                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="fWX-yw-RaB"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Utf-ao-jDg" customClass="CheckmarkBadgeShowingView" customModule="WebBLE" customModuleProvider="target">
-                                                <rect key="frame" x="20" y="236" width="50" height="50"/>
+                                                <rect key="frame" x="20" y="221" width="50" height="50"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" fixedFrame="YES" image="3.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6Dn-7E-Geh">
                                                         <rect key="frame" x="0.0" y="1" width="50" height="50"/>
@@ -388,13 +388,13 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to open WebBLE in Shortcuts:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beJ-vl-GVH">
-                                                <rect key="frame" x="234.5" y="236" width="259" height="21"/>
+                                                <rect key="frame" x="234.5" y="221" width="259" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="left" translatesAutoresizingMaskIntoConstraints="NO" id="OSz-zx-a5K" customClass="OpenInShortcutsButtonView" customModule="WebBLE" customModuleProvider="target">
-                                                <rect key="frame" x="269" y="267" width="190" height="55"/>
+                                                <rect key="frame" x="269" y="252" width="190" height="55"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="shortcuts button" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ngD-be-9Hp">
                                                         <rect key="frame" x="32" y="17" width="127" height="21"/>
@@ -415,14 +415,14 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fAA-Lb-oeK" userLabel="Separator">
-                                                <rect key="frame" x="100" y="330" width="528" height="1"/>
+                                                <rect key="frame" x="100" y="315" width="528" height="1"/>
                                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="KFV-Io-Vev"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxZ-AK-8iQ" customClass="CheckmarkBadgeShowingView" customModule="WebBLE" customModuleProvider="target">
-                                                <rect key="frame" x="20" y="339" width="50" height="50"/>
+                                                <rect key="frame" x="20" y="324" width="50" height="50"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="4.circle" catalog="system" id="mv0-cn-0tn">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -436,7 +436,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FA8-aJ-znI">
-                                                <rect key="frame" x="100" y="339" width="528" height="61"/>
+                                                <rect key="frame" x="100" y="324" width="528" height="61"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Tap and hold ">
                                                         <attributes>
@@ -500,7 +500,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Az3-z9-Aui" userLabel="Separator">
-                                                <rect key="frame" x="100" y="408" width="528" height="1"/>
+                                                <rect key="frame" x="100" y="393" width="528" height="1"/>
                                                 <viewLayoutGuide key="safeArea" id="kAU-yB-EuF"/>
                                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                                 <constraints>
@@ -508,7 +508,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SDx-V4-C6d" customClass="CheckmarkBadgeShowingView" customModule="WebBLE" customModuleProvider="target">
-                                                <rect key="frame" x="20" y="417" width="50" height="50"/>
+                                                <rect key="frame" x="20" y="402" width="50" height="50"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="5.circle" catalog="system" id="Pzq-cN-ag5">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -523,7 +523,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvT-GX-AIZ" userLabel="From the shortcut's Title Bar Menu select Rename and name it">
-                                                <rect key="frame" x="100" y="421.5" width="528" height="41"/>
+                                                <rect key="frame" x="100" y="406.5" width="528" height="41"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Tap the ">
                                                         <attributes>
@@ -617,7 +617,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EqU-kN-3jp" userLabel="Separator">
-                                                <rect key="frame" x="100" y="470.5" width="528" height="1"/>
+                                                <rect key="frame" x="100" y="455.5" width="528" height="1"/>
                                                 <viewLayoutGuide key="safeArea" id="ffM-Lx-etz"/>
                                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                                 <constraints>
@@ -625,11 +625,11 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0O0-TM-LLJ">
-                                                <rect key="frame" x="289" y="479.5" width="70" height="34.5"/>
+                                                <rect key="frame" x="289" y="464.5" width="70" height="34.5"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="filled" title="Done!"/>
                                                 <connections>
-                                                    <action selector="done" destination="xqG-RX-h59" eventType="primaryActionTriggered" id="RmV-9H-tM0"/>
+                                                    <action selector="doneWithDwellSeconds:" destination="xqG-RX-h59" eventType="primaryActionTriggered" id="a3L-FI-elA"/>
                                                 </connections>
                                             </button>
                                         </subviews>

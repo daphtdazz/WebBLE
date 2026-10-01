@@ -43,11 +43,12 @@ class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate 
     @IBAction func dismiss() {
         self.presentingViewController?.dismiss(animated: true)
     }
-    @IBAction func done() {
+    @IBAction func done(dwellSeconds: Double = DONE_DISMISS_DELAY) {
         for bv in badgeViews {
             bv.showCheckmark()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + DONE_DISMISS_DELAY) {
+        _ = Task {
+            try await Task.sleep(for: .seconds(dwellSeconds))
             self.presentingViewController?.dismiss(animated: true)
         }
     }
@@ -61,16 +62,16 @@ class AddToHomeScreenViewController: UIViewController, UIDocumentPickerDelegate 
         UIPasteboard.general.string = currentLink.absoluteString
         let originalTitle = self.copyLinkButton.titleLabel?.text ?? "Copy Link"
         self.copyLinkButton.setTitle("Copied!", for: .normal)
-        DispatchQueue.main
-            .asyncAfter(
-                deadline:
-                    .now()
-                    + CheckmarkBadgeShowingView.DWELL_DURATION
-                    + CheckmarkBadgeShowingView.SHOW_DURATION
-            ) { [weak self] in
-                NSLog("restore title \(originalTitle)")
-                self?.copyLinkButton.setTitle(originalTitle, for: .normal)
-            }
+
+        _ = Task {
+            try await Task.sleep(
+                for: .seconds(
+                    CheckmarkBadgeShowingView.DWELL_DURATION
+                        + CheckmarkBadgeShowingView.SHOW_DURATION
+                )
+            )
+            self.copyLinkButton.setTitle(originalTitle, for: .normal)
+        }
         copyLinkBadgeView.showCheckmark()
     }
 

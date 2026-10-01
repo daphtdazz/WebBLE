@@ -16,7 +16,6 @@ func applyCurrentAnimationPaths(
         NSLog("No inherited animation")
         return
     }
-    NSLog("applying animations to properties duration \(duration)")
     for (layer, keypaths) in layersAndKeyPathEnds {
         for (keypath, toValue) in keypaths {
             let anim = CABasicAnimation(keyPath: keypath)

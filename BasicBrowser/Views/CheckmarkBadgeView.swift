@@ -84,20 +84,14 @@ class CheckmarkBadgeShowingView: UIView {
         ])
         self.layoutIfNeeded()
         UIView.animate(
-            withDuration: CheckmarkBadgeShowingView.SHOW_DURATION,
+            withDuration: Self.SHOW_DURATION,
             animations: { checkView.alpha = 1.0 }
         )
-        DispatchQueue.main.asyncAfter(
-            deadline:
-                .now()
-                + CheckmarkBadgeShowingView.SHOW_DURATION
-                + CheckmarkBadgeShowingView.DWELL_DURATION,
-        ) {
-            let newSize =
-                CheckmarkBadgeShowingView.SHRINK_RATIO
-                * min(self.frame.size.height, self.frame.size.width)
+        _ = Task {
+            try await Task.sleep(for: .seconds(Self.SHOW_DURATION + Self.DWELL_DURATION))
+            let newSize = Self.SHRINK_RATIO * min(self.frame.size.height, self.frame.size.width)
             UIView.animate(
-                withDuration: CheckmarkBadgeShowingView.MINIMIZE_DURATION,
+                withDuration: Self.MINIMIZE_DURATION,
                 animations: {
                     self._heightConstraint.constant = newSize
                     self._widthConstraint.constant = newSize

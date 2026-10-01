@@ -54,6 +54,7 @@ class ViewController:
         userDefaults: UserDefaults.standard,
         key: prefKeys.bookmarks.rawValue
     )
+    weak var addToHomeScreenVC: AddToHomeScreenViewController? = nil
 
     var shouldShowBars = true {
         didSet {
@@ -85,8 +86,7 @@ class ViewController:
     /** Tracked constraint to aid segue animations  */
     weak var consoleViewBottomConstraint: NSLayoutConstraint? = nil
 
-    // MARK: - API
-    // MARK: IBActions
+    // MARK: - IBActions
     @IBAction func addBookmark() {
         guard
             let title = self.webView.title,
@@ -203,6 +203,7 @@ class ViewController:
             bvc.bookmarksManager = self.bookmarksManager
         case let athsvc as AddToHomeScreenViewController:
             athsvc.webView = webView
+            self.addToHomeScreenVC = athsvc
         default: break
         }
     }
@@ -316,7 +317,13 @@ class ViewController:
             return
         }
         self.setLocationText(url.absoluteString)
+        let sameURL = self.webView.url == url
+        if sameURL {
+            self.addToHomeScreenVC?.done(dwellSeconds: 0.8)
+            return
+        }
         self.webView.load(URLRequest(url: url))
+        self.addToHomeScreenVC?.dismiss()
     }
     func setLocationText(_ text: String) {
         self.locationTextField.text = text
