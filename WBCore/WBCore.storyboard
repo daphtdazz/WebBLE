@@ -96,10 +96,10 @@
             </objects>
             <point key="canvasLocation" x="-693" y="831"/>
         </scene>
-        <!--Web View Container Controller-->
+        <!--Web View Controller-->
         <scene sceneID="0x7-H9-L3v">
             <objects>
-                <viewController storyboardIdentifier="WebViewContainerController" id="hCi-h3-YHB" customClass="WBWebViewContainerController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewContainerController" id="hCi-h3-YHB" customClass="WBWebViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sZ7-qK-PTn"/>
                         <viewControllerLayoutGuide type="bottom" id="gxN-o6-9VC"/>

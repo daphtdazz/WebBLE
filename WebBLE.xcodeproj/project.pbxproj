@@ -28,7 +28,7 @@
 		5A85B9F91E29582400E0B718 /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A85B9F81E29582400E0B718 /* Defaults.plist */; };
 		5A8FD3FC233966050032DCE7 /* Console.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8FD3FB233966050032DCE7 /* Console.storyboard */; };
 		5A8FD3FE233973710032DCE7 /* WBCore.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8FD3FD233973710032DCE7 /* WBCore.storyboard */; };
-		5A8FD40023397ED80032DCE7 /* WBWebViewContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8FD3FF23397ED80032DCE7 /* WBWebViewContainerController.swift */; };
+		5A8FD40023397ED80032DCE7 /* WBWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8FD3FF23397ED80032DCE7 /* WBWebViewController.swift */; };
 		5A95DDF81E0C080C00DFE26B /* WBWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A95DDF71E0C080B00DFE26B /* WBWebView.swift */; };
 		5AA79DDD1FB3AA0C00A4FCB4 /* WBBluetoothUUID.js in Resources */ = {isa = PBXBuildFile; fileRef = 5AA79DDC1FB3AA0C00A4FCB4 /* WBBluetoothUUID.js */; };
 		5AAF1C8F30632A0A00561C06 /* OpenInShortcutsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAF1C8E30632A0A00561C06 /* OpenInShortcutsButtonView.swift */; };
@@ -96,7 +96,7 @@
 		5A85B9F81E29582400E0B718 /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Defaults.plist; path = BasicBrowser/Defaults.plist; sourceTree = "<group>"; };
 		5A8FD3FB233966050032DCE7 /* Console.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Console.storyboard; sourceTree = "<group>"; };
 		5A8FD3FD233973710032DCE7 /* WBCore.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = WBCore.storyboard; sourceTree = "<group>"; };
-		5A8FD3FF23397ED80032DCE7 /* WBWebViewContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBWebViewContainerController.swift; sourceTree = "<group>"; };
+		5A8FD3FF23397ED80032DCE7 /* WBWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBWebViewController.swift; sourceTree = "<group>"; };
 		5A95DDF71E0C080B00DFE26B /* WBWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBWebView.swift; sourceTree = "<group>"; };
 		5A9B90F71E1FB32E00AEDC07 /* test cases.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "test cases.md"; sourceTree = "<group>"; };
 		5A9B90F81E1FBCFD00AEDC07 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 				BB303DF21C42070C00FCAF24 /* WBManager.swift */,
 				BB4DBE641C97F577000D2C35 /* WBTransaction.swift */,
 				5A95DDF71E0C080B00DFE26B /* WBWebView.swift */,
-				5A8FD3FF23397ED80032DCE7 /* WBWebViewContainerController.swift */,
+				5A8FD3FF23397ED80032DCE7 /* WBWebViewController.swift */,
 				5A5D6403216C9F9300BCD722 /* WBLog.swift */,
 				5A1D3255216FC96500F3391C /* WBLogManager.swift */,
 				5A6BF67921F503DF0051EC98 /* WBPopUpPickerController.swift */,
@@ -487,7 +487,7 @@
 				5A0F91CC1E01546200CB2C64 /* JSHandlerCompatible.swift in Sources */,
 				5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */,
 				BB4DE1F41C8D0A44003151BF /* WBDevice.swift in Sources */,
-				5A8FD40023397ED80032DCE7 /* WBWebViewContainerController.swift in Sources */,
+				5A8FD40023397ED80032DCE7 /* WBWebViewController.swift in Sources */,
 				E44C185E1A36203E00734F8B /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

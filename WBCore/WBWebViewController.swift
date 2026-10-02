@@ -46,7 +46,7 @@ private class _WBLoggerScriptHandler: NSObject, WKScriptMessageHandler {
     }
 }
 
-class WBWebViewContainerController: UIViewController, WKNavigationDelegate, WKUIDelegate, WBPicker {
+class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WBPicker {
 
     enum prefKeys: String {
         case lastLocation
@@ -125,7 +125,7 @@ class WBWebViewContainerController: UIViewController, WKNavigationDelegate, WKUI
         {
             UserDefaults.standard.setValue(
                 urlString,
-                forKey: WBWebViewContainerController.prefKeys.lastLocation.rawValue
+                forKey: WBWebViewController.prefKeys.lastLocation.rawValue
             )
         }
         self.loadingProgressContainer.isHidden = true

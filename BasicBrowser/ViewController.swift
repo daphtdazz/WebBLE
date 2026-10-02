@@ -68,12 +68,12 @@ class ViewController:
             )
         }
     }
-    var webViewContainerController: WBWebViewContainerController {
-        return self.children.first(where: { $0 as? WBWebViewContainerController != nil })
-            as! WBWebViewContainerController
+    var webViewController: WBWebViewController {
+        return self.children.first(where: { $0 as? WBWebViewController != nil })
+            as! WBWebViewController
     }
     var webView: WBWebView {
-        return self.webViewContainerController.webView
+        return self.webViewController.webView
     }
     var consoleCVC: ConsoleContainerViewController? {
         return self.children.first(where: { $0 as? ConsoleContainerViewController != nil })
@@ -179,7 +179,7 @@ class ViewController:
     func addConsoleCVC(_ consoleCVC: ConsoleContainerViewController) {
         self.addChild(consoleCVC)
         self.view!.addSubview(consoleCVC.view!)
-        consoleCVC.wbLogManager = self.webViewContainerController.logManager
+        consoleCVC.wbLogManager = self.webViewController.logManager
         UserDefaults.standard.setValue(true, forKey: ViewController.prefKeys.consoleOpen.rawValue)
         NSLog("Console CVC added")
     }
@@ -242,7 +242,7 @@ class ViewController:
             for: .valueChanged
         )
         self.webView.scrollView.refreshControl = self.webViewRefreshControl
-        self.webViewContainerController.addObserver(
+        self.webViewController.addObserver(
             self,
             forKeyPath: "pickerIsShowing",
             options: [],
@@ -263,7 +263,7 @@ class ViewController:
         } else {
             var lastLocation: String
             if let prefLoc = ud.value(
-                forKey: WBWebViewContainerController.prefKeys.lastLocation.rawValue
+                forKey: WBWebViewController.prefKeys.lastLocation.rawValue
             ) as? String {
                 lastLocation = prefLoc
             } else {
@@ -522,7 +522,7 @@ class ViewController:
         }
     }
     private func _setExtraBarHiddenState() {
-        let pickerIsShowing = self.webViewContainerController.pickerIsShowing
+        let pickerIsShowing = self.webViewController.pickerIsShowing
         let toolBarIsShowing = !self.navigationController!.isToolbarHidden
         self.extraShowBarsView.isHidden = pickerIsShowing || toolBarIsShowing
     }
