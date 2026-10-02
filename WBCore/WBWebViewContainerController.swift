@@ -16,6 +16,36 @@ class WBAlertAction: UIAlertAction {
     var alertController: UIAlertController!
 }
 
+private class _WBLoggerScriptHandler: NSObject, WKScriptMessageHandler {
+
+    var manager: WBLogManager! = nil
+
+    // MARK: - WKScriptMessageHandler
+    open func userContentController(
+        _ userContentController: WKUserContentController,
+        didReceive message: WKScriptMessage
+        ) {
+        var log: WBLog
+        switch (message.body) {
+        case let bodyDict as [String: Any]:
+            guard
+                let levelString = bodyDict["level"] as? String,
+                let level = WBLog.Level(rawValue: levelString),
+                let message = bodyDict["message"] as? String
+                else {
+                    NSLog("Badly formed dictionary \(bodyDict.description) passed to the logger")
+                    return
+            }
+            log = WBLog(level: level, message: message, args: [])
+        case let bodyString as String:
+            log = WBLog(level: .log, message: bodyString, args: [])
+        default:
+            log = WBLog(level: .warn, message: "Unexpected message type from console log: \(message.body)", args: [])
+        }
+        self.manager.addLog(log)
+    }
+}
+
 class WBWebViewContainerController: UIViewController, WKNavigationDelegate, WKUIDelegate, WBPicker {
 
     enum prefKeys: String {
@@ -24,6 +54,7 @@ class WBWebViewContainerController: UIViewController, WKNavigationDelegate, WKUI
 
     @IBOutlet var loadingProgressContainer: UIView!
     @IBOutlet var loadingProgressView: UIView!
+    @IBOutlet var webView: WBWebView!
 
     // At some point it might be nice to try and handle back and
     // forward in the browser better, i.e. by managing multiple managers
@@ -32,13 +63,8 @@ class WBWebViewContainerController: UIViewController, WKNavigationDelegate, WKUI
     // the devices have been disconnected
     var wbManager: WBManager?
 
-    var webViewController: WBWebViewController {
-        return self.children.first(where: { $0 as? WBWebViewController != nil })
-            as! WBWebViewController
-    }
-    var webView: WBWebView {
-        return self.webViewController.webView
-    }
+    let logManager = WBLogManager()
+    private let _loggerScriptHandler = _WBLoggerScriptHandler()
 
     // If the pop up picker is showing, then the
     // following two vars are not null.
@@ -58,8 +84,12 @@ class WBWebViewContainerController: UIViewController, WKNavigationDelegate, WKUI
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self._loggerScriptHandler.manager = self.logManager
         self.webView.addNavigationDelegate(self)
         self.webView.uiDelegate = self
+        self.webView.configuration.userContentController.add(
+            self._loggerScriptHandler, name: "logger"
+        )
 
         for path in ["estimatedProgress"] {
             self.webView.addObserver(self, forKeyPath: path, options: .new, context: nil)
@@ -85,6 +115,7 @@ class WBWebViewContainerController: UIViewController, WKNavigationDelegate, WKUI
             self.popUpPickerController.performSegue(withIdentifier: "Cancel", sender: nil)
         }
         self.loadingProgressContainer.isHidden = false
+        self.logManager.clearLogs()
         self._configureNewManager()
     }
 

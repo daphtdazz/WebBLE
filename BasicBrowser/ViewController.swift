@@ -72,11 +72,8 @@ class ViewController:
         return self.children.first(where: { $0 as? WBWebViewContainerController != nil })
             as! WBWebViewContainerController
     }
-    var webViewController: WBWebViewController {
-        return self.webViewContainerController.webViewController
-    }
     var webView: WBWebView {
-        return self.webViewController.webView
+        return self.webViewContainerController.webView
     }
     var consoleCVC: ConsoleContainerViewController? {
         return self.children.first(where: { $0 as? ConsoleContainerViewController != nil })
@@ -182,7 +179,7 @@ class ViewController:
     func addConsoleCVC(_ consoleCVC: ConsoleContainerViewController) {
         self.addChild(consoleCVC)
         self.view!.addSubview(consoleCVC.view!)
-        consoleCVC.wbLogManager = self.webViewController.logManager
+        consoleCVC.wbLogManager = self.webViewContainerController.logManager
         UserDefaults.standard.setValue(true, forKey: ViewController.prefKeys.consoleOpen.rawValue)
         NSLog("Console CVC added")
     }

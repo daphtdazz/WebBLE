@@ -45,7 +45,6 @@
 		5AC7ECAB233D0F9700CE7A2A /* Segues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC7ECAA233D0F9700CE7A2A /* Segues.swift */; };
 		5AC7ECAD233D177700CE7A2A /* WBPopUpPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC7ECAC233D177700CE7A2A /* WBPopUpPickerView.swift */; };
 		5AC8067D21655B5E00AA5176 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8067C21655B5E00AA5176 /* DividerView.swift */; };
-		5AD6DACB2323EBFE0005F733 /* WBWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD6DACA2323EBFE0005F733 /* WBWebViewController.swift */; };
 		5ADE336E23663353007E6AD7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ADE336D23663353007E6AD7 /* Images.xcassets */; };
 		5AE293EE23F9AAE8006CD0BC /* WBBluetoothRemoteGATTCharacteristic.js in Resources */ = {isa = PBXBuildFile; fileRef = 5AE293EC23F9AAE7006CD0BC /* WBBluetoothRemoteGATTCharacteristic.js */; };
 		5AE293EF23F9AAE8006CD0BC /* WBBluetoothRemoteGATTService.js in Resources */ = {isa = PBXBuildFile; fileRef = 5AE293ED23F9AAE7006CD0BC /* WBBluetoothRemoteGATTService.js */; };
@@ -116,7 +115,6 @@
 		5AC7ECAA233D0F9700CE7A2A /* Segues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segues.swift; sourceTree = "<group>"; };
 		5AC7ECAC233D177700CE7A2A /* WBPopUpPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBPopUpPickerView.swift; sourceTree = "<group>"; };
 		5AC8067C21655B5E00AA5176 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
-		5AD6DACA2323EBFE0005F733 /* WBWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBWebViewController.swift; sourceTree = "<group>"; };
 		5ADE336D23663353007E6AD7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5AE293EC23F9AAE7006CD0BC /* WBBluetoothRemoteGATTCharacteristic.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WBBluetoothRemoteGATTCharacteristic.js; sourceTree = "<group>"; };
 		5AE293ED23F9AAE7006CD0BC /* WBBluetoothRemoteGATTService.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WBBluetoothRemoteGATTService.js; sourceTree = "<group>"; };
@@ -205,7 +203,6 @@
 				BB303DF21C42070C00FCAF24 /* WBManager.swift */,
 				BB4DBE641C97F577000D2C35 /* WBTransaction.swift */,
 				5A95DDF71E0C080B00DFE26B /* WBWebView.swift */,
-				5AD6DACA2323EBFE0005F733 /* WBWebViewController.swift */,
 				5A8FD3FF23397ED80032DCE7 /* WBWebViewContainerController.swift */,
 				5A5D6403216C9F9300BCD722 /* WBLog.swift */,
 				5A1D3255216FC96500F3391C /* WBLogManager.swift */,
@@ -472,7 +469,6 @@
 				5A5D6404216C9F9300BCD722 /* WBLog.swift in Sources */,
 				5A85B9F71E294B2900E0B718 /* WBBookmark.swift in Sources */,
 				5A4B8E1B2157A34800C7C858 /* ConsoleLogView.swift in Sources */,
-				5AD6DACB2323EBFE0005F733 /* WBWebViewController.swift in Sources */,
 				5AFD083C305963190019CA5C /* SceneDelegate.swift in Sources */,
 				E44C185C1A36203E00734F8B /* AppDelegate.swift in Sources */,
 				5A5D621621EBA83D00E417DC /* NavigationViewController.swift in Sources */,
