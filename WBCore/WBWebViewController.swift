@@ -55,6 +55,7 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     @IBOutlet var loadingProgressContainer: UIView!
     @IBOutlet var loadingProgressView: UIView!
     @IBOutlet var webView: WBWebView!
+    let webViewRefreshControl = UIRefreshControl()
 
     // At some point it might be nice to try and handle back and
     // forward in the browser better, i.e. by managing multiple managers
@@ -90,6 +91,12 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
         self.webView.configuration.userContentController.add(
             self._loggerScriptHandler, name: "logger"
         )
+        self.webView.scrollView.refreshControl = self.webViewRefreshControl
+        self.webViewRefreshControl.addTarget(
+            self,
+            action: #selector(_handlePullToRefresh),
+            for: .valueChanged
+        )
 
         for path in ["estimatedProgress"] {
             self.webView.addObserver(self, forKeyPath: path, options: .new, context: nil)
@@ -106,7 +113,7 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     }
 
     // MARK: - WKNavigationDelegate
-    public func webView(
+    func webView(
         _ webView: WKWebView,
         didStartProvisionalNavigation navigation: WKNavigation!
     ) {
@@ -128,7 +135,7 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
                 forKey: WBWebViewController.prefKeys.lastLocation.rawValue
             )
         }
-        self.loadingProgressContainer.isHidden = true
+        self._clearLoadingUI()
     }
 
     func webView(
@@ -136,12 +143,13 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
         didFailProvisionalNavigation navigation: WKNavigation!,
         withError error: Error
     ) {
-        self.loadingProgressContainer.isHidden = true
         self._maybeShowErrorUI(error)
+        self._clearLoadingUI()
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         self._maybeShowErrorUI(error)
+        self._clearLoadingUI()
     }
 
     // MARK: - WKUIDelegate
@@ -315,5 +323,14 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
             return
         }
         self.performSegue(withIdentifier: "nav-error-segue", sender: error)
+    }
+    @objc func _handlePullToRefresh() {
+        NSLog("Pull to refresh triggered")
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        webView.reload()
+    }
+    private func _clearLoadingUI() {
+        self.loadingProgressContainer.isHidden = true
+        self.webViewRefreshControl.endRefreshing()
     }
 }

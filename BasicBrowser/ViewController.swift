@@ -48,7 +48,6 @@ class ViewController:
 
     // MARK: Internal
     var initialURL: URL?
-    let webViewRefreshControl = UIRefreshControl()
 
     var bookmarksManager = BookmarksManager(
         userDefaults: UserDefaults.standard,
@@ -142,11 +141,6 @@ class ViewController:
             self.loadLocation(textLocation)
         }
     }
-    @objc func handlePullToRefresh() {
-        NSLog("Pull to refresh triggered")
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        self.refresh()
-    }
     @IBAction func showBars() {
         NSLog("Show bars")
         self.shouldShowBars = true
@@ -236,12 +230,6 @@ class ViewController:
         self.webView.addNavigationDelegate(self)
         self.webView.scrollView.delegate = self
         self.webView.scrollView.clipsToBounds = false
-        self.webViewRefreshControl.addTarget(
-            self,
-            action: #selector(handlePullToRefresh),
-            for: .valueChanged
-        )
-        self.webView.scrollView.refreshControl = self.webViewRefreshControl
         self.webViewController.addObserver(
             self,
             forKeyPath: "pickerIsShowing",
@@ -336,23 +324,6 @@ class ViewController:
         if let urlString = webView.url?.absoluteString {
             self.setLocationText(urlString)
         }
-    }
-    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.webViewRefreshControl.endRefreshing()
-    }
-    public func webView(
-        _ webView: WKWebView,
-        didFail navigation: WKNavigation!,
-        withError error: Error
-    ) {
-        self.webViewRefreshControl.endRefreshing()
-    }
-    public func webView(
-        _ webView: WKWebView,
-        didFailProvisionalNavigation navigation: WKNavigation!,
-        withError error: Error
-    ) {
-        self.webViewRefreshControl.endRefreshing()
     }
 
     // MARK: - UIScrollViewDelegate
