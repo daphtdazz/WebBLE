@@ -46,6 +46,10 @@ private class _WBLoggerScriptHandler: NSObject, WKScriptMessageHandler {
     }
 }
 
+@objc protocol WBWebViewControllerDelegate {
+    @objc optional func didNavigateTo(_ url: URL)
+}
+
 class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WBPicker {
 
     enum prefKeys: String {
@@ -63,6 +67,7 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     // without losing bluetooth connections, or at least notifying that
     // the devices have been disconnected
     var wbManager: WBManager?
+    var delegate: WBWebViewControllerDelegate?
 
     let logManager = WBLogManager()
     private let _loggerScriptHandler = _WBLoggerScriptHandler()
@@ -124,6 +129,9 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
         self.loadingProgressContainer.isHidden = false
         self.logManager.clearLogs()
         self._configureNewManager()
+        if let newUrl = webView.url {
+            delegate?.didNavigateTo?(newUrl)
+        }
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {

@@ -20,7 +20,7 @@ class ViewController:
     UIViewController,
     UITextFieldDelegate,
     UIScrollViewDelegate,
-    WKNavigationDelegate,
+    WBWebViewControllerDelegate,
     WKUIDelegate,
     ConsoleToggler
 {
@@ -227,7 +227,7 @@ class ViewController:
 
         // connect view to other objects
         self.locationTextField.delegate = self
-        self.webView.addNavigationDelegate(self)
+        webViewController.delegate = self
         self.webView.scrollView.delegate = self
         self.webView.scrollView.clipsToBounds = false
         self.webViewController.addObserver(
@@ -315,15 +315,9 @@ class ViewController:
         self.locationTextField.sizeToFit()
     }
 
-    // MARK: - WKNavigationDelegate
-    public func webView(
-        _ webView: WKWebView,
-        didStartProvisionalNavigation navigation: WKNavigation!
-    ) {
-
-        if let urlString = webView.url?.absoluteString {
-            self.setLocationText(urlString)
-        }
+    // MARK: - WBWebViewControllerDelegate
+    @objc func didNavigateTo(_ url: URL) {
+        self.setLocationText(url.absoluteString)
     }
 
     // MARK: - UIScrollViewDelegate
