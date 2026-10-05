@@ -1,4 +1,4 @@
-#  Todo List
+# Todo List
 
 ## Autumn 2026
 
@@ -16,6 +16,7 @@
 - [ ] ✨ console view scroll following new logs
 - [ ] ✨ timestamp showable in console logs 
 - [x] ✨ better force refresh behaviour (long-tap refresh button)
+- [x] ✨ flow for adding link to home screen via Shortcuts app
 
 ## Chunky features
 
