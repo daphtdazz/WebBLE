@@ -31,10 +31,10 @@
             </objects>
             <point key="canvasLocation" x="-801" y="252"/>
         </scene>
-        <!--View Controller-->
+        <!--WebBLE View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="WebBLEViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="509" height="667"/>
                         <subviews>

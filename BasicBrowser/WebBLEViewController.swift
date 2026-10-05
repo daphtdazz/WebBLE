@@ -16,7 +16,7 @@
 import UIKit
 import WebKit
 
-class ViewController:
+class WebBLEViewController:
     UIViewController,
     UITextFieldDelegate,
     UIScrollViewDelegate,
@@ -174,7 +174,7 @@ class ViewController:
         self.addChild(consoleCVC)
         self.view!.addSubview(consoleCVC.view!)
         consoleCVC.wbLogManager = self.webViewController.logManager
-        UserDefaults.standard.setValue(true, forKey: ViewController.prefKeys.consoleOpen.rawValue)
+        UserDefaults.standard.setValue(true, forKey: WebBLEViewController.prefKeys.consoleOpen.rawValue)
         NSLog("Console CVC added")
     }
     func removeConsoleCVC() {
@@ -184,7 +184,7 @@ class ViewController:
         }
         ccvc.removeFromParent()
         ccvc.view!.removeFromSuperview()
-        UserDefaults.standard.setValue(false, forKey: ViewController.prefKeys.consoleOpen.rawValue)
+        UserDefaults.standard.setValue(false, forKey: WebBLEViewController.prefKeys.consoleOpen.rawValue)
     }
 
     // MARK: - Segue handling
@@ -413,10 +413,10 @@ class ViewController:
         // Sort out the preferences we have.
         let ud = UserDefaults.standard
 
-        let prefsVersion = ud.integer(forKey: ViewController.prefKeys.version.rawValue)
+        let prefsVersion = ud.integer(forKey: WebBLEViewController.prefKeys.version.rawValue)
 
         var hadPrefs = false
-        if let bma = ud.array(forKey: ViewController.prefKeys.bookmarks.rawValue)
+        if let bma = ud.array(forKey: WebBLEViewController.prefKeys.bookmarks.rawValue)
             as? [[String: String]]
         {
             self.bookmarksManager.mergeInBookmarkDicts(bookmarkDicts: bma)
@@ -441,7 +441,7 @@ class ViewController:
             vDict.forEach({
                 key,
                 object in
-                guard let pKey = ViewController.prefKeys(rawValue: key)
+                guard let pKey = WebBLEViewController.prefKeys(rawValue: key)
                 else {
                     return
                 }
@@ -462,7 +462,7 @@ class ViewController:
         }
 
         // Set the preferences version to be up to date.
-        ud.set(self.currentPrefVersion, forKey: ViewController.prefKeys.version.rawValue)
+        ud.set(self.currentPrefVersion, forKey: WebBLEViewController.prefKeys.version.rawValue)
     }
     func setHidesOnSwipesFromScrollView(_ scrollView: UIScrollView) {
         // Due to an apparent bug this should not be called when the toolbar / navbar

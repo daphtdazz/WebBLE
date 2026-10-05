@@ -77,7 +77,7 @@ class ConsoleContainerViewController: UIViewController {
             self.consoleScrollViewHeightConstraint.constant = self.scrollView.frame.height
             UserDefaults.standard.setValue(
                 self.consoleScrollViewHeightConstraint.constant,
-                forKey: ViewController.prefKeys.lastConsoleHeight.rawValue
+                forKey: WebBLEViewController.prefKeys.lastConsoleHeight.rawValue
             )
         default: NSLog("Unexpected gesture state \(gestureState)")
         }

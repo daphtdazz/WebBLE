@@ -54,10 +54,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         vc.loadURL(httpsURL)
     }
 
-    private var viewController: ViewController? {
+    private var viewController: WebBLEViewController? {
         guard
             let nc = window?.rootViewController as? UINavigationController,
-            let vc = nc.topViewController as? ViewController
+            let vc = nc.topViewController as? WebBLEViewController
         else { return nil }
         return vc
     }

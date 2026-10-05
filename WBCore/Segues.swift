@@ -60,7 +60,7 @@ class WBHidePickerSegue: UIStoryboardSegue {
 
 class ShowConsoleSegue: UIStoryboardSegue {
     override func perform() {
-        let vc = self.source as! ViewController
+        let vc = self.source as! WebBLEViewController
         let vcv = vc.view!
         let ccvc = self.destination as! ConsoleContainerViewController
         let ccv = ccvc.view!
@@ -69,7 +69,7 @@ class ShowConsoleSegue: UIStoryboardSegue {
 
         // Configure the height
         let prevHeight = CGFloat(
-            UserDefaults.standard.float(forKey: ViewController.prefKeys.lastConsoleHeight.rawValue)
+            UserDefaults.standard.float(forKey: WebBLEViewController.prefKeys.lastConsoleHeight.rawValue)
         )
         let heightConstraint =
             ccvc.consoleScrollViewHeightConstraint!
@@ -129,7 +129,7 @@ class HideConsoleSegue: UIStoryboardSegue {
     override func perform() {
         let ccvc = self.source
         let ccv = ccvc.view!
-        let vc = self.destination as! ViewController
+        let vc = self.destination as! WebBLEViewController
         let vcv = vc.view!
 
         let topConstraint = ccv.topAnchor.constraint(

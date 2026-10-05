@@ -57,7 +57,7 @@
 		BB4DBE651C97F577000D2C35 /* WBTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4DBE641C97F577000D2C35 /* WBTransaction.swift */; };
 		BB4DE1F41C8D0A44003151BF /* WBDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4DE1F31C8D0A44003151BF /* WBDevice.swift */; };
 		E44C185C1A36203E00734F8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C185B1A36203E00734F8B /* AppDelegate.swift */; };
-		E44C185E1A36203E00734F8B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C185D1A36203E00734F8B /* ViewController.swift */; };
+		E44C185E1A36203E00734F8B /* WebBLEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C185D1A36203E00734F8B /* WebBLEViewController.swift */; };
 		E44C18611A36203E00734F8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E44C185F1A36203E00734F8B /* Main.storyboard */; };
 		E44C18631A36203E00734F8B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E44C18621A36203E00734F8B /* Images.xcassets */; };
 		E44C18661A36203E00734F8B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E44C18641A36203E00734F8B /* LaunchScreen.xib */; };
@@ -135,7 +135,7 @@
 		E44C18561A36203E00734F8B /* WebBLE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebBLE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E44C185A1A36203E00734F8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E44C185B1A36203E00734F8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E44C185D1A36203E00734F8B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E44C185D1A36203E00734F8B /* WebBLEViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBLEViewController.swift; sourceTree = "<group>"; };
 		E44C18601A36203E00734F8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E44C18621A36203E00734F8B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E44C18651A36203E00734F8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -301,7 +301,7 @@
 				5A5D621521EBA83D00E417DC /* NavigationViewController.swift */,
 				E44C185B1A36203E00734F8B /* AppDelegate.swift */,
 				5AFD083B305963190019CA5C /* SceneDelegate.swift */,
-				E44C185D1A36203E00734F8B /* ViewController.swift */,
+				E44C185D1A36203E00734F8B /* WebBLEViewController.swift */,
 				5A1A8E1528009C3200271575 /* URLTextField.swift */,
 				E44C18641A36203E00734F8B /* LaunchScreen.xib */,
 				E44C185F1A36203E00734F8B /* Main.storyboard */,
@@ -488,7 +488,7 @@
 				5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */,
 				BB4DE1F41C8D0A44003151BF /* WBDevice.swift in Sources */,
 				5A8FD40023397ED80032DCE7 /* WBWebViewController.swift in Sources */,
-				E44C185E1A36203E00734F8B /* ViewController.swift in Sources */,
+				E44C185E1A36203E00734F8B /* WebBLEViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
