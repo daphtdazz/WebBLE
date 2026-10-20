@@ -19,6 +19,7 @@
 		5A5D621621EBA83D00E417DC /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5D621521EBA83D00E417DC /* NavigationViewController.swift */; };
 		5A5D6404216C9F9300BCD722 /* WBLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5D6403216C9F9300BCD722 /* WBLog.swift */; };
 		5A660B001F0FB174004EC11D /* WBUtils.js in Resources */ = {isa = PBXBuildFile; fileRef = 5A660AFF1F0FB174004EC11D /* WBUtils.js */; };
+		5A6721CE3087B8C6009FC529 /* AllowedDownloadBUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6721CD3087B8A8009FC529 /* AllowedDownloadBUD.swift */; };
 		5A699E7D30865DDD00AA5414 /* WebBLEBetterUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A699E7C30865DDD00AA5414 /* WebBLEBetterUserDefaults.swift */; };
 		5A6BF67A21F503DF0051EC98 /* WBPopUpPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6BF67921F503DF0051EC98 /* WBPopUpPickerController.swift */; };
 		5A7579EA2151588B003F0CEA /* ConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7579E92151588B003F0CEA /* ConsoleViewController.swift */; };
@@ -87,6 +88,7 @@
 		5A5D621521EBA83D00E417DC /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		5A5D6403216C9F9300BCD722 /* WBLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBLog.swift; sourceTree = "<group>"; };
 		5A660AFF1F0FB174004EC11D /* WBUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WBUtils.js; sourceTree = "<group>"; };
+		5A6721CD3087B8A8009FC529 /* AllowedDownloadBUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllowedDownloadBUD.swift; sourceTree = "<group>"; };
 		5A699E7C30865DDD00AA5414 /* WebBLEBetterUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBLEBetterUserDefaults.swift; sourceTree = "<group>"; };
 		5A6BF67921F503DF0051EC98 /* WBPopUpPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBPopUpPickerController.swift; sourceTree = "<group>"; };
 		5A7579E92151588B003F0CEA /* ConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				5A10929C2168D5B6002CC973 /* Console */,
+				5A6721CC3087B89A009FC529 /* Downloads */,
 				5AFC780322ECDD410071E792 /* Polyfill */,
 				5ADE336D23663353007E6AD7 /* Images.xcassets */,
 				5AC47CA71E2CCF2F00BCAE82 /* Animations.swift */,
@@ -216,6 +219,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5A6721CC3087B89A009FC529 /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				5A6721CD3087B8A8009FC529 /* AllowedDownloadBUD.swift */,
+			);
+			path = Downloads;
 			sourceTree = "<group>";
 		};
 		5AAF1C92306552EE00561C06 /* Utils */ = {
@@ -498,6 +509,7 @@
 				5AAF1C9730655A8200561C06 /* animations.swift in Sources */,
 				5A0F91CC1E01546200CB2C64 /* JSHandlerCompatible.swift in Sources */,
 				5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */,
+				5A6721CE3087B8C6009FC529 /* AllowedDownloadBUD.swift in Sources */,
 				BB4DE1F41C8D0A44003151BF /* WBDevice.swift in Sources */,
 				5A8FD40023397ED80032DCE7 /* WBWebViewController.swift in Sources */,
 				E44C185E1A36203E00734F8B /* WebBLEViewController.swift in Sources */,
@@ -764,7 +776,7 @@
 			repositoryURL = "https://github.com/daphtdazz/BetterUserDefaults";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
+				minimumVersion = 0.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

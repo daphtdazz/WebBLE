@@ -21,6 +21,9 @@ class WebBLEBetterUserDefaults: BetterUserDefaults {
 
     var bookmarks: BetterUserDefaultsArray<BookmarkBUD>
     var bookmarksDefault: UDArrayType = DEFAULT_BOOKMARKS
+
+    var allowedDownloadHosts: BetterUserDefaultsArray<AllowedDownloadHostBUD>
+    var allowedDownloadHostsDefault: UDArrayType = []
 }
 
 let BUD = WebBLEBetterUserDefaults()

@@ -24,33 +24,40 @@ private class _WBLoggerScriptHandler: NSObject, WKScriptMessageHandler {
     open func userContentController(
         _ userContentController: WKUserContentController,
         didReceive message: WKScriptMessage
-        ) {
+    ) {
         var log: WBLog
-        switch (message.body) {
+        switch message.body {
         case let bodyDict as [String: Any]:
             guard
                 let levelString = bodyDict["level"] as? String,
                 let level = WBLog.Level(rawValue: levelString),
                 let message = bodyDict["message"] as? String
-                else {
-                    NSLog("Badly formed dictionary \(bodyDict.description) passed to the logger")
-                    return
+            else {
+                NSLog("Badly formed dictionary \(bodyDict.description) passed to the logger")
+                return
             }
             log = WBLog(level: level, message: message, args: [])
         case let bodyString as String:
             log = WBLog(level: .log, message: bodyString, args: [])
         default:
-            log = WBLog(level: .warn, message: "Unexpected message type from console log: \(message.body)", args: [])
+            log = WBLog(
+                level: .warn,
+                message: "Unexpected message type from console log: \(message.body)",
+                args: []
+            )
         }
         self.manager.addLog(log)
     }
 }
 
 @objc protocol WBWebViewControllerDelegate {
+    func canDownload(from host: String) async -> Bool
     @objc optional func didNavigateTo(_ url: URL)
 }
 
-class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WBPicker {
+class WBWebViewController:
+    UIViewController, WKNavigationDelegate, WKUIDelegate, WBPicker, WKDownloadDelegate
+{
 
     @IBOutlet var loadingProgressContainer: UIView!
     @IBOutlet var loadingProgressView: UIView!
@@ -63,7 +70,7 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     // without losing bluetooth connections, or at least notifying that
     // the devices have been disconnected
     var wbManager: WBManager?
-    var delegate: WBWebViewControllerDelegate?
+    var delegate: WBWebViewControllerDelegate!
 
     let logManager = WBLogManager()
     private let _loggerScriptHandler = _WBLoggerScriptHandler()
@@ -124,7 +131,7 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
         self.logManager.clearLogs()
         self._configureNewManager()
         if let newUrl = webView.url {
-            delegate?.didNavigateTo?(newUrl)
+            delegate.didNavigateTo?(newUrl)
         }
     }
 
@@ -150,6 +157,78 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         self._maybeShowErrorUI(error)
         self._clearLoadingUI()
+    }
+
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        preferences: WKWebpagePreferences,
+    ) async -> (WKNavigationActionPolicy, WKWebpagePreferences) {
+        guard navigationAction.shouldPerformDownload else {
+            return (.allow, preferences)
+        }
+        let host = navigationAction.sourceFrame.securityOrigin.host
+        guard
+            await delegate.canDownload(from: host) else {
+            NSLog("Downloads not allowed from \(host)")
+            return (.cancel, preferences)
+        }
+        return (.download, preferences)
+    }
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationResponse: WKNavigationResponse
+    ) async -> WKNavigationResponsePolicy {
+        if navigationResponse.canShowMIMEType {
+            return .allow
+        }
+        guard let host = navigationResponse.response.url?.host else {
+            NSLog("Unable to download from response with no URL")
+            return .cancel
+        }
+        guard
+            await delegate.canDownload(from: host) else {
+            NSLog("Downloads not allowed from \(host)")
+            return .cancel
+        }
+        return .download
+    }
+
+    func webView(
+        _ webView: WKWebView,
+        navigationAction: WKNavigationAction,
+        didBecome download: WKDownload
+    ) {
+        NSLog(
+            """
+            nav action to \(navigationAction.request.url?.absoluteString ?? "<unknown>") \
+            became download
+            """
+        )
+        download.delegate = self
+    }
+    func webView(
+        _ webView: WKWebView,
+        navigationResponse: WKNavigationResponse,
+        didBecome download: WKDownload
+    ) {
+        NSLog(
+            """
+            nav response to \(navigationResponse.response.url?.absoluteString ?? "<unknown>") \
+            became download
+            """
+        )
+        download.delegate = self
+    }
+
+    // MARK: - WKDownloadDelegate
+    func download(
+        _ download: WKDownload,
+        decideDestinationUsing response: URLResponse,
+        suggestedFilename: String
+    ) async -> URL? {
+        NSLog("Deciding destination for \(response.url?.absoluteString ?? "<unknown>")")
+        return nil
     }
 
     // MARK: - WKUIDelegate
@@ -282,7 +361,7 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     }
 
     // MARK: - Private
-    private func _presentAlert(
+    func _presentAlert(
         host: String?,
         message: String,
         actions: [WBAlertAction],

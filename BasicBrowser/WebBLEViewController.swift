@@ -294,6 +294,46 @@ class WebBLEViewController:
     }
 
     // MARK: - WBWebViewControllerDelegate
+    func canDownload(from host: String) async -> Bool {
+
+        if let allowedHost = BUD.allowedDownloadHosts.first(where: {
+            $0.host == host && $0.lastDownloadedDate + EXPIRE_AFTER > Date.now
+        }) {
+            allowedHost.lastDownloadedDate = Date.now
+            return true
+        }
+        return await withCheckedContinuation(
+            function: "Check Can Download From \(host)"
+        ) {
+            continuation in
+            webViewController._presentAlert(
+                host: host,
+ message: "Allow downloads from here?",
+                actions: [
+                    WBAlertAction(
+                        title: "Yes, Allow",
+                        style: .default,
+                    ) {
+                        _ in
+                        do {
+                            let allowedHost = try BUD.allowedDownloadHosts.newItem(initial: [:])
+                            allowedHost.host = host
+                            allowedHost.firstDownloaded = Date.now
+                            allowedHost.lastDownloadedDate = allowedHost.firstDownloaded
+                        } catch let e {
+                            NSLog("Could not save the allowed host... \(e.localizedDescription)")
+                        }
+                        continuation.resume(returning: true)
+                    },
+                    WBAlertAction(
+                        title: "No, not now",
+                        style: .cancel,
+                    ) { _ in continuation.resume(returning: false) },
+                ]
+            )
+        }
+
+    }
     @objc func didNavigateTo(_ url: URL) {
         self.setLocationText(url.absoluteString)
     }
