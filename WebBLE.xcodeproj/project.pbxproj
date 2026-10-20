@@ -13,7 +13,6 @@
 		5A1D3256216FC96500F3391C /* WBLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1D3255216FC96500F3391C /* WBLogManager.swift */; };
 		5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */; };
 		5A31618721CC55ED00C4446B /* Copy@480.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A31618621CC55ED00C4446B /* Copy@480.png */; };
-		5A437B703078F99300B028C8 /* PrefMan in Frameworks */ = {isa = PBXBuildFile; productRef = 5A437B6F3078F99300B028C8 /* PrefMan */; };
 		5A4B8E1B2157A34800C7C858 /* ConsoleLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B8E1A2157A34800C7C858 /* ConsoleLogView.swift */; };
 		5A4B8E1D2157A66C00C7C858 /* ConsoleLogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A4B8E1C2157A66C00C7C858 /* ConsoleLogView.xib */; };
 		5A4B8E1F2157ABC500C7C858 /* ConsoleLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B8E1E2157ABC500C7C858 /* ConsoleLogViewController.swift */; };
@@ -27,6 +26,7 @@
 		5A85B9F51E2946DE00E0B718 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A85B9F41E2946DE00E0B718 /* BookmarksViewController.swift */; };
 		5A85B9F71E294B2900E0B718 /* WBBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A85B9F61E294B2900E0B718 /* WBBookmark.swift */; };
 		5A85B9F91E29582400E0B718 /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A85B9F81E29582400E0B718 /* Defaults.plist */; };
+		5A8EFBB23087815500AA8575 /* BetterUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 5A8EFBB13087815500AA8575 /* BetterUserDefaults */; };
 		5A8FD3FC233966050032DCE7 /* Console.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8FD3FB233966050032DCE7 /* Console.storyboard */; };
 		5A8FD3FE233973710032DCE7 /* WBCore.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8FD3FD233973710032DCE7 /* WBCore.storyboard */; };
 		5A8FD40023397ED80032DCE7 /* WBWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8FD3FF23397ED80032DCE7 /* WBWebViewController.swift */; };
@@ -108,7 +108,6 @@
 		5AAF1C9630655A7600561C06 /* animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = animations.swift; sourceTree = "<group>"; };
 		5AAF1C98306A68AD00561C06 /* WellIconContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellIconContainerView.swift; sourceTree = "<group>"; };
 		5AB01C81305D6FFA00785AEB /* AddToHomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToHomeScreenViewController.swift; sourceTree = "<group>"; };
-		5ABBDF7B3073A7F300F6752D /* PrefMan */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PrefMan; sourceTree = "<group>"; };
 		5AC47CA51E2BE57000BCAE82 /* Tick@480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tick@480.png"; sourceTree = "<group>"; };
 		5AC47CA71E2CCF2F00BCAE82 /* Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		5AC4AAF230618FCA00A5E7F9 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -151,7 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A437B703078F99300B028C8 /* PrefMan in Frameworks */,
+				5A8EFBB23087815500AA8575 /* BetterUserDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +276,6 @@
 		E44C184D1A36203E00734F8B = {
 			isa = PBXGroup;
 			children = (
-				5ABBDF7B3073A7F300F6752D /* PrefMan */,
 				5A85B9F81E29582400E0B718 /* Defaults.plist */,
 				5A9B90F81E1FBCFD00AEDC07 /* README.md */,
 				5AFD91A930518B630056B43A /* CHANGELOG.md */,
@@ -359,11 +357,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				5ABBDF7D3073A97000F6752D /* PBXTargetDependency */,
 			);
 			name = WebBLE;
 			packageProductDependencies = (
-				5A437B6F3078F99300B028C8 /* PrefMan */,
+				5A8EFBB13087815500AA8575 /* BetterUserDefaults */,
 			);
 			productName = BasicBrowser;
 			productReference = E44C18561A36203E00734F8B /* WebBLE.app */;
@@ -419,6 +416,9 @@
 				Base,
 			);
 			mainGroup = E44C184D1A36203E00734F8B;
+			packageReferences = (
+				5A8EFBB03087815500AA8575 /* XCRemoteSwiftPackageReference "BetterUserDefaults" */,
+			);
 			productRefGroup = E44C18571A36203E00734F8B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -523,10 +523,6 @@
 			isa = PBXTargetDependency;
 			target = E44C18551A36203E00734F8B /* WebBLE */;
 			targetProxy = 5A495413233D37C1007CA132 /* PBXContainerItemProxy */;
-		};
-		5ABBDF7D3073A97000F6752D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 5ABBDF7C3073A97000F6752D /* PrefMan */;
 		};
 /* End PBXTargetDependency section */
 
@@ -766,14 +762,22 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCSwiftPackageProductDependency section */
-		5A437B6F3078F99300B028C8 /* PrefMan */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PrefMan;
+/* Begin XCRemoteSwiftPackageReference section */
+		5A8EFBB03087815500AA8575 /* XCRemoteSwiftPackageReference "BetterUserDefaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daphtdazz/BetterUserDefaults";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
 		};
-		5ABBDF7C3073A97000F6752D /* PrefMan */ = {
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5A8EFBB13087815500AA8575 /* BetterUserDefaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = PrefMan;
+			package = 5A8EFBB03087815500AA8575 /* XCRemoteSwiftPackageReference "BetterUserDefaults" */;
+			productName = BetterUserDefaults;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
