@@ -86,21 +86,19 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self._loggerScriptHandler.manager = self.logManager
-        self.webView.addNavigationDelegate(self)
-        self.webView.uiDelegate = self
-        self.webView.configuration.userContentController.add(
-            self._loggerScriptHandler, name: "logger"
-        )
-        self.webView.scrollView.refreshControl = self.webViewRefreshControl
-        self.webViewRefreshControl.addTarget(
+        _loggerScriptHandler.manager = logManager
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+        webView.configuration.userContentController.add(_loggerScriptHandler, name: "logger")
+        webView.scrollView.refreshControl = webViewRefreshControl
+        webViewRefreshControl.addTarget(
             self,
             action: #selector(_handlePullToRefresh),
             for: .valueChanged
         )
 
         for path in ["estimatedProgress"] {
-            self.webView.addObserver(self, forKeyPath: path, options: .new, context: nil)
+            webView.addObserver(self, forKeyPath: path, options: .new, context: nil)
         }
     }
     // MARK: - WBPicker
@@ -131,13 +129,13 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if
-            let url = webView.url,
+        if let url = webView.url,
             url.absoluteString != "about:blank"
         {
             BUD.lastLocation = url
         }
-        self._clearLoadingUI()
+        _clearLoadingUI()
+        _enableBluetoothInView()
     }
 
     func webView(
@@ -334,5 +332,15 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     private func _clearLoadingUI() {
         self.loadingProgressContainer.isHidden = true
         self.webViewRefreshControl.endRefreshing()
+    }
+    func _enableBluetoothInView() {
+        self.webView.evaluateJavaScript(
+            "window.iOSNativeAPI.enableBluetooth()",
+            completionHandler: { _, error in
+                if let error_ = error {
+                    NSLog("Error enabling bluetooth in view: \(error_)")
+                }
+            }
+        )
     }
 }
