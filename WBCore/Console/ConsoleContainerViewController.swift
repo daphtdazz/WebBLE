@@ -75,10 +75,7 @@ class ConsoleContainerViewController: UIViewController {
         case .ended:
             self.consoleScrollViewHeightAtStartOfGesture = nil
             self.consoleScrollViewHeightConstraint.constant = self.scrollView.frame.height
-            UserDefaults.standard.setValue(
-                self.consoleScrollViewHeightConstraint.constant,
-                forKey: WebBLEViewController.prefKeys.lastConsoleHeight.rawValue
-            )
+            BUD.lastConsoleHeight = Float(self.consoleScrollViewHeightConstraint.constant)
         default: NSLog("Unexpected gesture state \(gestureState)")
         }
     }
@@ -92,7 +89,7 @@ class ConsoleContainerViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self._configureImageView()
-        let prevOffset = CGFloat(UserDefaults.standard.float(forKey: "lastYScrollOffset"))
+        let prevOffset = CGFloat(BUD.lastYScrollOffset)
         let contentHeight = self.scrollView.contentSize.height
         if contentHeight > prevOffset {
             self.scrollView.contentOffset.y = prevOffset
@@ -100,10 +97,7 @@ class ConsoleContainerViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UserDefaults.standard.setValue(
-            self.scrollView.contentOffset.y,
-            forKey: "lastYScrollOffset"
-        )
+        BUD.lastYScrollOffset = Float(self.scrollView.contentOffset.y)
     }
 
     // MARK: - KVO

@@ -19,13 +19,12 @@
 		5A5D621621EBA83D00E417DC /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5D621521EBA83D00E417DC /* NavigationViewController.swift */; };
 		5A5D6404216C9F9300BCD722 /* WBLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5D6403216C9F9300BCD722 /* WBLog.swift */; };
 		5A660B001F0FB174004EC11D /* WBUtils.js in Resources */ = {isa = PBXBuildFile; fileRef = 5A660AFF1F0FB174004EC11D /* WBUtils.js */; };
+		5A699E7D30865DDD00AA5414 /* WebBLEBetterUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A699E7C30865DDD00AA5414 /* WebBLEBetterUserDefaults.swift */; };
 		5A6BF67A21F503DF0051EC98 /* WBPopUpPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6BF67921F503DF0051EC98 /* WBPopUpPickerController.swift */; };
 		5A7579EA2151588B003F0CEA /* ConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7579E92151588B003F0CEA /* ConsoleViewController.swift */; };
 		5A7579ED2157907D003F0CEA /* ConsoleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7579EC2157907D003F0CEA /* ConsoleScrollView.swift */; };
 		5A7579EF21579E0E003F0CEA /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7579EE21579E0E003F0CEA /* ConsoleView.swift */; };
 		5A85B9F51E2946DE00E0B718 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A85B9F41E2946DE00E0B718 /* BookmarksViewController.swift */; };
-		5A85B9F71E294B2900E0B718 /* WBBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A85B9F61E294B2900E0B718 /* WBBookmark.swift */; };
-		5A85B9F91E29582400E0B718 /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A85B9F81E29582400E0B718 /* Defaults.plist */; };
 		5A8EFBB23087815500AA8575 /* BetterUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 5A8EFBB13087815500AA8575 /* BetterUserDefaults */; };
 		5A8FD3FC233966050032DCE7 /* Console.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8FD3FB233966050032DCE7 /* Console.storyboard */; };
 		5A8FD3FE233973710032DCE7 /* WBCore.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8FD3FD233973710032DCE7 /* WBCore.storyboard */; };
@@ -88,13 +87,12 @@
 		5A5D621521EBA83D00E417DC /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		5A5D6403216C9F9300BCD722 /* WBLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBLog.swift; sourceTree = "<group>"; };
 		5A660AFF1F0FB174004EC11D /* WBUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WBUtils.js; sourceTree = "<group>"; };
+		5A699E7C30865DDD00AA5414 /* WebBLEBetterUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBLEBetterUserDefaults.swift; sourceTree = "<group>"; };
 		5A6BF67921F503DF0051EC98 /* WBPopUpPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBPopUpPickerController.swift; sourceTree = "<group>"; };
 		5A7579E92151588B003F0CEA /* ConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewController.swift; sourceTree = "<group>"; };
 		5A7579EC2157907D003F0CEA /* ConsoleScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleScrollView.swift; sourceTree = "<group>"; };
 		5A7579EE21579E0E003F0CEA /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
 		5A85B9F41E2946DE00E0B718 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
-		5A85B9F61E294B2900E0B718 /* WBBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBBookmark.swift; sourceTree = "<group>"; };
-		5A85B9F81E29582400E0B718 /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Defaults.plist; path = BasicBrowser/Defaults.plist; sourceTree = "<group>"; };
 		5A8FD3FB233966050032DCE7 /* Console.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Console.storyboard; sourceTree = "<group>"; };
 		5A8FD3FD233973710032DCE7 /* WBCore.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = WBCore.storyboard; sourceTree = "<group>"; };
 		5A8FD3FF23397ED80032DCE7 /* WBWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBWebViewController.swift; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 		5A10929D2168D5F4002CC973 /* Bookmarks */ = {
 			isa = PBXGroup;
 			children = (
-				5A85B9F61E294B2900E0B718 /* WBBookmark.swift */,
 				5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */,
 				5A85B9F41E2946DE00E0B718 /* BookmarksViewController.swift */,
 			);
@@ -276,7 +273,6 @@
 		E44C184D1A36203E00734F8B = {
 			isa = PBXGroup;
 			children = (
-				5A85B9F81E29582400E0B718 /* Defaults.plist */,
 				5A9B90F81E1FBCFD00AEDC07 /* README.md */,
 				5AFD91A930518B630056B43A /* CHANGELOG.md */,
 				5AFD083A305403730019CA5C /* TODO.md */,
@@ -310,6 +306,7 @@
 				5AAF1C953065540A00561C06 /* Views */,
 				5A5D621521EBA83D00E417DC /* NavigationViewController.swift */,
 				E44C185B1A36203E00734F8B /* AppDelegate.swift */,
+				5A699E7C30865DDD00AA5414 /* WebBLEBetterUserDefaults.swift */,
 				5AFD083B305963190019CA5C /* SceneDelegate.swift */,
 				E44C185D1A36203E00734F8B /* WebBLEViewController.swift */,
 				5A1A8E1528009C3200271575 /* URLTextField.swift */,
@@ -446,7 +443,6 @@
 				BB303DF11C41EF2F00FCAF24 /* WBPolyfill.js in Resources */,
 				5A8FD3FE233973710032DCE7 /* WBCore.storyboard in Resources */,
 				5ADE336E23663353007E6AD7 /* Images.xcassets in Resources */,
-				5A85B9F91E29582400E0B718 /* Defaults.plist in Resources */,
 				5A8FD3FC233966050032DCE7 /* Console.storyboard in Resources */,
 				5AFC77FE22ECD09E0071E792 /* WBEventTarget.js in Resources */,
 				E44C18661A36203E00734F8B /* LaunchScreen.xib in Resources */,
@@ -483,9 +479,9 @@
 				5A7579EA2151588B003F0CEA /* ConsoleViewController.swift in Sources */,
 				5AAF1C943065536900561C06 /* Extensions.swift in Sources */,
 				5A5D6404216C9F9300BCD722 /* WBLog.swift in Sources */,
-				5A85B9F71E294B2900E0B718 /* WBBookmark.swift in Sources */,
 				5A4B8E1B2157A34800C7C858 /* ConsoleLogView.swift in Sources */,
 				5AFD083C305963190019CA5C /* SceneDelegate.swift in Sources */,
+				5A699E7D30865DDD00AA5414 /* WebBLEBetterUserDefaults.swift in Sources */,
 				E44C185C1A36203E00734F8B /* AppDelegate.swift in Sources */,
 				5A5D621621EBA83D00E417DC /* NavigationViewController.swift in Sources */,
 				5A10929B2168D599002CC973 /* ConsoleContainerViewController.swift in Sources */,

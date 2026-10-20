@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         willFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         self._app = application
+        BUD.upgrade()
         return true
     }
 

@@ -25,13 +25,6 @@ class WebBLEViewController:
     ConsoleToggler
 {
 
-    enum prefKeys: String {
-        case bookmarks
-        case consoleOpen
-        case lastConsoleHeight
-        case version
-    }
-
     // MARK: - Properties
     let currentPrefVersion = 1
     let bottomMarginNotToHideBarsIn: CGFloat = 100.0
@@ -49,10 +42,6 @@ class WebBLEViewController:
     // MARK: Internal
     var initialURL: URL?
 
-    var bookmarksManager = BookmarksManager(
-        userDefaults: UserDefaults.standard,
-        key: prefKeys.bookmarks.rawValue
-    )
     weak var addToHomeScreenVC: AddToHomeScreenViewController? = nil
 
     var shouldShowBars = true {
@@ -109,7 +98,13 @@ class WebBLEViewController:
             return
         }
 
-        self.bookmarksManager.addBookmarks([WBBookmark(title: title, url: url)])
+        do {
+            let newItem = try BUD.bookmarks.newItem(initial: [:])
+            newItem.title = title
+            newItem.url = url
+        } catch {
+            return
+        }
         FlashAnimation(withView: self.tick).go()
     }
     @IBAction func goForward() {
@@ -174,7 +169,7 @@ class WebBLEViewController:
         self.addChild(consoleCVC)
         self.view!.addSubview(consoleCVC.view!)
         consoleCVC.wbLogManager = self.webViewController.logManager
-        UserDefaults.standard.setValue(true, forKey: WebBLEViewController.prefKeys.consoleOpen.rawValue)
+        BUD.consoleOpen = true
         NSLog("Console CVC added")
     }
     func removeConsoleCVC() {
@@ -184,14 +179,12 @@ class WebBLEViewController:
         }
         ccvc.removeFromParent()
         ccvc.view!.removeFromSuperview()
-        UserDefaults.standard.setValue(false, forKey: WebBLEViewController.prefKeys.consoleOpen.rawValue)
+        BUD.consoleOpen = false
     }
 
     // MARK: - Segue handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.destination {
-        case let bvc as BookmarksViewController:
-            bvc.bookmarksManager = self.bookmarksManager
         case let athsvc as AddToHomeScreenViewController:
             athsvc.webView = webView
             self.addToHomeScreenVC = athsvc
@@ -203,10 +196,10 @@ class WebBLEViewController:
             let tv = bvc.view as? UITableView,
             let ip = tv.indexPathForSelectedRow
         {
-            if ip.item >= self.bookmarksManager.bookmarks.count {
+            if ip.item >= BUD.bookmarks.count {
                 NSLog("Selected bookmark is out of range")
             } else {
-                self.webView.load(URLRequest(url: self.bookmarksManager.bookmarks[ip.item].url))
+                self.webView.load(URLRequest(url: BUD.bookmarks[ip.item].url))
             }
         }
     }
@@ -222,8 +215,6 @@ class WebBLEViewController:
     // MARK: - Event handling
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let ud = UserDefaults.standard
 
         // connect view to other objects
         self.locationTextField.delegate = self
@@ -243,28 +234,15 @@ class WebBLEViewController:
 
         self._configureRefreshButton()
 
-        self.loadPreferences()
-
         // Load last location
         if let url = initialURL {
             loadURL(url)
         } else {
-            var lastLocation: String
-            if let prefLoc = ud.value(
-                forKey: WBWebViewController.prefKeys.lastLocation.rawValue
-            ) as? String {
-                lastLocation = prefLoc
-            } else {
-                let svers =
-                    Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
-                    as! String
-                lastLocation = "https://www.greenparksoftware.co.uk/projects/webble/\(svers)"
-            }
-            self.loadLocation(lastLocation)
+            loadURL(BUD.lastLocation)
         }
 
         // Maybe re-open console
-        if ud.bool(forKey: prefKeys.consoleOpen.rawValue) {
+        if BUD.consoleOpen {
             self.toggleConsole()
         }
     }
@@ -407,62 +385,6 @@ class WebBLEViewController:
             self?.forceRefresh()
         }
         refreshButton.menu = UIMenu(title: "", children: [forceRefreshAction])
-    }
-    private func loadPreferences() {
-
-        // Sort out the preferences we have.
-        let ud = UserDefaults.standard
-
-        let prefsVersion = ud.integer(forKey: WebBLEViewController.prefKeys.version.rawValue)
-
-        var hadPrefs = false
-        if let bma = ud.array(forKey: WebBLEViewController.prefKeys.bookmarks.rawValue)
-            as? [[String: String]]
-        {
-            self.bookmarksManager.mergeInBookmarkDicts(bookmarkDicts: bma)
-            hadPrefs = true
-        }
-
-        // Merge in any defaults.
-        let mb = Bundle.main
-        guard let defPlistURL = mb.url(forResource: "Defaults", withExtension: "plist"),
-            let defDict = NSDictionary(contentsOf: defPlistURL)
-        else {
-            assert(false, "Unexpectedly couldn't find defaults")
-            return
-        }
-
-        let range = (!hadPrefs ? 0 : prefsVersion + 1)..<self.currentPrefVersion + 1
-
-        for pref in range {
-            guard let vDict = defDict.value(forKey: "\(pref)") as? [String: Any] else {
-                continue
-            }
-            vDict.forEach({
-                key,
-                object in
-                guard let pKey = WebBLEViewController.prefKeys(rawValue: key)
-                else {
-                    return
-                }
-
-                switch pKey {
-                case .bookmarks:
-                    guard
-                        let bdicts = object as? [[String: String]]
-                    else {
-                        assert(false, "Unexpectedly couldn't find bookmarks in defaults")
-                        return
-                    }
-                    self.bookmarksManager.mergeInBookmarkDicts(bookmarkDicts: bdicts)
-                default:
-                    return
-                }
-            })
-        }
-
-        // Set the preferences version to be up to date.
-        ud.set(self.currentPrefVersion, forKey: WebBLEViewController.prefKeys.version.rawValue)
     }
     func setHidesOnSwipesFromScrollView(_ scrollView: UIScrollView) {
         // Due to an apparent bug this should not be called when the toolbar / navbar

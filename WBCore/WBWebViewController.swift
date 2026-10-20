@@ -52,10 +52,6 @@ private class _WBLoggerScriptHandler: NSObject, WKScriptMessageHandler {
 
 class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WBPicker {
 
-    enum prefKeys: String {
-        case lastLocation
-    }
-
     @IBOutlet var loadingProgressContainer: UIView!
     @IBOutlet var loadingProgressView: UIView!
     @IBOutlet var webView: WBWebView!
@@ -135,13 +131,11 @@ class WBWebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate,
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if let urlString = webView.url?.absoluteString,
-            urlString != "about:blank"
+        if
+            let url = webView.url,
+            url.absoluteString != "about:blank"
         {
-            UserDefaults.standard.setValue(
-                urlString,
-                forKey: WBWebViewController.prefKeys.lastLocation.rawValue
-            )
+            BUD.lastLocation = url
         }
         self._clearLoadingUI()
     }

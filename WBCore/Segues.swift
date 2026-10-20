@@ -68,9 +68,7 @@ class ShowConsoleSegue: UIStoryboardSegue {
         vc.addConsoleCVC(ccvc)
 
         // Configure the height
-        let prevHeight = CGFloat(
-            UserDefaults.standard.float(forKey: WebBLEViewController.prefKeys.lastConsoleHeight.rawValue)
-        )
+        let prevHeight = CGFloat(BUD.lastConsoleHeight)
         let heightConstraint =
             ccvc.consoleScrollViewHeightConstraint!
         heightConstraint.constant =
