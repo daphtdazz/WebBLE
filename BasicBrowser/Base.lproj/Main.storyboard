@@ -6,6 +6,7 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -36,10 +37,10 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="WebBLEViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="509" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="586" height="667"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I1P-4j-XZZ">
-                                <rect key="frame" x="0.0" y="74" width="509" height="511"/>
+                                <rect key="frame" x="0.0" y="74" width="586" height="511"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="ew5-31-Qcw"/>
                                 </constraints>
@@ -48,14 +49,14 @@
                                 </connections>
                             </containerView>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tick@480.png" translatesAutoresizingMaskIntoConstraints="NO" id="6wE-az-iDp">
-                                <rect key="frame" x="132.5" y="209.5" width="240" height="240"/>
+                                <rect key="frame" x="171" y="209.5" width="240" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="em1-ft-ljS"/>
                                     <constraint firstAttribute="height" constant="240" id="qSE-Sl-Qc3"/>
                                 </constraints>
                             </imageView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NgV-mf-Lto">
-                                <rect key="frame" x="0.0" y="545" width="509" height="122"/>
+                                <rect key="frame" x="0.0" y="545" width="586" height="122"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="QVE-VE-sVj" appends="YES" id="J2j-S7-lR0"/>
@@ -113,6 +114,21 @@
                                 <action selector="toggleConsole" destination="BYZ-38-t0r" id="r85-BZ-MHL"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem width="8" style="plain" systemItem="fixedSpace" id="Wjp-2u-YLD"/>
+                        <barButtonItem title="Downloads" image="square.and.arrow.down.on.square" catalog="system" width="28" id="bwh-dE-AzB">
+                            <menu key="menu" id="r7Y-WD-bkC">
+                                <children>
+                                    <command title="View downloads in Files" id="6sm-ex-nmH">
+                                        <connections>
+                                            <action selector="openDownloadsInFiles" destination="BYZ-38-t0r" id="VyF-mV-alB"/>
+                                        </connections>
+                                    </command>
+                                </children>
+                            </menu>
+                            <connections>
+                                <segue destination="r58-Kb-cQZ" kind="show" id="sdX-b6-Whn"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem width="8" style="plain" systemItem="fixedSpace" id="dS0-fO-69k"/>
                         <barButtonItem style="plain" systemItem="refresh" id="LXB-CH-4RT">
                             <userDefinedRuntimeAttributes>
@@ -139,7 +155,7 @@
                     <navigationItem key="navigationItem" id="5bm-lP-CUV">
                         <nil key="title"/>
                         <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="O1l-7F-uXL" customClass="URLTextField" customModule="WebBLE" customModuleProvider="target">
-                            <rect key="frame" x="83" y="5" width="343" height="34"/>
+                            <rect key="frame" x="122" y="5" width="343" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -150,8 +166,10 @@
                         </textField>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <size key="freeformSize" width="509" height="667"/>
+                    <size key="freeformSize" width="586" height="667"/>
                     <connections>
+                        <outlet property="downloadMenu" destination="r7Y-WD-bkC" id="IN4-QJ-Xwd"/>
+                        <outlet property="downloadToolBar" destination="bwh-dE-AzB" id="Dua-1u-qn3"/>
                         <outlet property="extraShowBarsView" destination="NgV-mf-Lto" id="bDg-v6-M0u"/>
                         <outlet property="goBackButton" destination="NaX-Y9-Gfj" id="0Xc-k5-kMK"/>
                         <outlet property="goForwardButton" destination="qhG-nx-nEQ" id="1GO-aY-9L7"/>
@@ -169,36 +187,107 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="147.19999999999999" y="250.52473763118442"/>
+            <point key="canvasLocation" x="146.40000000000001" y="250.52473763118442"/>
         </scene>
-        <!--Bookmarks View Controller-->
+        <!--Downloads-->
+        <scene sceneID="cit-om-Ttp">
+            <objects>
+                <tableViewController title="Downloads" id="YRY-er-Xhk" customClass="DownloadsViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="oPp-5Z-ZAe">
+                        <rect key="frame" x="0.0" y="0.0" width="318" height="464"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="IkY-r0-85l">
+                            <rect key="frame" x="0.0" y="0.0" width="318" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ye7-Wm-x5h">
+                                    <rect key="frame" x="109.5" y="11" width="99" height="19"/>
+                                    <attributedString key="attributedText">
+                                        <fragment content="No downloads">
+                                            <attributes>
+                                                <color key="NSColor" systemColor="systemGray2Color"/>
+                                                <font key="NSFont" metaFont="system" size="17"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="Ye7-Wm-x5h" firstAttribute="centerX" secondItem="IkY-r0-85l" secondAttribute="centerX" id="dLU-0d-HOx"/>
+                                <constraint firstItem="Ye7-Wm-x5h" firstAttribute="top" secondItem="IkY-r0-85l" secondAttribute="top" constant="11" id="tve-WU-eQJ"/>
+                            </constraints>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="download" textLabel="0cT-Aa-zuW" detailTextLabel="IxW-6y-H9F" style="IBUITableViewCellStyleValue1" id="INh-6s-BcZ">
+                                <rect key="frame" x="0.0" y="94" width="318" height="51"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="INh-6s-BcZ" id="xVM-9z-tR3">
+                                    <rect key="frame" x="0.0" y="0.0" width="318" height="51"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0cT-Aa-zuW">
+                                            <rect key="frame" x="16" y="19" width="25" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IxW-6y-H9F">
+                                            <rect key="frame" x="269" y="19" width="33" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="YRY-er-Xhk" id="EH3-Oe-fgn"/>
+                            <outlet property="delegate" destination="YRY-er-Xhk" id="GdT-uN-9z0"/>
+                        </connections>
+                    </tableView>
+                    <size key="freeformSize" width="318" height="464"/>
+                    <connections>
+                        <outlet property="noDownloadsView" destination="Ye7-Wm-x5h" id="JWd-pT-DoL"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AZv-7J-erK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1934" y="450"/>
+        </scene>
+        <!--Bookmarks-->
         <scene sceneID="cuT-Se-jjO">
             <objects>
-                <tableViewController id="bL6-a5-4h5" customClass="BookmarksViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="gNH-ze-Sky">
+                <tableViewController title="Bookmarks" id="bL6-a5-4h5" customClass="BookmarksViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="60" sectionHeaderHeight="-1" sectionFooterHeight="-1" id="gNH-ze-Sky">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="bookmark" textLabel="oFT-ZQ-s8A" detailTextLabel="hzE-yV-kjH" style="IBUITableViewCellStyleSubtitle" id="0yI-38-CeH">
-                                <rect key="frame" x="0.0" y="50" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="bookmark" textLabel="I39-B8-fyu" detailTextLabel="0vs-AV-htZ" style="IBUITableViewCellStyleSubtitle" id="0yI-38-CeH">
+                                <rect key="frame" x="0.0" y="50" width="375" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0yI-38-CeH" id="2Hb-F4-o6p">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="51"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oFT-ZQ-s8A">
-                                            <rect key="frame" x="16" y="5" width="31.5" height="19.5"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="I39-B8-fyu">
+                                            <rect key="frame" x="16" y="8" width="25" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" id="hzE-yV-kjH">
-                                            <rect key="frame" x="16" y="24.5" width="33" height="14.5"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0vs-AV-htZ">
+                                            <rect key="frame" x="16" y="24.5" width="39.5" height="18"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -218,7 +307,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Q4-aG-tnr" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="pCZ-RN-DDT" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1060" y="252"/>
+            <point key="canvasLocation" x="1164" y="-179"/>
         </scene>
         <!--WebViewContainerController-->
         <scene sceneID="NFU-EG-6av">
@@ -744,7 +833,48 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RgZ-5b-7Fg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="694.39999999999998" y="1077.6611694152925"/>
+            <point key="canvasLocation" x="742" y="1079"/>
+        </scene>
+        <!--Downloads-->
+        <scene sceneID="Or5-mD-CtV">
+            <objects>
+                <viewController title="Downloads" id="r58-Kb-cQZ" customClass="DownloadsContainerViewController" customModule="WebBLE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P9k-a4-j25">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="483"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AQK-c1-2dN">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="483"/>
+                                <connections>
+                                    <segue destination="YRY-er-Xhk" kind="embed" id="D2g-YY-R60"/>
+                                </connections>
+                            </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1pH-j5-8tE">
+                                <rect key="frame" x="212" y="440" width="155" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" image="square.and.arrow.up" catalog="system" title="  Open in Files"/>
+                                <connections>
+                                    <action selector="openDownloadsInFiles" destination="r58-Kb-cQZ" eventType="touchUpInside" id="Zok-lD-gBn"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="OT2-qM-viM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="AQK-c1-2dN" firstAttribute="top" secondItem="P9k-a4-j25" secondAttribute="top" id="4hC-kO-ue3"/>
+                            <constraint firstItem="OT2-qM-viM" firstAttribute="bottom" secondItem="1pH-j5-8tE" secondAttribute="bottom" constant="8" id="Xic-gH-TxM"/>
+                            <constraint firstItem="OT2-qM-viM" firstAttribute="trailing" secondItem="1pH-j5-8tE" secondAttribute="trailing" constant="8" id="df6-9B-1rB"/>
+                            <constraint firstAttribute="bottom" secondItem="AQK-c1-2dN" secondAttribute="bottom" id="r82-VN-KRh"/>
+                            <constraint firstAttribute="trailing" secondItem="AQK-c1-2dN" secondAttribute="trailing" id="yeJ-UL-uJf"/>
+                            <constraint firstItem="AQK-c1-2dN" firstAttribute="leading" secondItem="P9k-a4-j25" secondAttribute="leading" id="ysL-FH-8sM"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="483"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FOr-AZ-tby" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1164" y="451"/>
         </scene>
     </scenes>
     <resources>
@@ -760,6 +890,8 @@
         <image name="chevron.backward" catalog="system" width="93" height="128"/>
         <image name="chevron.forward" catalog="system" width="93" height="128"/>
         <image name="plus.app" catalog="system" width="128" height="119"/>
+        <image name="square.and.arrow.down.on.square" catalog="system" width="111" height="128"/>
+        <image name="square.and.arrow.up" catalog="system" width="107" height="128"/>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
@@ -768,6 +900,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

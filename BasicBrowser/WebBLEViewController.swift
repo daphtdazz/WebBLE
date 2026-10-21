@@ -38,6 +38,8 @@ class WebBLEViewController:
     @IBOutlet var showConsoleButton: UIBarButtonItem!
     @IBOutlet var addButton: UIBarButtonItem!
     @IBOutlet var extraShowBarsView: UIView!
+    @IBOutlet var downloadToolBar: UIBarButtonItem!
+    @IBOutlet var downloadMenu: UIMenu!
 
     // MARK: Internal
     var initialURL: URL?
@@ -158,6 +160,9 @@ class WebBLEViewController:
             self.showConsole()
         }
     }
+    @IBAction func openDownloadsInFiles() {
+        DownloadsContainerViewController.openDownloadsInFiles()
+    }
 
     // MARK: - Home bar indicator control
     override var prefersHomeIndicatorAutoHidden: Bool {
@@ -233,6 +238,7 @@ class WebBLEViewController:
         }
 
         self._configureRefreshButton()
+        self.downloadToolBar.menu = self.downloadMenu
 
         // Load last location
         if let url = initialURL {

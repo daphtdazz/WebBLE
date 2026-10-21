@@ -13,6 +13,8 @@
 		5A1D3256216FC96500F3391C /* WBLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1D3255216FC96500F3391C /* WBLogManager.swift */; };
 		5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */; };
 		5A31618721CC55ED00C4446B /* Copy@480.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A31618621CC55ED00C4446B /* Copy@480.png */; };
+		5A446C093088E89D000D2012 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A446C083088E895000D2012 /* DownloadsViewController.swift */; };
+		5A446C0B30892122000D2012 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A446C0A3089211A000D2012 /* Download.swift */; };
 		5A4B8E1B2157A34800C7C858 /* ConsoleLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B8E1A2157A34800C7C858 /* ConsoleLogView.swift */; };
 		5A4B8E1D2157A66C00C7C858 /* ConsoleLogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A4B8E1C2157A66C00C7C858 /* ConsoleLogView.xib */; };
 		5A4B8E1F2157ABC500C7C858 /* ConsoleLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B8E1E2157ABC500C7C858 /* ConsoleLogViewController.swift */; };
@@ -82,6 +84,8 @@
 		5A1D3255216FC96500F3391C /* WBLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBLogManager.swift; sourceTree = "<group>"; };
 		5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksManager.swift; sourceTree = "<group>"; };
 		5A31618621CC55ED00C4446B /* Copy@480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Copy@480.png"; sourceTree = "<group>"; };
+		5A446C083088E895000D2012 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
+		5A446C0A3089211A000D2012 /* Download.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		5A4B8E1A2157A34800C7C858 /* ConsoleLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogView.swift; sourceTree = "<group>"; };
 		5A4B8E1C2157A66C00C7C858 /* ConsoleLogView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConsoleLogView.xib; sourceTree = "<group>"; };
 		5A4B8E1E2157ABC500C7C858 /* ConsoleLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +228,8 @@
 		5A6721CC3087B89A009FC529 /* Downloads */ = {
 			isa = PBXGroup;
 			children = (
+				5A446C0A3089211A000D2012 /* Download.swift */,
+				5A446C083088E895000D2012 /* DownloadsViewController.swift */,
 				5A6721CD3087B8A8009FC529 /* AllowedDownloadBUD.swift */,
 			);
 			path = Downloads;
@@ -488,6 +494,7 @@
 				5AC47CA81E2CCF2F00BCAE82 /* Animations.swift in Sources */,
 				5AC8067D21655B5E00AA5176 /* DividerView.swift in Sources */,
 				5A7579EA2151588B003F0CEA /* ConsoleViewController.swift in Sources */,
+				5A446C0B30892122000D2012 /* Download.swift in Sources */,
 				5AAF1C943065536900561C06 /* Extensions.swift in Sources */,
 				5A5D6404216C9F9300BCD722 /* WBLog.swift in Sources */,
 				5A4B8E1B2157A34800C7C858 /* ConsoleLogView.swift in Sources */,
@@ -508,6 +515,7 @@
 				5A1D3256216FC96500F3391C /* WBLogManager.swift in Sources */,
 				5AAF1C9730655A8200561C06 /* animations.swift in Sources */,
 				5A0F91CC1E01546200CB2C64 /* JSHandlerCompatible.swift in Sources */,
+				5A446C093088E89D000D2012 /* DownloadsViewController.swift in Sources */,
 				5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */,
 				5A6721CE3087B8C6009FC529 /* AllowedDownloadBUD.swift in Sources */,
 				BB4DE1F41C8D0A44003151BF /* WBDevice.swift in Sources */,

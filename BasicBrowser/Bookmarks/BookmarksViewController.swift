@@ -46,8 +46,10 @@ class BookmarksViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "bookmark", for: indexPath)
 
         let bm = BUD.bookmarks[indexPath.item]
-        cell.textLabel?.text = bm.title
-        cell.detailTextLabel?.text = bm.assumedHTTPSURLPath
+        var cc = cell.defaultContentConfiguration()
+        cc.text = bm.title
+        cc.secondaryText = bm.assumedHTTPSURLPath
+        cell.contentConfiguration = cc
 
         return cell
     }
