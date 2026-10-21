@@ -53,6 +53,7 @@ private class _WBLoggerScriptHandler: NSObject, WKScriptMessageHandler {
 @objc protocol WBWebViewControllerDelegate {
     func canDownload(from host: String) async -> Bool
     @objc optional func didNavigateTo(_ url: URL)
+    var downloadDirectory: URL? { get }
 }
 
 class WBWebViewController:
@@ -228,7 +229,38 @@ class WBWebViewController:
         suggestedFilename: String
     ) async -> URL? {
         NSLog("Deciding destination for \(response.url?.absoluteString ?? "<unknown>")")
-        return nil
+        let fm = FileManager.default
+
+        guard let downloadDir = delegate.downloadDirectory else {
+            return nil
+        }
+
+        let path = {
+            let ext = (suggestedFilename as NSString).pathExtension
+            let baseName = (suggestedFilename as NSString).deletingPathExtension
+            for ii in 0... {
+                let name = ii == 0 ? suggestedFilename : "\(baseName)-\(ii).\(ext)"
+                let place = downloadDir.appending(path: name)
+                if !fm.fileExists(atPath: place.path(percentEncoded: false)) {
+                    return place as URL?
+                }
+            }
+            // unreachable...
+            return nil as URL?
+        }()
+
+        NSLog("downloading to \(path?.absoluteString ?? "<nil>")")
+        return path
+    }
+    func downloadDidFinish(_ download: WKDownload) {
+        NSLog("Download \(download) finished")
+    }
+    func download(
+        _ download: WKDownload,
+        didFailWithError error: any Error,
+        resumeData: Data?
+    ) {
+        NSLog("Download \(download) failed with error \(error)")
     }
 
     // MARK: - WKUIDelegate

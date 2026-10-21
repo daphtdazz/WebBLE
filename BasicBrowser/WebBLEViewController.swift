@@ -337,6 +337,19 @@ class WebBLEViewController:
     @objc func didNavigateTo(_ url: URL) {
         self.setLocationText(url.absoluteString)
     }
+    var downloadDirectory: URL? {
+        let fm = FileManager.default
+        let downloadDir = URL.documentsDirectory.appending(path: "Downloads")
+        if !fm.fileExists(atPath: downloadDir.path(percentEncoded: false)) {
+            do {
+                try fm.createDirectory(at: downloadDir, withIntermediateDirectories: true)
+            } catch let e {
+                NSLog("Failed to create directory at \(downloadDir): \(e)")
+                return nil
+            }
+        }
+        return downloadDir
+    }
 
     // MARK: - UIScrollViewDelegate
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {

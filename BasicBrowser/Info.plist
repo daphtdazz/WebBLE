@@ -35,6 +35,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>WebBLE implements the web bluetooth APIs, and therefore needs bluetooth peripheral access</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
@@ -64,6 +66,8 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
