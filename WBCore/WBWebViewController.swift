@@ -254,6 +254,9 @@ class WBWebViewController:
     }
     func downloadDidFinish(_ download: WKDownload) {
         NSLog("Download \(download) finished")
+        NotificationCenter.default.postGeneralNotification(
+            "square.and.arrow.down.badge.checkmark", "File downloaded",
+        )
     }
     func download(
         _ download: WKDownload,
@@ -261,6 +264,9 @@ class WBWebViewController:
         resumeData: Data?
     ) {
         NSLog("Download \(download) failed with error \(error)")
+        NotificationCenter.default.postGeneralNotification(
+            "", "File download failed: \(error)", .error
+        )
     }
 
     // MARK: - WKUIDelegate

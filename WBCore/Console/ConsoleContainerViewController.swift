@@ -12,7 +12,6 @@ class ConsoleContainerViewController: UIViewController {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var consoleScrollViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var clearSelectionImageView: UIImageView!
-    @IBOutlet var copySuccessIndication: UIImageView!
 
     private var _wbLogManager: WBLogManager?
 
@@ -55,7 +54,7 @@ class ConsoleContainerViewController: UIViewController {
         let gpb = UIPasteboard.general
         let text = self.wbLogManager.selectedLogText()
         gpb.string = text
-        FlashAnimation(withView: self.copySuccessIndication).go()
+        NotificationCenter.default.postGeneralNotification("document.on.document", "Copied")
     }
 
     @IBAction func dividerDrag(_ sender: UIPanGestureRecognizer) {

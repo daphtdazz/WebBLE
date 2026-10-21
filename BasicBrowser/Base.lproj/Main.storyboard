@@ -48,13 +48,40 @@
                                     <segue destination="uPD-zx-e6p" kind="embed" id="p3n-JP-7AI"/>
                                 </connections>
                             </containerView>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tick@480.png" translatesAutoresizingMaskIntoConstraints="NO" id="6wE-az-iDp">
-                                <rect key="frame" x="171" y="209.5" width="240" height="240"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RDz-AK-Odr" customClass="NotificationView" customModule="WebBLE" customModuleProvider="target">
+                                <rect key="frame" x="130" y="513" width="326" height="64"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.down.badge.checkmark" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Ryv-as-FXc">
+                                        <rect key="frame" x="8" y="5.5" width="50.5" height="53.5"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Ryv-as-FXc" secondAttribute="height" multiplier="1:1" id="BDw-fm-i9r"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a really long label to test the overflow" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAo-gx-MPs">
+                                        <rect key="frame" x="64" y="11.5" width="242" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.8022289426523298" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="em1-ft-ljS"/>
-                                    <constraint firstAttribute="height" constant="240" id="qSE-Sl-Qc3"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="4xd-zi-suc"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ryv-as-FXc" secondAttribute="bottom" constant="8" id="AUM-Hr-reE"/>
+                                    <constraint firstItem="aAo-gx-MPs" firstAttribute="centerY" secondItem="Ryv-as-FXc" secondAttribute="centerY" id="IvN-vq-fMU"/>
+                                    <constraint firstAttribute="trailing" secondItem="aAo-gx-MPs" secondAttribute="trailing" priority="900" constant="20" symbolic="YES" id="PML-Ms-0No"/>
+                                    <constraint firstItem="Ryv-as-FXc" firstAttribute="leading" secondItem="RDz-AK-Odr" secondAttribute="leading" constant="8" id="SgW-f8-aMi"/>
+                                    <constraint firstItem="aAo-gx-MPs" firstAttribute="leading" secondItem="Ryv-as-FXc" secondAttribute="trailing" constant="8" symbolic="YES" id="WTr-k6-qAQ"/>
+                                    <constraint firstAttribute="height" constant="64" id="nI1-Sb-wWZ"/>
+                                    <constraint firstItem="Ryv-as-FXc" firstAttribute="top" secondItem="RDz-AK-Odr" secondAttribute="top" constant="8" id="oCO-4K-YGS"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="xjB-80-C09"/>
                                 </constraints>
-                            </imageView>
+                                <connections>
+                                    <outlet property="imageView" destination="Ryv-as-FXc" id="QqT-1e-eke"/>
+                                    <outlet property="label" destination="aAo-gx-MPs" id="9lb-gF-Zdv"/>
+                                </connections>
+                            </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NgV-mf-Lto">
                                 <rect key="frame" x="0.0" y="545" width="586" height="122"/>
                                 <gestureRecognizers/>
@@ -69,12 +96,12 @@
                         <constraints>
                             <constraint firstItem="fUp-cf-yrq" firstAttribute="trailing" secondItem="NgV-mf-Lto" secondAttribute="trailing" id="Gf8-bX-1Mj"/>
                             <constraint firstItem="fUp-cf-yrq" firstAttribute="bottom" secondItem="I1P-4j-XZZ" secondAttribute="bottom" priority="990" id="N1N-kn-YIh"/>
-                            <constraint firstItem="6wE-az-iDp" firstAttribute="centerX" secondItem="I1P-4j-XZZ" secondAttribute="centerX" constant="-2" id="Q8c-Vr-441"/>
+                            <constraint firstItem="RDz-AK-Odr" firstAttribute="centerX" secondItem="fUp-cf-yrq" secondAttribute="centerX" id="N3E-jn-pMq"/>
                             <constraint firstItem="I1P-4j-XZZ" firstAttribute="leading" secondItem="fUp-cf-yrq" secondAttribute="leading" id="Tmc-iu-YcI"/>
                             <constraint firstItem="NgV-mf-Lto" firstAttribute="leading" secondItem="fUp-cf-yrq" secondAttribute="leading" id="ceZ-8R-SPH"/>
-                            <constraint firstItem="6wE-az-iDp" firstAttribute="centerY" secondItem="I1P-4j-XZZ" secondAttribute="centerY" id="ch6-ac-DgS"/>
                             <constraint firstItem="fUp-cf-yrq" firstAttribute="bottom" secondItem="NgV-mf-Lto" secondAttribute="top" constant="40" id="eUB-Gy-XO6"/>
                             <constraint firstItem="fUp-cf-yrq" firstAttribute="trailing" secondItem="I1P-4j-XZZ" secondAttribute="trailing" id="fWT-8M-CoL"/>
+                            <constraint firstItem="RDz-AK-Odr" firstAttribute="bottom" secondItem="I1P-4j-XZZ" secondAttribute="bottom" constant="-8" id="g4U-bU-1V5"/>
                             <constraint firstAttribute="bottom" secondItem="NgV-mf-Lto" secondAttribute="bottom" id="gC0-D0-aU8"/>
                             <constraint firstItem="I1P-4j-XZZ" firstAttribute="top" secondItem="fUp-cf-yrq" secondAttribute="top" id="lKc-uu-8Vk"/>
                         </constraints>
@@ -176,7 +203,6 @@
                         <outlet property="locationTextField" destination="O1l-7F-uXL" id="i8M-pT-n46"/>
                         <outlet property="refreshButton" destination="LXB-CH-4RT" id="350-AZ-rBZ"/>
                         <outlet property="showConsoleButton" destination="uNi-2X-YpW" id="CTt-pC-CFQ"/>
-                        <outlet property="tick" destination="6wE-az-iDp" id="aNh-gM-jXz"/>
                         <segue destination="key-17-bOS" kind="custom" identifier="ShowConsoleSegueID" customClass="ShowConsoleSegue" customModule="WebBLE" customModuleProvider="target" id="Cnc-k6-Alb"/>
                     </connections>
                 </viewController>
@@ -187,7 +213,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="146.40000000000001" y="250.52473763118442"/>
+            <point key="canvasLocation" x="145.59999999999999" y="250.52473763118442"/>
         </scene>
         <!--Downloads-->
         <scene sceneID="cit-om-Ttp">
@@ -202,7 +228,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ye7-Wm-x5h">
-                                    <rect key="frame" x="109.5" y="11" width="99" height="19"/>
+                                    <rect key="frame" x="104.5" y="11" width="109" height="20.5"/>
                                     <attributedString key="attributedText">
                                         <fragment content="No downloads">
                                             <attributes>
@@ -850,7 +876,7 @@
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1pH-j5-8tE">
-                                <rect key="frame" x="212" y="440" width="155" height="35"/>
+                                <rect key="frame" x="208" y="428" width="155" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" image="square.and.arrow.up" catalog="system" title="  Open in Files"/>
                                 <connections>
@@ -862,8 +888,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="AQK-c1-2dN" firstAttribute="top" secondItem="P9k-a4-j25" secondAttribute="top" id="4hC-kO-ue3"/>
-                            <constraint firstItem="OT2-qM-viM" firstAttribute="bottom" secondItem="1pH-j5-8tE" secondAttribute="bottom" constant="8" id="Xic-gH-TxM"/>
-                            <constraint firstItem="OT2-qM-viM" firstAttribute="trailing" secondItem="1pH-j5-8tE" secondAttribute="trailing" constant="8" id="df6-9B-1rB"/>
+                            <constraint firstItem="OT2-qM-viM" firstAttribute="bottom" secondItem="1pH-j5-8tE" secondAttribute="bottom" constant="20" id="Xic-gH-TxM"/>
+                            <constraint firstItem="OT2-qM-viM" firstAttribute="trailing" secondItem="1pH-j5-8tE" secondAttribute="trailing" constant="12" id="df6-9B-1rB"/>
                             <constraint firstAttribute="bottom" secondItem="AQK-c1-2dN" secondAttribute="bottom" id="r82-VN-KRh"/>
                             <constraint firstAttribute="trailing" secondItem="AQK-c1-2dN" secondAttribute="trailing" id="yeJ-UL-uJf"/>
                             <constraint firstItem="AQK-c1-2dN" firstAttribute="leading" secondItem="P9k-a4-j25" secondAttribute="leading" id="ysL-FH-8sM"/>
@@ -884,12 +910,12 @@
         <image name="4.circle" catalog="system" width="128" height="128"/>
         <image name="5.circle" catalog="system" width="128" height="128"/>
         <image name="Console Button" width="28" height="28"/>
-        <image name="Tick@480.png" width="480" height="480"/>
         <image name="bookmark" catalog="system" width="107" height="128"/>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="128"/>
         <image name="chevron.backward" catalog="system" width="93" height="128"/>
         <image name="chevron.forward" catalog="system" width="93" height="128"/>
         <image name="plus.app" catalog="system" width="128" height="119"/>
+        <image name="square.and.arrow.down.badge.checkmark" catalog="system" width="110" height="128"/>
         <image name="square.and.arrow.down.on.square" catalog="system" width="111" height="128"/>
         <image name="square.and.arrow.up" catalog="system" width="107" height="128"/>
         <systemColor name="groupTableViewBackgroundColor">

@@ -12,9 +12,9 @@
 		5A1A8E1628009CD200271575 /* URLTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1A8E1528009C3200271575 /* URLTextField.swift */; };
 		5A1D3256216FC96500F3391C /* WBLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1D3255216FC96500F3391C /* WBLogManager.swift */; };
 		5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */; };
-		5A31618721CC55ED00C4446B /* Copy@480.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A31618621CC55ED00C4446B /* Copy@480.png */; };
 		5A446C093088E89D000D2012 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A446C083088E895000D2012 /* DownloadsViewController.swift */; };
 		5A446C0B30892122000D2012 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A446C0A3089211A000D2012 /* Download.swift */; };
+		5A446C0D30896608000D2012 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A446C0C308965F6000D2012 /* NotificationView.swift */; };
 		5A4B8E1B2157A34800C7C858 /* ConsoleLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B8E1A2157A34800C7C858 /* ConsoleLogView.swift */; };
 		5A4B8E1D2157A66C00C7C858 /* ConsoleLogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A4B8E1C2157A66C00C7C858 /* ConsoleLogView.xib */; };
 		5A4B8E1F2157ABC500C7C858 /* ConsoleLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B8E1E2157ABC500C7C858 /* ConsoleLogViewController.swift */; };
@@ -40,7 +40,6 @@
 		5AAF1C9730655A8200561C06 /* animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAF1C9630655A7600561C06 /* animations.swift */; };
 		5AAF1C99306A68B200561C06 /* WellIconContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAF1C98306A68AD00561C06 /* WellIconContainerView.swift */; };
 		5AB01C82305D6FFA00785AEB /* AddToHomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB01C81305D6FFA00785AEB /* AddToHomeScreenViewController.swift */; };
-		5AC47CA61E2BE57000BCAE82 /* Tick@480.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AC47CA51E2BE57000BCAE82 /* Tick@480.png */; };
 		5AC47CA81E2CCF2F00BCAE82 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC47CA71E2CCF2F00BCAE82 /* Animations.swift */; };
 		5AC4AAF330618FCA00A5E7F9 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC4AAF230618FCA00A5E7F9 /* Errors.swift */; };
 		5AC4AAF63061D14F00A5E7F9 /* OpenInWebBLEAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC4AAF43061D14F00A5E7F9 /* OpenInWebBLEAppIntent.swift */; };
@@ -83,9 +82,9 @@
 		5A1A8E1528009C3200271575 /* URLTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTextField.swift; sourceTree = "<group>"; };
 		5A1D3255216FC96500F3391C /* WBLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBLogManager.swift; sourceTree = "<group>"; };
 		5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksManager.swift; sourceTree = "<group>"; };
-		5A31618621CC55ED00C4446B /* Copy@480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Copy@480.png"; sourceTree = "<group>"; };
 		5A446C083088E895000D2012 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		5A446C0A3089211A000D2012 /* Download.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
+		5A446C0C308965F6000D2012 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		5A4B8E1A2157A34800C7C858 /* ConsoleLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogView.swift; sourceTree = "<group>"; };
 		5A4B8E1C2157A66C00C7C858 /* ConsoleLogView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConsoleLogView.xib; sourceTree = "<group>"; };
 		5A4B8E1E2157ABC500C7C858 /* ConsoleLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogViewController.swift; sourceTree = "<group>"; };
@@ -112,7 +111,6 @@
 		5AAF1C9630655A7600561C06 /* animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = animations.swift; sourceTree = "<group>"; };
 		5AAF1C98306A68AD00561C06 /* WellIconContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellIconContainerView.swift; sourceTree = "<group>"; };
 		5AB01C81305D6FFA00785AEB /* AddToHomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToHomeScreenViewController.swift; sourceTree = "<group>"; };
-		5AC47CA51E2BE57000BCAE82 /* Tick@480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tick@480.png"; sourceTree = "<group>"; };
 		5AC47CA71E2CCF2F00BCAE82 /* Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		5AC4AAF230618FCA00A5E7F9 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		5AC4AAF43061D14F00A5E7F9 /* OpenInWebBLEAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenInWebBLEAppIntent.swift; sourceTree = "<group>"; };
@@ -248,6 +246,7 @@
 		5AAF1C953065540A00561C06 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5A446C0C308965F6000D2012 /* NotificationView.swift */,
 				5AAF1C98306A68AD00561C06 /* WellIconContainerView.swift */,
 				5AB01C81305D6FFA00785AEB /* AddToHomeScreenViewController.swift */,
 				5AAF1C90306401A600561C06 /* CheckmarkBadgeView.swift */,
@@ -329,8 +328,6 @@
 				5A1A8E1528009C3200271575 /* URLTextField.swift */,
 				E44C18641A36203E00734F8B /* LaunchScreen.xib */,
 				E44C185F1A36203E00734F8B /* Main.storyboard */,
-				5AC47CA51E2BE57000BCAE82 /* Tick@480.png */,
-				5A31618621CC55ED00C4446B /* Copy@480.png */,
 				E44C185A1A36203E00734F8B /* Info.plist */,
 				5AFACFEE1F03FB0B00A310D1 /* Info-allowing-http.plist */,
 				E44C18621A36203E00734F8B /* Images.xcassets */,
@@ -449,8 +446,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AFC780222ECDCC50071E792 /* WBBluetoothRemoteGATTServer.js in Resources */,
-				5A31618721CC55ED00C4446B /* Copy@480.png in Resources */,
-				5AC47CA61E2BE57000BCAE82 /* Tick@480.png in Resources */,
 				E44C18611A36203E00734F8B /* Main.storyboard in Resources */,
 				5AE293EF23F9AAE8006CD0BC /* WBBluetoothRemoteGATTService.js in Resources */,
 				5AFC780022ECD99B0071E792 /* WBDevice.js in Resources */,
@@ -501,6 +496,7 @@
 				5AFD083C305963190019CA5C /* SceneDelegate.swift in Sources */,
 				5A699E7D30865DDD00AA5414 /* WebBLEBetterUserDefaults.swift in Sources */,
 				E44C185C1A36203E00734F8B /* AppDelegate.swift in Sources */,
+				5A446C0D30896608000D2012 /* NotificationView.swift in Sources */,
 				5A5D621621EBA83D00E417DC /* NavigationViewController.swift in Sources */,
 				5A10929B2168D599002CC973 /* ConsoleContainerViewController.swift in Sources */,
 				5A95DDF81E0C080C00DFE26B /* WBWebView.swift in Sources */,

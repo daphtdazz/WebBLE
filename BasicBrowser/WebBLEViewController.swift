@@ -107,7 +107,7 @@ class WebBLEViewController:
         } catch {
             return
         }
-        FlashAnimation(withView: self.tick).go()
+        NotificationCenter.default.postGeneralNotification("checkmark", "Bookmark added")
     }
     @IBAction func goForward() {
         NSLog("Go forward")
@@ -314,10 +314,10 @@ class WebBLEViewController:
             continuation in
             webViewController._presentAlert(
                 host: host,
- message: "Allow downloads from here?",
+                message: "Allow downloads from here?",
                 actions: [
                     WBAlertAction(
-                        title: "Yes, Allow",
+                        title: "Yes, allow",
                         style: .default,
                     ) {
                         _ in

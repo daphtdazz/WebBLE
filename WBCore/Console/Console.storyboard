@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="25098" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="25073"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -89,13 +88,6 @@
                                     <outletCollection property="gestureRecognizers" destination="yrx-yg-a6z" appends="YES" id="A76-WU-wAx"/>
                                 </connections>
                             </view>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="200" verticalCompressionResistancePriority="200" image="Copy@480.png" translatesAutoresizingMaskIntoConstraints="NO" id="DSl-4f-yGT">
-                                <rect key="frame" x="157.5" y="40" width="60" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="2P2-pE-qux"/>
-                                    <constraint firstAttribute="width" secondItem="DSl-4f-yGT" secondAttribute="height" multiplier="1:1" id="sk9-UF-Iha"/>
-                                </constraints>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RSx-eV-DJD" userLabel="Extra Drag Area View">
                                 <rect key="frame" x="187.5" y="8" width="187.5" height="24"/>
                                 <subviews>
@@ -214,18 +206,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="5bj-QH-Q4o" firstAttribute="leading" secondItem="0fs-Bd-y72" secondAttribute="leading" id="3rs-va-MHs"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="DSl-4f-yGT" secondAttribute="bottom" priority="900" constant="10" id="Axf-aq-NAH"/>
                             <constraint firstAttribute="trailing" secondItem="RSx-eV-DJD" secondAttribute="trailing" id="JGH-mn-8kd"/>
                             <constraint firstAttribute="trailing" secondItem="ca8-g2-bii" secondAttribute="trailing" id="Jkp-gq-3mp"/>
-                            <constraint firstItem="DSl-4f-yGT" firstAttribute="centerY" secondItem="0fs-Bd-y72" secondAttribute="centerY" priority="980" id="MfY-rI-Y8o"/>
                             <constraint firstItem="ca8-g2-bii" firstAttribute="top" relation="greaterThanOrEqual" secondItem="RSx-eV-DJD" secondAttribute="bottom" id="NK1-7n-0aU"/>
                             <constraint firstItem="Uy7-Nu-cvp" firstAttribute="bottom" secondItem="rnO-dD-ogt" secondAttribute="bottom" id="Nyy-uE-Guc"/>
                             <constraint firstItem="RSx-eV-DJD" firstAttribute="top" secondItem="5bj-QH-Q4o" secondAttribute="bottom" id="PaJ-2e-4Pl"/>
                             <constraint firstAttribute="trailing" secondItem="rnO-dD-ogt" secondAttribute="trailing" id="V1D-jN-IZL"/>
                             <constraint firstItem="rnO-dD-ogt" firstAttribute="top" secondItem="5bj-QH-Q4o" secondAttribute="bottom" id="VZq-vN-Ahk"/>
                             <constraint firstItem="5bj-QH-Q4o" firstAttribute="top" secondItem="0fs-Bd-y72" secondAttribute="top" id="aat-GX-puN"/>
-                            <constraint firstItem="DSl-4f-yGT" firstAttribute="top" relation="greaterThanOrEqual" secondItem="0fs-Bd-y72" secondAttribute="top" constant="40" id="adh-nO-eSY"/>
-                            <constraint firstItem="DSl-4f-yGT" firstAttribute="centerX" secondItem="0fs-Bd-y72" secondAttribute="centerX" id="fpu-Tb-l5X"/>
                             <constraint firstItem="rnO-dD-ogt" firstAttribute="leading" secondItem="0fs-Bd-y72" secondAttribute="leading" id="hg3-AE-Nii"/>
                             <constraint firstItem="Uy7-Nu-cvp" firstAttribute="bottom" secondItem="ca8-g2-bii" secondAttribute="bottom" id="i1S-Ys-dRc"/>
                             <constraint firstAttribute="trailing" secondItem="5bj-QH-Q4o" secondAttribute="trailing" id="md5-T3-hwr"/>
@@ -242,7 +230,6 @@
                     <connections>
                         <outlet property="clearSelectionImageView" destination="L47-MX-UG3" id="FpL-Ea-Hfr"/>
                         <outlet property="consoleScrollViewHeightConstraint" destination="Or9-LE-zQX" id="AwS-4K-sGp"/>
-                        <outlet property="copySuccessIndication" destination="DSl-4f-yGT" id="NAk-vM-s5x"/>
                         <outlet property="scrollView" destination="rnO-dD-ogt" id="dzY-PN-p0U"/>
                         <segue destination="LJz-yU-32Y" kind="unwind" identifier="HideConsoleSegueID" customClass="HideConsoleSegue" customModule="WebBLE" customModuleProvider="target" unwindAction="unwindConsoleWithUnwindSegue:" id="KbM-pX-ahd"/>
                     </connections>
@@ -314,7 +301,6 @@
     <resources>
         <image name="Clear selection button" width="12" height="12"/>
         <image name="Copy button" width="28" height="28"/>
-        <image name="Copy@480.png" width="480" height="480"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
