@@ -251,6 +251,7 @@
 				5AAF1C98306A68AD00561C06 /* WellIconContainerView.swift */,
 				5AB01C81305D6FFA00785AEB /* AddToHomeScreenViewController.swift */,
 				5AAF1C90306401A600561C06 /* CheckmarkBadgeView.swift */,
+				5AAF1C8E30632A0A00561C06 /* OpenInShortcutsButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -316,7 +317,6 @@
 		E44C18581A36203E00734F8B /* WebBLE */ = {
 			isa = PBXGroup;
 			children = (
-				5AAF1C8E30632A0A00561C06 /* OpenInShortcutsButtonView.swift */,
 				5A10929D2168D5F4002CC973 /* Bookmarks */,
 				5AC4AAF53061D14F00A5E7F9 /* Intents */,
 				5AAF1C92306552EE00561C06 /* Utils */,
