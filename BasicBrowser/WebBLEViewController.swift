@@ -16,21 +16,14 @@
 import UIKit
 import WebKit
 
-class ViewController:
+class WebBLEViewController:
     UIViewController,
     UITextFieldDelegate,
     UIScrollViewDelegate,
-    WKNavigationDelegate,
+    WBWebViewControllerDelegate,
     WKUIDelegate,
     ConsoleToggler
 {
-
-    enum prefKeys: String {
-        case bookmarks
-        case consoleOpen
-        case lastConsoleHeight
-        case version
-    }
 
     // MARK: - Properties
     let currentPrefVersion = 1
@@ -45,15 +38,12 @@ class ViewController:
     @IBOutlet var showConsoleButton: UIBarButtonItem!
     @IBOutlet var addButton: UIBarButtonItem!
     @IBOutlet var extraShowBarsView: UIView!
+    @IBOutlet var downloadToolBar: UIBarButtonItem!
+    @IBOutlet var downloadMenu: UIMenu!
 
     // MARK: Internal
     var initialURL: URL?
-    let webViewRefreshControl = UIRefreshControl()
 
-    var bookmarksManager = BookmarksManager(
-        userDefaults: UserDefaults.standard,
-        key: prefKeys.bookmarks.rawValue
-    )
     weak var addToHomeScreenVC: AddToHomeScreenViewController? = nil
 
     var shouldShowBars = true {
@@ -68,12 +58,9 @@ class ViewController:
             )
         }
     }
-    var webViewContainerController: WBWebViewContainerController {
-        return self.children.first(where: { $0 as? WBWebViewContainerController != nil })
-            as! WBWebViewContainerController
-    }
     var webViewController: WBWebViewController {
-        return self.webViewContainerController.webViewController
+        return self.children.first(where: { $0 as? WBWebViewController != nil })
+            as! WBWebViewController
     }
     var webView: WBWebView {
         return self.webViewController.webView
@@ -113,8 +100,14 @@ class ViewController:
             return
         }
 
-        self.bookmarksManager.addBookmarks([WBBookmark(title: title, url: url)])
-        FlashAnimation(withView: self.tick).go()
+        do {
+            let newItem = try BUD.bookmarks.newItem(initial: [:])
+            newItem.title = title
+            newItem.url = url
+        } catch {
+            return
+        }
+        NotificationCenter.default.postGeneralNotification("checkmark", "Bookmark added")
     }
     @IBAction func goForward() {
         NSLog("Go forward")
@@ -145,11 +138,6 @@ class ViewController:
             self.loadLocation(textLocation)
         }
     }
-    @objc func handlePullToRefresh() {
-        NSLog("Pull to refresh triggered")
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        self.refresh()
-    }
     @IBAction func showBars() {
         NSLog("Show bars")
         self.shouldShowBars = true
@@ -172,6 +160,9 @@ class ViewController:
             self.showConsole()
         }
     }
+    @IBAction func openDownloadsInFiles() {
+        DownloadsContainerViewController.openDownloadsInFiles()
+    }
 
     // MARK: - Home bar indicator control
     override var prefersHomeIndicatorAutoHidden: Bool {
@@ -183,7 +174,7 @@ class ViewController:
         self.addChild(consoleCVC)
         self.view!.addSubview(consoleCVC.view!)
         consoleCVC.wbLogManager = self.webViewController.logManager
-        UserDefaults.standard.setValue(true, forKey: ViewController.prefKeys.consoleOpen.rawValue)
+        BUD.consoleOpen = true
         NSLog("Console CVC added")
     }
     func removeConsoleCVC() {
@@ -193,14 +184,12 @@ class ViewController:
         }
         ccvc.removeFromParent()
         ccvc.view!.removeFromSuperview()
-        UserDefaults.standard.setValue(false, forKey: ViewController.prefKeys.consoleOpen.rawValue)
+        BUD.consoleOpen = false
     }
 
     // MARK: - Segue handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.destination {
-        case let bvc as BookmarksViewController:
-            bvc.bookmarksManager = self.bookmarksManager
         case let athsvc as AddToHomeScreenViewController:
             athsvc.webView = webView
             self.addToHomeScreenVC = athsvc
@@ -212,10 +201,10 @@ class ViewController:
             let tv = bvc.view as? UITableView,
             let ip = tv.indexPathForSelectedRow
         {
-            if ip.item >= self.bookmarksManager.bookmarks.count {
+            if ip.item >= BUD.bookmarks.count {
                 NSLog("Selected bookmark is out of range")
             } else {
-                self.webView.load(URLRequest(url: self.bookmarksManager.bookmarks[ip.item].url))
+                self.webView.load(URLRequest(url: BUD.bookmarks[ip.item].url))
             }
         }
     }
@@ -232,20 +221,12 @@ class ViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let ud = UserDefaults.standard
-
         // connect view to other objects
         self.locationTextField.delegate = self
-        self.webView.addNavigationDelegate(self)
+        webViewController.delegate = self
         self.webView.scrollView.delegate = self
         self.webView.scrollView.clipsToBounds = false
-        self.webViewRefreshControl.addTarget(
-            self,
-            action: #selector(handlePullToRefresh),
-            for: .valueChanged
-        )
-        self.webView.scrollView.refreshControl = self.webViewRefreshControl
-        self.webViewContainerController.addObserver(
+        self.webViewController.addObserver(
             self,
             forKeyPath: "pickerIsShowing",
             options: [],
@@ -257,29 +238,17 @@ class ViewController:
         }
 
         self._configureRefreshButton()
-
-        self.loadPreferences()
+        self.downloadToolBar.menu = self.downloadMenu
 
         // Load last location
         if let url = initialURL {
             loadURL(url)
         } else {
-            var lastLocation: String
-            if let prefLoc = ud.value(
-                forKey: WBWebViewContainerController.prefKeys.lastLocation.rawValue
-            ) as? String {
-                lastLocation = prefLoc
-            } else {
-                let svers =
-                    Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
-                    as! String
-                lastLocation = "https://www.greenparksoftware.co.uk/projects/webble/\(svers)"
-            }
-            self.loadLocation(lastLocation)
+            loadURL(BUD.lastLocation)
         }
 
         // Maybe re-open console
-        if ud.bool(forKey: prefKeys.consoleOpen.rawValue) {
+        if BUD.consoleOpen {
             self.toggleConsole()
         }
     }
@@ -330,32 +299,62 @@ class ViewController:
         self.locationTextField.sizeToFit()
     }
 
-    // MARK: - WKNavigationDelegate
-    public func webView(
-        _ webView: WKWebView,
-        didStartProvisionalNavigation navigation: WKNavigation!
-    ) {
+    // MARK: - WBWebViewControllerDelegate
+    func canDownload(from host: String) async -> Bool {
 
-        if let urlString = webView.url?.absoluteString {
-            self.setLocationText(urlString)
+        if let allowedHost = BUD.allowedDownloadHosts.first(where: {
+            $0.host == host && $0.lastDownloadedDate + EXPIRE_AFTER > Date.now
+        }) {
+            allowedHost.lastDownloadedDate = Date.now
+            return true
         }
+        return await withCheckedContinuation(
+            function: "Check Can Download From \(host)"
+        ) {
+            continuation in
+            webViewController._presentAlert(
+                host: host,
+                message: "Allow downloads from here?",
+                actions: [
+                    WBAlertAction(
+                        title: "Yes, allow",
+                        style: .default,
+                    ) {
+                        _ in
+                        do {
+                            let allowedHost = try BUD.allowedDownloadHosts.newItem(initial: [:])
+                            allowedHost.host = host
+                            allowedHost.firstDownloaded = Date.now
+                            allowedHost.lastDownloadedDate = allowedHost.firstDownloaded
+                        } catch let e {
+                            NSLog("Could not save the allowed host... \(e.localizedDescription)")
+                        }
+                        continuation.resume(returning: true)
+                    },
+                    WBAlertAction(
+                        title: "No, not now",
+                        style: .cancel,
+                    ) { _ in continuation.resume(returning: false) },
+                ]
+            )
+        }
+
     }
-    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.webViewRefreshControl.endRefreshing()
+    @objc func didNavigateTo(_ url: URL) {
+        self.setLocationText(url.absoluteString)
     }
-    public func webView(
-        _ webView: WKWebView,
-        didFail navigation: WKNavigation!,
-        withError error: Error
-    ) {
-        self.webViewRefreshControl.endRefreshing()
-    }
-    public func webView(
-        _ webView: WKWebView,
-        didFailProvisionalNavigation navigation: WKNavigation!,
-        withError error: Error
-    ) {
-        self.webViewRefreshControl.endRefreshing()
+    var downloadDirectory: URL? {
+        let fm = FileManager.default
+        let downloadDir = URL.documentsDirectory.appending(path: "Downloads")
+        if !fm.fileExists(atPath: downloadDir.path(percentEncoded: false)) {
+            do {
+                try fm.createDirectory(at: downloadDir, withIntermediateDirectories: true)
+            } catch let e {
+                NSLog("Failed to create directory at \(downloadDir): \(e)")
+                return nil
+            }
+        }
+        return downloadDir
     }
 
     // MARK: - UIScrollViewDelegate
@@ -446,62 +445,6 @@ class ViewController:
         }
         refreshButton.menu = UIMenu(title: "", children: [forceRefreshAction])
     }
-    private func loadPreferences() {
-
-        // Sort out the preferences we have.
-        let ud = UserDefaults.standard
-
-        let prefsVersion = ud.integer(forKey: ViewController.prefKeys.version.rawValue)
-
-        var hadPrefs = false
-        if let bma = ud.array(forKey: ViewController.prefKeys.bookmarks.rawValue)
-            as? [[String: String]]
-        {
-            self.bookmarksManager.mergeInBookmarkDicts(bookmarkDicts: bma)
-            hadPrefs = true
-        }
-
-        // Merge in any defaults.
-        let mb = Bundle.main
-        guard let defPlistURL = mb.url(forResource: "Defaults", withExtension: "plist"),
-            let defDict = NSDictionary(contentsOf: defPlistURL)
-        else {
-            assert(false, "Unexpectedly couldn't find defaults")
-            return
-        }
-
-        let range = (!hadPrefs ? 0 : prefsVersion + 1)..<self.currentPrefVersion + 1
-
-        for pref in range {
-            guard let vDict = defDict.value(forKey: "\(pref)") as? [String: Any] else {
-                continue
-            }
-            vDict.forEach({
-                key,
-                object in
-                guard let pKey = ViewController.prefKeys(rawValue: key)
-                else {
-                    return
-                }
-
-                switch pKey {
-                case .bookmarks:
-                    guard
-                        let bdicts = object as? [[String: String]]
-                    else {
-                        assert(false, "Unexpectedly couldn't find bookmarks in defaults")
-                        return
-                    }
-                    self.bookmarksManager.mergeInBookmarkDicts(bookmarkDicts: bdicts)
-                default:
-                    return
-                }
-            })
-        }
-
-        // Set the preferences version to be up to date.
-        ud.set(self.currentPrefVersion, forKey: ViewController.prefKeys.version.rawValue)
-    }
     func setHidesOnSwipesFromScrollView(_ scrollView: UIScrollView) {
         // Due to an apparent bug this should not be called when the toolbar / navbar
         // are animating up or down as far as possible as that seems to cause a crash
@@ -525,7 +468,7 @@ class ViewController:
         }
     }
     private func _setExtraBarHiddenState() {
-        let pickerIsShowing = self.webViewContainerController.pickerIsShowing
+        let pickerIsShowing = self.webViewController.pickerIsShowing
         let toolBarIsShowing = !self.navigationController!.isToolbarHidden
         self.extraShowBarsView.isHidden = pickerIsShowing || toolBarIsShowing
     }

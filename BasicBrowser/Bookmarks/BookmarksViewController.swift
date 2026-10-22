@@ -22,9 +22,6 @@ import UIKit
 
 class BookmarksViewController: UITableViewController {
 
-    // MARK: - Properties
-    var bookmarksManager: BookmarksManager!
-
     // MARK: - Event handling
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +34,6 @@ class BookmarksViewController: UITableViewController {
         nc.setNavigationBarHidden(false, animated: true)
         nc.hidesBarsOnSwipe = false
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.bookmarksManager.saveBookmarks()
-    }
 
     // MARK: - UITableViewDataSource
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -52,8 +45,11 @@ class BookmarksViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "bookmark", for: indexPath)
 
-        cell.textLabel?.text = self.bookmarksManager.bookmarks[indexPath.item].title
-        cell.detailTextLabel?.text = self.bookmarksManager.bookmarks[indexPath.item].assumedHTTPSURLPath
+        let bm = BUD.bookmarks[indexPath.item]
+        var cc = cell.defaultContentConfiguration()
+        cc.text = bm.title
+        cc.secondaryText = bm.assumedHTTPSURLPath
+        cell.contentConfiguration = cc
 
         return cell
     }
@@ -63,7 +59,7 @@ class BookmarksViewController: UITableViewController {
         case .delete:
             self.tableView.beginUpdates()
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            self.bookmarksManager.bookmarks.remove(at: srci)
+            BUD.bookmarks.remove(at: srci)
             self.tableView.endUpdates()
         default: break
             
@@ -73,12 +69,11 @@ class BookmarksViewController: UITableViewController {
         let srci = sourceIndexPath.item
         let dsti = destinationIndexPath.item
 
-        let bm = self.bookmarksManager.bookmarks.remove(at: srci)
-        self.bookmarksManager.bookmarks.insert(bm, at: dsti)
+        BUD.bookmarks.move(from: srci, to: dsti)
 
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.bookmarksManager.bookmarks.count
+        return BUD.bookmarks.count
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return nil

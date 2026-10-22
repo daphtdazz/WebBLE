@@ -26,11 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var _app: UIApplication!
 
     // MARK: - Code helpers
-    func firstWebBLEViewController() -> ViewController? {
+    func firstWebBLEViewController() -> WebBLEViewController? {
         guard
             let scene = _app.connectedScenes.compactMap({ $0 as? UIWindowScene }).first,
             let nc = scene.keyWindow?.rootViewController as? UINavigationController,
-            let vc = nc.topViewController as? ViewController
+            let vc = nc.topViewController as? WebBLEViewController
         else {
             return nil
         }
@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         willFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         self._app = application
+        BUD.upgrade()
         return true
     }
 

@@ -28,8 +28,11 @@ struct FlashAnimation {
     var fadeOutDuration: TimeInterval = 0.2
     var lingerDuration: TimeInterval = 1.0
 
-    init(withView view: UIView) {
+    init(withView view: UIView, lingerDuration: TimeInterval? = nil) {
         self.view = view
+        if let linger = lingerDuration {
+            self.lingerDuration = linger
+        }
     }
     func go() {
 
