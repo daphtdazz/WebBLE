@@ -49,15 +49,15 @@
       return this.value = new DataView(new Uint8Array(byteArray).buffer);
     },
     writeValue: async function (value, responseMode) {
-      // value may be an ArrayBuffer or a TypedArray (view onto an ArrayBuffer). We want to extract
-      // the bytes into an array so we can send it as a natively supported data type to swift.
+      // This throws if value is of the wrong type.
+      const uint8Buffer = wbutils.uint8ViewOn(value);
+
       const WRITE_BATCH_SIZE = 1024;
-      const buffer = new Uint8Array(value);
       let array = [];
 
       responseMode = responseMode || "optional";
 
-      for (let b of buffer) {
+      for (let b of uint8Buffer) {
         array.push(b);
         // Just in case we were given a lot of data, we don't want to keep it all in memory here,
         // so batch the sends.

@@ -38,6 +38,10 @@ You can then run this server like this:
 
 By default this listens to all addresses by using the ipv6 null address :: – this *also* listens
 for ipv4 connections (!).
+
+☝🏽 If you get an error like `routines:inner_evp_generic_fetch:unsupported:crypto`, then you can
+try adding the -legacy option, or you probably have to change one of the certificate's default
+parameters.
 """
 import argparse
 import http.server

@@ -104,6 +104,33 @@ uk.co.greenparksoftware.wb = {};
     mixin: function (target, src) {
       Object.assign(target.prototype, src.prototype);
       target.prototype.constructor = target;
+    },
+    uint8ViewOn: function(viewOrBuffer) {
+      // value may be an ArrayBuffer or a TypedArray (view onto an ArrayBuffer). We want to extract
+      // the bytes into an array so we can send it as a natively supported data type to swift.
+      if (viewOrBuffer === undefined || viewOrBuffer === null) {
+        throw new TypeError("Invalid argument to writeValue: ${viewOrBuffer}");
+      }
+      let shared_buffer_type;
+      try {
+        shared_buffer_type = SharedArrayBuffer;
+      } catch {
+        shared_buffer_type = ArrayBuffer;
+      }
+
+      if (viewOrBuffer instanceof ArrayBuffer || viewOrBuffer instanceof shared_buffer_type) {
+        return new Uint8Array(viewOrBuffer);
+      }
+      const buffer = viewOrBuffer.buffer;
+      if (ArrayBuffer.isView(viewOrBuffer)) {
+        return new Uint8Array(buffer, viewOrBuffer.byteOffset, viewOrBuffer.byteLength);
+      }
+
+      try {
+        const typeName = Object.getPrototypeOf(viewOrBuffer).constructor.name
+        throw new TypeError(`Invalid argument to writeValue, type: ${typeName}`);
+      } catch {}
+      throw new TypeError(`Invalid argument to writeValue, type: ${viewOrBuffer}`);
     }
   };
 

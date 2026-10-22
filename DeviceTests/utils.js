@@ -1,18 +1,12 @@
 function ab2str(buf) {
     "use strict";
-    return String.fromCharCode.apply(null, new Uint8Array(buf));
+    return new TextDecoder().decode(buf);
 }
 
 function str2ab(str) {
     "use strict";
-    let buf = new ArrayBuffer(str.length);
-    let bufView = new Uint8Array(buf);
-    let i;
-    let strLen = str.length;
-    for (i = 0; i < strLen; i += 1) {
-        bufView[i] = str.charCodeAt(i);
-    }
-    return buf;
+    let utf8buf = new TextEncoder().encode(str);
+    return utf8buf.buffer;
 }
 
 function setNextAction(action) {

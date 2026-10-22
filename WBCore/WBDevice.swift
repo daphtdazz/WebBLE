@@ -813,6 +813,9 @@ class BluetoothAdvertisingData {
         self.txPower = (advertisementData[CBAdvertisementDataTxPowerLevelKey] as? NSNumber ?? 0)
         self.rssi = String(describing: RSSI)
         self.manufacturerData = ""
+        // this is a two-byte code as registered in 7 Company Identifiers here:
+        // www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Assigned_Numbers/out/en/Assigned_Numbers.pdf
+        // so makes no sense to parse it as UTF8
         if let data = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
             if let dataString = NSString(
                 data: data,
