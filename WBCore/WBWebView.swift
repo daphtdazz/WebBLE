@@ -23,29 +23,6 @@ import UIKit
 import WebKit
 
 class WBWebView: WKWebView {
-    let webBluetoothHandlerName = "bluetooth"
-    private var _wbManager: WBManager?
-    var wbManager: WBManager? {
-        get {
-            return self._wbManager
-        }
-        set(newWBManager) {
-            if self._wbManager != nil {
-                self.configuration.userContentController.removeScriptMessageHandler(
-                    forName: self.webBluetoothHandlerName,
-                    contentWorld: .page
-                )
-            }
-            self._wbManager = newWBManager
-            if let newMan = newWBManager {
-                self.configuration.userContentController.addScriptMessageHandler(
-                    newMan,
-                    contentWorld: .page,
-                    name: self.webBluetoothHandlerName
-                )
-            }
-        }
-    }
 
     // MARK: - Initializers
     required public override init(frame: CGRect, configuration: WKWebViewConfiguration) {

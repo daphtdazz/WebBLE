@@ -16,40 +16,6 @@ class WBAlertAction: UIAlertAction {
     var alertController: UIAlertController!
 }
 
-private class _WBLoggerScriptHandler: NSObject, WKScriptMessageHandler {
-
-    var manager: WBLogManager! = nil
-
-    // MARK: - WKScriptMessageHandler
-    open func userContentController(
-        _ userContentController: WKUserContentController,
-        didReceive message: WKScriptMessage
-    ) {
-        var log: WBLog
-        switch message.body {
-        case let bodyDict as [String: Any]:
-            guard
-                let levelString = bodyDict["level"] as? String,
-                let level = WBLog.Level(rawValue: levelString),
-                let message = bodyDict["message"] as? String
-            else {
-                NSLog("Badly formed dictionary \(bodyDict.description) passed to the logger")
-                return
-            }
-            log = WBLog(level: level, message: message, args: [])
-        case let bodyString as String:
-            log = WBLog(level: .log, message: bodyString, args: [])
-        default:
-            log = WBLog(
-                level: .warn,
-                message: "Unexpected message type from console log: \(message.body)",
-                args: []
-            )
-        }
-        self.manager.addLog(log)
-    }
-}
-
 @objc protocol WBWebViewControllerDelegate {
     func canDownload(from host: String) async -> Bool
     @objc optional func didNavigateTo(_ url: URL)
@@ -57,7 +23,8 @@ private class _WBLoggerScriptHandler: NSObject, WKScriptMessageHandler {
 }
 
 class WBWebViewController:
-    UIViewController, WKNavigationDelegate, WKUIDelegate, WBPicker, WKDownloadDelegate
+    UIViewController, WKNavigationDelegate, WKUIDelegate, WBPicker, WKDownloadDelegate,
+    WKScriptMessageHandlerWithReply, WKScriptMessageHandler
 {
 
     @IBOutlet var loadingProgressContainer: UIView!
@@ -65,16 +32,11 @@ class WBWebViewController:
     @IBOutlet var webView: WBWebView!
     let webViewRefreshControl = UIRefreshControl()
 
-    // At some point it might be nice to try and handle back and
-    // forward in the browser better, i.e. by managing multiple managers
-    // for recent pages so that you can go back and forward to them
-    // without losing bluetooth connections, or at least notifying that
-    // the devices have been disconnected
-    var wbManager: WBManager?
+    var wbManagersByRealmId: [String: WBManager] = [:]
+    var currentWBManager: WBManager?
     var delegate: WBWebViewControllerDelegate!
 
     let logManager = WBLogManager()
-    private let _loggerScriptHandler = _WBLoggerScriptHandler()
 
     // If the pop up picker is showing, then the
     // following two vars are not null.
@@ -90,14 +52,12 @@ class WBWebViewController:
     }
 
     // MARK: - View Event handling
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        _loggerScriptHandler.manager = logManager
         webView.uiDelegate = self
         webView.navigationDelegate = self
-        webView.configuration.userContentController.add(_loggerScriptHandler, name: "logger")
+        webView.configuration.userContentController.add(self, name: "logger")
         webView.scrollView.refreshControl = webViewRefreshControl
         webViewRefreshControl.addTarget(
             self,
@@ -108,14 +68,86 @@ class WBWebViewController:
         for path in ["estimatedProgress"] {
             webView.addObserver(self, forKeyPath: path, options: .new, context: nil)
         }
+
+        webView.configuration.userContentController.addScriptMessageHandler(
+            self as WKScriptMessageHandlerWithReply,
+            contentWorld: .page,
+            name: "bluetooth"
+        )
     }
     // MARK: - WBPicker
-    public func showPicker() {
-        self.performSegue(withIdentifier: "ShowDevicePicker", sender: self)
+    public func showPicker(_ manager: WBManager) {
+        self.performSegue(withIdentifier: "ShowDevicePicker", sender: manager)
     }
     public func updatePicker() {
         if self.pickerIsShowing {
             self.popUpPickerController.pickerView.reloadAllComponents()
+        }
+    }
+
+    // MARK: - WKScriptMessageHandler
+    open func userContentController(
+        _ userContentController: WKUserContentController,
+        didReceive message: WKScriptMessage
+    ) {
+        var log: WBLog
+
+        switch message.name {
+        case "logger":
+            switch message.body {
+            case let bodyDict as [String: Any]:
+                guard
+                    let levelString = bodyDict["level"] as? String,
+                    let level = WBLog.Level(rawValue: levelString),
+                    let message = bodyDict["message"] as? String
+                        else {
+                    NSLog("Badly formed dictionary \(bodyDict.description) passed to the logger")
+                    return
+                }
+                log = WBLog(level: level, message: message, args: [])
+            case let bodyString as String:
+                log = WBLog(level: .log, message: bodyString, args: [])
+            default:
+                log = WBLog(
+                    level: .warn,
+                    message: "Unexpected message type from console log: \(message.body)",
+                    args: []
+                )
+            }
+            logManager.addLog(log)
+        default:
+            NSLog("Unexpected handler called \(message.name)")
+            return
+
+        }
+    }
+
+    // MARK: - WKScriptMessageHandlerWithReply
+    open func userContentController(
+        _ userContentController: WKUserContentController,
+        didReceive message: WKScriptMessage,
+    ) async -> (Any?, String?) {
+        switch message.name {
+        case "bluetooth":
+            guard
+                let body = message.body as? [String: Any],
+                let realmID = body["realmID"] as? String
+            else {
+                return (nil, "Badly formed body (should be a dictionary with a realm ID)")
+            }
+            let wbManager = _ensureManagerFor(realmID)
+            return await withCheckedContinuation(
+                function: "Pass web bluetooth request to manager"
+            ) {
+                continuation in
+                wbManager.handle(wkMessage: message, replyHandler: {
+                    response, message in
+                    continuation.resume(returning: (response, message))
+                })
+            }
+        default:
+            NSLog("Unexpected handler called \(message.name)")
+            return (nil, "Unexpected handler called \(message.name)")
         }
     }
 
@@ -124,26 +156,30 @@ class WBWebViewController:
         _ webView: WKWebView,
         didStartProvisionalNavigation navigation: WKNavigation!
     ) {
+        NSLog("start provisional navigation to \(webView.url?.absoluteString ?? "<unknown>")")
         if self.pickerIsShowing {
             // navigation (refresh, back, link click etc.) attempted while picker visible, so hide it since the navigation implies the user is no longer interested in picking a device
             self.popUpPickerController.performSegue(withIdentifier: "Cancel", sender: nil)
         }
         self.loadingProgressContainer.isHidden = false
         self.logManager.clearLogs()
-        self._configureNewManager()
+        currentWBManager?.deactivate()
+        currentWBManager = nil
         if let newUrl = webView.url {
             delegate.didNavigateTo?(newUrl)
         }
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        NSLog("finished provisional navigation to \(webView.url?.absoluteString ?? "<unknown>")")
         if let url = webView.url,
             url.absoluteString != "about:blank"
         {
             BUD.lastLocation = url
         }
         _clearLoadingUI()
-        _enableBluetoothInView()
+
+        Task { await _activateWBManager() }
     }
 
     func webView(
@@ -332,13 +368,13 @@ class WBWebViewController:
     // MARK: - Segue handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.destination {
-        case let obj as WBPopUpPickerController:
-            self.setValue(true, forKey: "pickerIsShowing")
-            self.popUpPickerController = obj
-            obj.wbManager = self.wbManager
-        case let obj as ErrorViewController:
+        case let pupc as WBPopUpPickerController:
+            popUpPickerController = pupc
+            pupc.wbManager = (sender as! WBManager)
+            setValue(true, forKey: "pickerIsShowing")
+        case let evc as ErrorViewController:
             let error = sender as! Error
-            obj.errorMessage = error.localizedDescription
+            evc.errorMessage = error.localizedDescription
         default:
             break
         }
@@ -347,16 +383,13 @@ class WBWebViewController:
     @IBAction func unwindToWVContainerController(sender: UIStoryboardSegue) {
         if let puvc = sender.source as? WBPopUpPickerController {
             self.setValue(false, forKey: "pickerIsShowing")
-            puvc.wbManager = nil
             self.popUpPickerController = nil
             switch sender.identifier {
             case "Cancel":
-                self.wbManager?.cancelDeviceSearch()
+                puvc.wbManager.cancelDeviceSearch()
                 break
             case "Done":
-                self.wbManager?.selectDeviceAt(
-                    puvc.pickerView.selectedRow
-                )
+                puvc.wbManager.selectDeviceAt(puvc.pickerView.selectedRow)
                 break
             default:
                 NSLog("Unknown unwind segue ignored: \(sender.identifier ?? "<none>")")
@@ -427,11 +460,6 @@ class WBWebViewController:
         self.present(alertController, animated: true)
     }
 
-    private func _configureNewManager() {
-        self.wbManager?.clearState()
-        self.wbManager = WBManager(devicePicker: self)
-        self.webView.wbManager = self.wbManager
-    }
     private func _maybeShowErrorUI(_ error: Error) {
         let nserror = error as NSError
         if nserror.domain == NSURLErrorDomain
@@ -450,14 +478,32 @@ class WBWebViewController:
         self.loadingProgressContainer.isHidden = true
         self.webViewRefreshControl.endRefreshing()
     }
-    func _enableBluetoothInView() {
-        self.webView.evaluateJavaScript(
-            "window.iOSNativeAPI.enableBluetooth()",
-            completionHandler: { _, error in
-                if let error_ = error {
-                    NSLog("Error enabling bluetooth in view: \(error_)")
-                }
+    func _activateWBManager() async {
+        do {
+            guard let realmID = try await self.webView.evaluateJavaScript(
+                """
+                uk.co.greenparksoftware.realmID
+                """
+            ) as? String else {
+                NSLog("Could not get realm ID, could not enable bluetooth")
+                return
             }
-        )
+
+            let manager = _ensureManagerFor(realmID)
+            currentWBManager = manager
+            await manager.activate()
+        } catch let e {
+            NSLog("Exception enabling bluetooth in view: \(e)")
+            return
+        }
+    }
+
+    @discardableResult func _ensureManagerFor(_ realmID: String) -> WBManager {
+        if let existingManager = wbManagersByRealmId[realmID] {
+            return existingManager
+        }
+        let newManager = WBManager(devicePicker: self, realmID: realmID)
+        wbManagersByRealmId[realmID] = newManager
+        return newManager
     }
 }

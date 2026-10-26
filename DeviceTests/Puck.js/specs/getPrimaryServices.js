@@ -1,6 +1,7 @@
 describe('getPrimaryServices', function () {
   "use strict";
   afterAll(clearNextAction);
+  afterEach(tidyPuckForTesting);
 
   it('should return some primary services', async () => {
     const puck = await getConnectedPuck('Select a puck (so we can get primary services)');

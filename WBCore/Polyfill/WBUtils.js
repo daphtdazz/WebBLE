@@ -9,7 +9,9 @@ if (!uk.co) {
   uk.co = {};
 }
 if (!uk.co.greenparksoftware) {
-  uk.co.greenparksoftware = {};
+  uk.co.greenparksoftware = {
+    realmID: crypto.randomUUID(),
+  };
 }
 uk.co.greenparksoftware.wb = {};
 (function () {

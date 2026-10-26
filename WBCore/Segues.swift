@@ -137,16 +137,16 @@ class HideConsoleSegue: UIStoryboardSegue {
         UIView.animate(
             withDuration: 0.2,
             animations: {
-                NSLayoutConstraint.deactivate([
-                    vc.consoleViewBottomConstraint!
-                ])
+                guard let bottomConstraint = vc.consoleViewBottomConstraint else {
+                    // shouldn't be hit but don't crash if it is!
+                    NSLog("bottomConstraint unset attempting HideConsoleSegue")
+                    return
+                }
+                NSLayoutConstraint.deactivate([bottomConstraint])
                 NSLayoutConstraint.activate([topConstraint])
                 vcv.layoutIfNeeded()
             },
-            completion: {
-                _ in
-                vc.removeConsoleCVC()
-            }
+            completion: { _ in vc.removeConsoleCVC() }
         )
 
     }
