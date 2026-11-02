@@ -528,7 +528,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A2E967A308BDA56008E3E85 /* WBUtils.swift in Sources */,
 				E44C18721A36203E00734F8B /* BleBrowserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
