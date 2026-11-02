@@ -1,9 +1,7 @@
 describe('writeValue', function () {
   "use strict";
 
-  afterEach(async function () {
-    await tidyPuckForTesting();
-  });
+  afterEach(tidyPuckForTesting);
 
   it('oversized array buffer should not break the bluetooth connection', async function () {
     const { rxChar, txChar, puck, waitFor } = await getPuckForTesting();
@@ -48,5 +46,5 @@ describe('writeValue', function () {
         expect(`${e}`).toMatch('TypeError: Invalid argument');
       }
     }
-  });
+  }, 30000);
 });

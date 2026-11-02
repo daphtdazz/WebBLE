@@ -140,15 +140,15 @@
       if (type === undefined) {
         throw new Error('CallRemote should never be called without a type!');
       }
+      const realmID = uk.co.greenparksoftware.realmID;
+      if (!realmID) {
+        throw new Error('No realm yet configured');
+      }
 
       sendMessageParms = sendMessageParms || {};
       let data = sendMessageParms.data || {};
       let callbackID = sendMessageParms.callbackID || this.getTransactionID();
-      message = {
-        type: type,
-        data: data,
-        callbackID: callbackID
-      };
+      message = { type, data, callbackID, realmID };
 
       nslog(`${type} ${callbackID}`);
       

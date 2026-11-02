@@ -39,14 +39,18 @@ open class WBDevice: NSObject, JSHandlerCompatible, CBPeripheralDelegate {
     // MARK: Transaction views
     class DeviceTransactionView: WBTransaction.View {
         let externalDeviceUUID: UUID
+        let requestType: DeviceRequests
 
         override init?(transaction: WBTransaction) {
             guard
                 let uuidstr = transaction.messageData["deviceId"] as? String,
-                let uuid = UUID(uuidString: uuidstr)
+                let uuid = UUID(uuidString: uuidstr),
+                transaction.key.typeComponents.count >= 2,
+                let rt = DeviceRequests(rawValue: transaction.key.typeComponents[1])
             else {
                 return nil
             }
+            requestType = rt
             self.externalDeviceUUID = uuid
             super.init(transaction: transaction)
         }
@@ -194,7 +198,7 @@ open class WBDevice: NSObject, JSHandlerCompatible, CBPeripheralDelegate {
 
     // MARK: - Properties
     let debug = false
-    var deviceId = UUID()  // generated ID used instead of internal iOS name
+    var deviceId: UUID // generated ID used instead of internal iOS name
     var peripheral: CBPeripheral
     var adData: BluetoothAdvertisingData
     var name: String? {
@@ -229,6 +233,7 @@ open class WBDevice: NSObject, JSHandlerCompatible, CBPeripheralDelegate {
         self.peripheral = peripheral
         self.adData = BluetoothAdvertisingData(advertisementData: advertisementData, RSSI: RSSI)
         self.manager = manager
+        deviceId = peripheral.identifier.combineV4(manager.uuid)
         super.init()
         self.peripheral.delegate = self
     }
@@ -237,7 +242,7 @@ open class WBDevice: NSObject, JSHandlerCompatible, CBPeripheralDelegate {
     }
 
     // MARK: - API
-    func clearState() {
+    func disconnect() {
         self.manager?.centralManager.cancelPeripheralConnection(self.peripheral)
         for var ta in [self.connectTransactions] {
             for trans in ta {

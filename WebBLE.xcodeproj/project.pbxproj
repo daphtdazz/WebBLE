@@ -12,6 +12,7 @@
 		5A1A8E1628009CD200271575 /* URLTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1A8E1528009C3200271575 /* URLTextField.swift */; };
 		5A1D3256216FC96500F3391C /* WBLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1D3255216FC96500F3391C /* WBLogManager.swift */; };
 		5A2BAC2A1E44C70C00ED9FA8 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */; };
+		5A2E9679308BC78D008E3E85 /* WBUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2E9678308BC787008E3E85 /* WBUtils.swift */; };
 		5A446C093088E89D000D2012 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A446C083088E895000D2012 /* DownloadsViewController.swift */; };
 		5A446C0B30892122000D2012 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A446C0A3089211A000D2012 /* Download.swift */; };
 		5A446C0D30896608000D2012 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A446C0C308965F6000D2012 /* NotificationView.swift */; };
@@ -82,6 +83,7 @@
 		5A1A8E1528009C3200271575 /* URLTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTextField.swift; sourceTree = "<group>"; };
 		5A1D3255216FC96500F3391C /* WBLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBLogManager.swift; sourceTree = "<group>"; };
 		5A2BAC291E44C70C00ED9FA8 /* BookmarksManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksManager.swift; sourceTree = "<group>"; };
+		5A2E9678308BC787008E3E85 /* WBUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBUtils.swift; sourceTree = "<group>"; };
 		5A446C083088E895000D2012 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		5A446C0A3089211A000D2012 /* Download.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		5A446C0C308965F6000D2012 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				5A5D6403216C9F9300BCD722 /* WBLog.swift */,
 				5A1D3255216FC96500F3391C /* WBLogManager.swift */,
 				5A6BF67921F503DF0051EC98 /* WBPopUpPickerController.swift */,
+				5A2E9678308BC787008E3E85 /* WBUtils.swift */,
 				5A8FD3FD233973710032DCE7 /* WBCore.storyboard */,
 			);
 			path = WBCore;
@@ -498,6 +501,7 @@
 				E44C185C1A36203E00734F8B /* AppDelegate.swift in Sources */,
 				5A446C0D30896608000D2012 /* NotificationView.swift in Sources */,
 				5A5D621621EBA83D00E417DC /* NavigationViewController.swift in Sources */,
+				5A2E9679308BC78D008E3E85 /* WBUtils.swift in Sources */,
 				5A10929B2168D599002CC973 /* ConsoleContainerViewController.swift in Sources */,
 				5A95DDF81E0C080C00DFE26B /* WBWebView.swift in Sources */,
 				5A7579EF21579E0E003F0CEA /* ConsoleView.swift in Sources */,

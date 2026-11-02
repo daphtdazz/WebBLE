@@ -37,7 +37,7 @@ describe('Filters-1.3.0', function () {
                 expect('dev').toBeDefined();
             },
         ).catch(exc => expect(`${exc}`).not.toBeDefined()).then(complete);
-    });
+    }, 30000);
 
     it('should find a puck when filtering by service and name together', function (complete) {
         setNextAction('Select a Puck');
@@ -46,7 +46,7 @@ describe('Filters-1.3.0', function () {
                 services: [NORDIC_SERVICE],
             },
             {
-                name: 'Puck.js c933',
+                name: 'Puck.js this will not match',
             },
         ] }).then(
             dev => expect('dev').toBeDefined(),

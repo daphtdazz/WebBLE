@@ -6,6 +6,8 @@
 
 describe('2 Pucks', function () {
     "use strict";
+    afterEach(tidyPuckForTesting);
+
     it('should be independent, connectable, readable, and disconnectable', async function () {
         let charPromiseResolve = {};
         let deviceBuffers = {};
@@ -41,10 +43,10 @@ describe('2 Pucks', function () {
             });
         }
 
-        const devs = [
-            await getConnectedPuck('Pick a first puck'),
-            await getConnectedPuck('Pick a second puck'),
-        ];
+        let { puck: puck1 } = await getPuckForTesting('Pick a first puck');
+        let { puck: puck2 } = await getPuckForTesting('Pick a second puck');
+
+        const devs = [puck1, puck2];
         expect(devs.every(d => d !== undefined)).toBeTruthy();
         expect(devs[0].id).not.toBe(devs[1].id);
 

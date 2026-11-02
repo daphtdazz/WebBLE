@@ -22,26 +22,16 @@ import XCTest
 
 class BasicBrowserTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testUUIDCombine() {
+        let uuid1 = UUID()
+        let uuid2 = UUID()
+        let uuidCombined = uuid1.combineV4(uuid2)
+
+        // check version bits have not changed
+        XCTAssertEqual(uuid1.uuid.6 & 0b11000000, uuid2.uuid.6 & 0b11000000)
+        XCTAssertEqual(uuid1.uuid.6 & 0b11000000, uuidCombined.uuid.6 & 0b11000000)
+
+        XCTAssertEqual(uuidCombined.combineV4(uuid2), uuid1)
+        XCTAssertEqual(uuidCombined.combineV4(uuid1), uuid2)
     }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure() {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }

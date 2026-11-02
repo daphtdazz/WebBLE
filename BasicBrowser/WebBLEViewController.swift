@@ -154,8 +154,8 @@ class WebBLEViewController:
         )
     }
     @IBAction func toggleConsole() {
-        if let cvc = self.consoleCVC {
-            cvc.closeConsole(self)
+        if consoleViewBottomConstraint != nil, let ccvc = self.consoleCVC {
+            ccvc.closeConsole(self)
         } else {
             self.showConsole()
         }
